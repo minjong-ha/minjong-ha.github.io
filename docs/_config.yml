@@ -53,3 +53,6 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+domain: minjong-ha.github.io
+url: https://minjong-ha.github.io
