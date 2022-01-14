@@ -4,6 +4,10 @@ title: About
 permalink: /about/
 ---
 
+When you press the "About" button in top-right, this markdown page will show up.
+
+"title: About" changes the name of button either
+
 This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
 
 You can find the source code for Minima at GitHub:
