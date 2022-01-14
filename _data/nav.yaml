@@ -1,0 +1,16 @@
+- title: Programming
+  url: category/programming.html
+  icon: assets/img/icons/programming.svg
+  hue: "var(c--c-themeHueRed)"
+  subnav: 
+    - title: C
+      url: catecory/cpp.html
+      hue: "var(--c-themeHueOrange)"
+      subnav:
+        - title: Libraries
+          url: libs.himl
+          hue: "var(--c-themeHueBlue)"
+  -title: Design
+  url: category/design.html
+  icon: assets/img/icons/design.svg
+  hue: "var(--c-themeHueRed)"

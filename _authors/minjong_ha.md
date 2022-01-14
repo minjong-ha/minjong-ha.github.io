@@ -1,0 +1,4 @@
+---
+nick: J
+full_name: Minjong Ha
+photo_dir: assets/img/authors/golas.png #change png for my own
