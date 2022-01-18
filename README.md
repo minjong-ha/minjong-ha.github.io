@@ -20,3 +20,11 @@ To test the personal page on local machine, exec the commands below
 	bundle exec jekyll serve
 
 Thank you.
+
+
+# Reference
+
+text color in markdown: https://ansohxxn.github.io/blog/markdown/
+
+
+
