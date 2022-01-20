@@ -1,0 +1,12 @@
+Minjong Ha:
+  name    : "Minjong Ha"
+  bio     : "Interested in system programming"
+  avatar  : "/put/some/images/here.jpg"
+  links   :
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: "hmjong1128@gmail.com"
+    - label: "Github"
+      icon: "fas fa-fw fa-link"
+      url: "https://github.com/minjong-ha"
+
