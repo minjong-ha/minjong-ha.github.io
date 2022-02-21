@@ -1,7 +1,0 @@
-Configuration file: /home/minjong_ha/workspace/personal/minjong-ha.github.io/docs/_config.yml
-            Source: /home/minjong_ha/workspace/personal/minjong-ha.github.io/docs
-       Destination: /home/minjong_ha/workspace/personal/minjong-ha.github.io/docs/_site
- Incremental build: disabled. Enable with --incremental
-      Generating... 
-       Jekyll Feed: Generating feed for posts
-[33m   GitHub Metadata: No GitHub API authentication could be found. Some fields may be missing or have incorrect data.[0m

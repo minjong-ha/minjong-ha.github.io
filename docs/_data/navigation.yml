@@ -3,10 +3,6 @@ main:
     url: /contact/
   - title: "Archive"
     url: /archive/
-  - title: "Archive-Taxonomy"
-    url: /archive-taxonomy/
   - title: "category"
     url: /category/
-  - title: categories"
-    url: /categories/
 

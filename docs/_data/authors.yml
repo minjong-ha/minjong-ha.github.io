@@ -1,7 +1,7 @@
 Minjong Ha:
   name    : "Minjong Ha"
   bio     : "Interested in system programming"
-  avatar  : "/put/some/images/here.jpg"
+  avatar  : "/assets/images/portrait.jpg"
   links   :
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"

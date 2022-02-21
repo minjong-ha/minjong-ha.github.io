@@ -13,9 +13,6 @@
 <meta name="description" content="This is description section. If you find this texts, update it more appropriate contents.">
 
 
-  <meta name="author" content="Minjong Ha">
-  
-
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -47,7 +44,7 @@
     "@context": "https://schema.org",
     
       "@type": "Person",
-      "name": null,
+      "name": "Minjong Ha",
       "url": "http://localhost:4000/"
     
   }
@@ -110,19 +107,20 @@
         
         <a class="site-title" href="/">
           Nice to meet you!
-          <span class="site-subtitle">Welcome to my personal page!</span>
+          <span class="site-subtitle">Minjong Ha's Workbench</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
               <a href="/contact/">Contact</a>
             </li><li class="masthead__menu-item">
               <a href="/archive/">Archive</a>
             </li><li class="masthead__menu-item">
-              <a href="/archive-taxonomy/">Archive-Taxonomy</a>
-            </li><li class="masthead__menu-item">
               <a href="/category/">category</a>
-            </li><li class="masthead__menu-item">
-              <a href="/categories/">categories"</a>
             </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
         
         <button class="greedy-nav__toggle hidden" type="button">
           <span class="visually-hidden">Toggle menu</span>
@@ -161,6 +159,17 @@
     </div>
 
     
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
 
     <div id="footer" class="page__footer">
       <footer>
@@ -179,7 +188,7 @@
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2022 Nice to meet you!. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2022 Minjong Ha. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>
@@ -189,6 +198,10 @@
 
 
 
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
 
 
 

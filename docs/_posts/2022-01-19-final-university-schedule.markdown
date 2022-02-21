@@ -1,6 +1,7 @@
 ---
 layout: posts
 title: "I finally submit my thesis"
+author: Minjong Ha
 date: 2022-01-19 16:33:00 +0900
 ---
 
