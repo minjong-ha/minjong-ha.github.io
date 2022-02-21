@@ -22,7 +22,7 @@
 locale: "en-US"
 title: "Nice to meet you!"
 title_seperator: "-"
-subtitle: "Minjong Ha's Workbench"
+subtitle: "Minjong Ha's Playground"
 name: &name "Minjong Ha"
 email: &email "hmjong1128@gmail.com"
 description: &description "This is description section. If you find this texts,

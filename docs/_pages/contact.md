@@ -1,6 +1,7 @@
 ---
 title: Contact
 permalink: /contact/
+author_profile: true
 layout: posts
 ---
 
