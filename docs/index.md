@@ -9,7 +9,7 @@ title: Home
 ## [find_icon] Experience
   * __2022.01.03 - : Researcher / Team 1-1, Tmax OS__
      - Research and Invent 'Terminal OS' based on TmaxGooroom
-	    - Improve and optimize VM performance
+	    - Improve and optimize VM performance through libvirt 
 	 - [Articles](https://www.techm.kr/news/articleView.html?idxno=94396)
 	 - [Articles](http://www.dt.co.kr/contents.html?article_no=2022022102109931650003&ref=naver)
 
