@@ -6,14 +6,15 @@ classes: wide
 title: Home
 ---
 
-## [find_icon] Experience
+## Experience
   * __2022.01.03 - : Researcher / Team 1-1, Tmax OS__
      - Research and Invent 'Terminal OS' based on TmaxGooroom
 	    - Improve and optimize VM performance through libvirt 
 	 - [Articles](https://www.techm.kr/news/articleView.html?idxno=94396)
 	 - [Articles](http://www.dt.co.kr/contents.html?article_no=2022022102109931650003&ref=naver)
+	 - [Articles](http://it.chosun.com/site/data/html_dir/2022/02/23/2022022301994.html)
 
-## [find_icon] Education
+## Education
   * 2020.03 - 2022.02: M.S. in Computer Scienct and Artificial Intelligence / Ajou University, Korea
      - Advisor: Professor Sang-Hoon Kim (Ajou)
 	 - Thesis: ...
@@ -22,9 +23,9 @@ title: Home
   * 2013.03 - 2020.02: B.S. in Software Engineering and Computer Science / Ajou University, Korea
      - Graduation Work: [Fit-Got-U](https://github.com/minjong-ha/Fit-Got-U)
 
-## [find_icon] Journals
+## Journals
 
-## [find_icon] Personal Project
+## Personal Project
 
   * __CardBox__
   : Cardbox is an iOS application project. It focuses on providing encrypted short card with clear UI/UX.  
