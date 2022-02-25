@@ -6,7 +6,7 @@ var store = [{
         "teaser": null
       },{
         "title": "I finally submit my thesis",
-        "excerpt":"I finally submit my thesis to the university library.  This is my final schedule for graduation and now I need to celebrate.  ","categories": [],
+        "excerpt":"I finally submit my thesis to the libray in Ajou university.   This is my final schedule for graduation and now I need to celebrate.  ","categories": [],
         "tags": [],
         "url": "/2022/01/19/final-university-schedule.html",
         "teaser": null
