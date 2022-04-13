@@ -9,7 +9,8 @@ title: Home
 ## Experience
   * __2022.01.03 - : Researcher / Team 1-1, Tmax OS__
      - Research and Invent 'Terminal OS' based on TmaxGooroom
-	    - Improve and optimize VM performance through libvirt 
+	    - Improve and optimize VM performance with libvirt
+		- Host - Guest login event synchronization  
 	 - [Articles](https://www.techm.kr/news/articleView.html?idxno=94396)
 	 - [Articles](http://www.dt.co.kr/contents.html?article_no=2022022102109931650003&ref=naver)
 	 - [Articles](http://it.chosun.com/site/data/html_dir/2022/02/23/2022022301994.html)
@@ -36,7 +37,6 @@ title: Home
 
 
 ## Personal Project
-
   * __CardBox__
   : Cardbox is an iOS application project. It focuses on providing encrypted short card with clear UI/UX.  
   __[Github: CardBox (private for now)](https://github.com/minjong-ha/cardbox)__
