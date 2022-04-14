@@ -8,12 +8,12 @@ title: Home
 
 ## Experience
   * __2022.01.03 - : Researcher / Team 1-1, Tmax OS__
-     - Research and Invent 'Terminal OS' based on TmaxGooroom
+     - Research and develop 'TmaxGooroom SD' based on Gooroom platform
 	    - Improve and optimize VM performance with libvirt
-		- Host - Guest login event synchronization  
-	 - [Articles](https://www.techm.kr/news/articleView.html?idxno=94396)
-	 - [Articles](http://www.dt.co.kr/contents.html?article_no=2022022102109931650003&ref=naver)
-	 - [Articles](http://it.chosun.com/site/data/html_dir/2022/02/23/2022022301994.html)
+		- Research and implement Host-Guest communication for the synchronizing interactions
+	 - [Articles: TmaxGooroom OS based on the Gooroom platform](https://www.techm.kr/news/articleView.html?idxno=94396)
+	 - [Articles: Network separated work environment](http://www.dt.co.kr/contents.html?article_no=2022022102109931650003&ref=naver)
+	 - [Articles: Opensource OS ](http://it.chosun.com/site/data/html_dir/2022/02/23/2022022301994.html)
 
 
 ## Education
@@ -27,13 +27,14 @@ title: Home
 
 
 ## Journals
-  * __[InK: In-Kernel Key-Value Storage with Persistent Memory](https://doi.org/10.3390/electronics9111913)__
-     - Minjong Ha, and Sang-Hoon Kim*.
-	 - MDPI Electronics, Vol. 9, Issue 11, No. 1913, November 2020
-
-  * __[CCoW: Optimizing Copy-on-Write Considering the Spatial Locality in Workloads](https://doi.org/10.3390/electronics11030461)__
+    * __[CCoW: Optimizing Copy-on-Write Considering the Spatial Locality in Workloads](https://doi.org/10.3390/electronics11030461)__
      - Minjong Ha, and Sang-Hoon Kim*
 	 - MDPI Electronics, Vol. 11, Issue 3, No. 461, February 2022
+
+	* __[InK: In-Kernel Key-Value Storage with Persistent Memory](https://doi.org/10.3390/electronics9111913)__
+	 - Minjong Ha, and Sang-Hoon Kim*.
+	 - MDPI Electronics, Vol. 9, Issue 11, No. 1913, November 2020
+
 
 
 ## Personal Project
