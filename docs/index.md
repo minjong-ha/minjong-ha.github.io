@@ -27,13 +27,13 @@ title: Home
 
 
 ## Journals
-    * __[CCoW: Optimizing Copy-on-Write Considering the Spatial Locality in Workloads](https://doi.org/10.3390/electronics11030461)__
-     - Minjong Ha, and Sang-Hoon Kim*
-	 - MDPI Electronics, Vol. 11, Issue 3, No. 461, February 2022
+  * [CCoW: Optimizing Copy-on-Write Considering the Spatial Locality in Workloads](https://doi.org/10.3390/electronics11030461)
+    - Minjong Ha, and Sang-Hoon Kim*
+    - MDPI Electronics, Vol. 11, Issue 3, No. 461, February 2022
 
-	* __[InK: In-Kernel Key-Value Storage with Persistent Memory](https://doi.org/10.3390/electronics9111913)__
-	 - Minjong Ha, and Sang-Hoon Kim*.
-	 - MDPI Electronics, Vol. 9, Issue 11, No. 1913, November 2020
+  * [InK: In-Kernel Key-Value Storage with Persistent Memory](https://doi.org/10.3390/electronics9111913)
+    - Minjong Ha, and Sang-Hoon Kim*.
+    - MDPI Electronics, Vol. 9, Issue 11, No. 1913, November 2020
 
 
 
