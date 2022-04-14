@@ -20,7 +20,7 @@
 
 #config.yml
 locale: "en-US"
-title: "Nice to meet you!"
+title: "Home"
 title_seperator: "-"
 subtitle: "Minjong Ha's Playground"
 name: &name "Minjong Ha"
