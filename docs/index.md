@@ -9,21 +9,33 @@ title: Home
 ## Experience
   * __2022.01.03 - : Researcher / Team 1-1, Tmax OS__
      - Research and develop 'TmaxGooroom SD' based on Gooroom platform
-	    - Improve and optimize VM performance with libvirt
+	    - Improve and optimize VM performance with the para-virtualization
 		- Research and implement Host-Guest communication for the synchronizing interactions
-	 - [Articles: TmaxGooroom OS based on the Gooroom platform](https://www.techm.kr/news/articleView.html?idxno=94396)
-	 - [Articles: Network separated work environment](http://www.dt.co.kr/contents.html?article_no=2022022102109931650003&ref=naver)
-	 - [Articles: Opensource OS ](http://it.chosun.com/site/data/html_dir/2022/02/23/2022022301994.html)
+<!-- - Articles -->
+<!-- - [TmaxGooroom OS based on the Gooroom platform](https://www.techm.kr/news/articleView.html?idxno=94396) -->
+<!-- - [Network separated work environment](http://www.dt.co.kr/contents.html?article_no=2022022102109931650003&ref=naver) -->
+<!-- - [Opensource OS ](http://it.chosun.com/site/data/html_dir/2022/02/23/2022022301994.html) -->
+
+  * __2020.03 - 2022.02 : Graduate Research Assistant / [System Software Lab](https://sslab.ajou.ac.kr/), Ajou University__
+
+  * __2018.11 - 2020.02 : Research Intern / [System Software Lab](https://sslab.ajou.ac.kr/), Ajou University__
+
+  * __2018.12 - 2019.02 : Application Developer / iOS Application Team, KidSoft__
+    - Develop and publish ['iChak'](https://apps.apple.com/us/app/ichak/id1449110856) iOS application
+	  - Child seat checking system for the schoolbus with the BLE device
+	  - Implement the interactions between the application and bluetooth device
+<hr/>
 
 
 ## Education
-  * __2020.03 - 2022.02: M.S. in Computer Scienct and Artificial Intelligence / Ajou University, Korea__
+  * __2020.03 - 2022.02: M.S. in Computer Science and Artificial Intelligence / Ajou University, Korea__
      - Advisor: Professor Sang-Hoon Kim (Ajou University, Korea)
 	 - Thesis: [Research on Operating System-Level Approaches for Large Scale Address Space with Persistent Memory](https://dcoll.ajou.ac.kr/dcollection/srch/srchDetail/000000031395)
 	 - [System Sofware Lab](https://sslab.ajou.ac.kr/)
 
   * __2013.03 - 2020.02: B.S. in Software Engineering and Computer Science / Ajou University, Korea__
      - Graduation Work: [Fit-Got-U: Smartphone Home-Fitness Application with Pose Estimation](https://github.com/minjong-ha/Fit-Got-U)
+<hr/>
 
 
 ## Journals
@@ -34,12 +46,17 @@ title: Home
   * [InK: In-Kernel Key-Value Storage with Persistent Memory](https://doi.org/10.3390/electronics9111913)
     - Minjong Ha, and Sang-Hoon Kim*.
     - MDPI Electronics, Vol. 9, Issue 11, No. 1913, November 2020
-
+<hr/>
 
 
 ## Personal Project
   * __CardBox__
   : Cardbox is an iOS application project. It focuses on providing encrypted short card with clear UI/UX.  
-  __[Github: CardBox (private for now)](https://github.com/minjong-ha/cardbox)__
+  __[Github: CardBox (private for now)](https://github.com/minjong-ha/cardbox)__  
   __[Notion: CardBox Project Roadmap](https://www.notion.so/CardBox-bb5bce7e77c8452887465d6e9a5a35fd)__
+<hr/>
+
+
+## Patents
+<hr/>
 
