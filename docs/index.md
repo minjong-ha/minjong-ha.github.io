@@ -3,14 +3,15 @@ layout: home
 author_profile: true
 author: Minjong Ha
 classes: wide
-title: Home
+title: Devoloper who Communicate
 ---
 
 ## Experience
-  * __2022.01.03 - : Researcher / Team 1-1, Tmax OS__
+  * __2022.01 - Present : Researcher / TmaxOS__
      - Research and develop 'TmaxGooroom SD' based on Gooroom platform
 	    - Improve and optimize VM performance with the para-virtualization
 		- Research and implement Host-Guest communication for the synchronizing interactions
+		- [Related Documents](https://seen-fact-e72.notion.site/133545fdf26d4506b982bbbf1c179d43?v=524a666f24db4a67a897c4cef7762487)
 <!-- - Articles -->
 <!-- - [TmaxGooroom OS based on the Gooroom platform](https://www.techm.kr/news/articleView.html?idxno=94396) -->
 <!-- - [Network separated work environment](http://www.dt.co.kr/contents.html?article_no=2022022102109931650003&ref=naver) -->
@@ -20,10 +21,10 @@ title: Home
 
   * __2018.11 - 2020.02 : Research Intern / [System Software Lab](https://sslab.ajou.ac.kr/), Ajou University__
 
-  * __2018.12 - 2019.02 : Application Developer / iOS Application Team, KidSoft__
-    - Develop and publish ['iChak'](https://apps.apple.com/us/app/ichak/id1449110856) iOS application
+  * __2018.12 - 2019.02 : Application Developer / KidSoft__
+    - Develop and publish [__'iChak'__](https://apps.apple.com/us/app/ichak/id1449110856) iOS application
 	  - Child seat checking system for the schoolbus with the BLE device
-	  - Implement the interactions between the application and bluetooth device
+	  - Implement the interactions between the application and bluetooth seat cushion
 <hr/>
 
 
@@ -52,8 +53,7 @@ title: Home
 ## Personal Project
   * __CardBox__
   : Cardbox is an iOS application project. It focuses on providing encrypted short card with clear UI/UX.  
-  __[Github: CardBox (private for now)](https://github.com/minjong-ha/cardbox)__  
-  __[Notion: CardBox Project Roadmap](https://www.notion.so/CardBox-bb5bce7e77c8452887465d6e9a5a35fd)__
+  __[Github: CardBox (private for now)](https://github.com/minjong-ha/cardbox)__, __[Notion: CardBox Project Roadmap](https://www.notion.so/CardBox-bb5bce7e77c8452887465d6e9a5a35fd)__
 <hr/>
 
 
