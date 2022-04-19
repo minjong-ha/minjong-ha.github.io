@@ -23,7 +23,7 @@ title: Devoloper who Communicate
 
   * __2018.12 - 2019.02 : Application Developer / KidSoft__
     - Develop and publish [__'iChak'__](https://apps.apple.com/us/app/ichak/id1449110856) iOS application
-	  - Child seat checking system for the schoolbus with the BLE device
+	  - Seat checking system for the children with the BLE device
 	  - Implement the interactions between the application and bluetooth seat cushion
 <hr/>
 
