@@ -58,5 +58,8 @@ title: Devoloper who Communicate
 
 
 ## Patents
+  * __Copy-on-Write Optimization Apparatus and Method for Process Fork__
+    - Sang-Hoon Kim and Minjong Ha
+	- Patent Filed No. 10-2020-0187135 (December 30, 2020), Korea
 <hr/>
 
