@@ -21,7 +21,7 @@ title: Devoloper who Communicate
 
   * __2018.11 - 2020.02 : Research Intern / [System Software Lab](https://sslab.ajou.ac.kr/), Ajou University__
 
-  * __2018.12 - 2019.02 : Application Developer / KidSoft__
+  * __2018.12 - 2019.02 : Intern - iOS Application / KidSoft__
     - Develop and publish [__'iChak'__](https://apps.apple.com/us/app/ichak/id1449110856) iOS application
 	  - Seat checking system for the children with the BLE device
 	  - Implement the interactions between the application and bluetooth seat cushion
