@@ -5,12 +5,8 @@ author: Minjong Ha
 date:   2022-04-25 17:13:43 +0900
 ---
 
-About Host-Guest communication, research review with the professor(...?)
-
-Details about Full-Virtualization (emulation)
-
-Is it possible to use virtio-vsock in Windows guest?
-
+About Host-Guest communication!
+Currently writing content....
 
 <!--
 You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
