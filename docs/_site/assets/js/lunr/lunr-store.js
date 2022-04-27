@@ -1,7 +1,19 @@
 var store = [{
-        "title": "Welcome to Jekyll!",
-        "excerpt":"You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.   Jekyll requires blog post files to be named according to the following format:   YEAR-MONTH-DAY-title.MARKUP   Where YEAR is a four-digit number, MONTH and DAY are both two-digit numbers, and MARKUP is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.   Jekyll also offers powerful support for code snippets:   def print_hi(name)   puts \"Hi, #{name}\" end print_hi('Tom') #=&gt; prints 'Hi, Tom' to STDOUT.  Check out the Jekyll docs for more info on how to get the most out of Jekyll. File all bugs/feature requests at Jekyll’s GitHub repo. If you have questions, you can ask them on Jekyll Talk.   ","categories": [],
+        "title": "Welcome to my personal blog with Jekyll!",
+        "excerpt":"I published my first personal blog with Jekyll and github.io. I want to share my research topics and personal interestings as many as possible.    ","categories": [],
         "tags": [],
         "url": "/2022/01/14/welcome-to-jekyll.html",
+        "teaser": null
+      },{
+        "title": "Para-Virtualization: Host-Guest Communication",
+        "excerpt":"About Host-Guest communication, research review with the professor(…?)   Details about Full-Virtualization (emulation)   Is it possible to use virtio-vsock in Windows guest?    ","categories": [],
+        "tags": [],
+        "url": "/2022/04/25/host-guest-communication.html",
+        "teaser": null
+      },{
+        "title": "Lightweight Persistence Centric System",
+        "excerpt":"Non-volatile computing demo (LightPC) English version LightPC Presents a Resilient System Using Only Non-Volatile Memory   “A KAIST research team has developed hardware and software technology that ensures both data and execution persistence.”   This is very interesting research! At the time I graduated from the University with the research about the non-volatile memory, also called persistent memory, it was not a major trend in academia as far as I know. Compared to the costs and efforts of applying non-volatile memory from the volatile-memory, the performance improvement did not look attractive. Thus, the companies preferred to increase the memory physically, and the researchers start to study about the “CXL memory” instead.   However, the researchers in CAMEL lab (KAIST) implement a integrated persistence centric system with the Intel OptaneDC Persistent Memory!   The paper, “LightPC: Hardware and Software Co-Design for Energy-Efficient Full System Persistence)”, will be presented in ISCA’22 (International Symposium on Computer Architecture). As soon as the paper is announced, I will read and analyze the LightPC! and update this posts!  ","categories": [],
+        "tags": [],
+        "url": "/2022/04/27/Lightweight_Persistence_Centric_System.html",
         "teaser": null
       }]

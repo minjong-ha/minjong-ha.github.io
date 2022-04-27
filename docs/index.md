@@ -3,7 +3,7 @@ layout: home
 author_profile: true
 author: Minjong Ha
 classes: wide
-title: Devoloper who Communicate
+title: About me
 ---
 
 ## Experience
@@ -50,12 +50,13 @@ title: Devoloper who Communicate
 <hr/>
 
 
+<!--
 ## Personal Project
   * __CardBox__
-  : Cardbox is an iOS application project. It focuses on providing encrypted short card with clear UI/UX.  
+  : Cardbox is an iOS application project. It focuses on providing encrypted short card with clear UI/UX
   __[Github: CardBox (private for now)](https://github.com/minjong-ha/cardbox)__, __[Notion: CardBox Project Roadmap](https://www.notion.so/CardBox-bb5bce7e77c8452887465d6e9a5a35fd)__
 <hr/>
-
+-->
 
 ## Patents
   * __Copy-on-Write Optimization Apparatus and Method for Process Fork__

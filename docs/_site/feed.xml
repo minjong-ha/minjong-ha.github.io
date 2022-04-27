@@ -1,12 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-04-15T13:36:04+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Home</title><subtitle>This is description section. If you find this texts, update it more appropriate contents.</subtitle><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/2022/01/14/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2022-01-14T17:13:43+09:00</published><updated>2022-01-14T17:13:43+09:00</updated><id>http://localhost:4000/2022/01/14/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2022/01/14/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-04-27T09:24:54+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Home</title><subtitle>This is description section. If you find this texts, update it more appropriate contents.</subtitle><entry><title type="html">Lightweight Persistence Centric System</title><link href="http://localhost:4000/2022/04/27/Lightweight_Persistence_Centric_System.html" rel="alternate" type="text/html" title="Lightweight Persistence Centric System" /><published>2022-04-27T09:00:00+09:00</published><updated>2022-04-27T09:00:00+09:00</updated><id>http://localhost:4000/2022/04/27/Lightweight_Persistence_Centric_System</id><content type="html" xml:base="http://localhost:4000/2022/04/27/Lightweight_Persistence_Centric_System.html">&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=HzYe_xooOKk&amp;amp;feature=emb_title&quot;&gt;Non-volatile computing demo (LightPC) English version&lt;/a&gt;
+&lt;a href=&quot;https://news.kaist.ac.kr/newsen/html/news/?GotoPage=1&amp;amp;list_e_date=&amp;amp;list_s_date=&amp;amp;mng_no=20111&amp;amp;mode=V&amp;amp;skey=&amp;amp;sval=&quot;&gt;LightPC Presents a Resilient System Using Only Non-Volatile Memory&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
+&lt;p&gt;“A KAIST research team has developed hardware and software technology that ensures both data and execution persistence.”&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR-MONTH-DAY-title.MARKUP&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;This is very interesting research!
+At the time I graduated from the University with the research about the non-volatile memory, also called persistent memory, it was not a major trend in academia as far as I know.
+Compared to the costs and efforts of applying non-volatile memory from the volatile-memory, the performance improvement did not look attractive.
+Thus, the companies preferred to increase the memory physically, and the researchers start to study about the “CXL memory” instead.&lt;/p&gt;
 
-&lt;p&gt;Where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR&lt;/code&gt; is a four-digit number, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MONTH&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DAY&lt;/code&gt; are both two-digit numbers, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MARKUP&lt;/code&gt; is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;p&gt;However, the researchers in CAMEL lab (KAIST) implement a integrated persistence centric system with the Intel OptaneDC Persistent Memory!&lt;/p&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;p&gt;The paper, “LightPC: Hardware and Software Co-Design for Energy-Efficient Full System Persistence)”, will be presented in ISCA’22 (International Symposium on Computer Architecture).
+As soon as the paper is announced, I will read and analyze the LightPC! and update this posts!&lt;/p&gt;</content><author><name>Minjong Ha</name></author><summary type="html">Non-volatile computing demo (LightPC) English version LightPC Presents a Resilient System Using Only Non-Volatile Memory “A KAIST research team has developed hardware and software technology that ensures both data and execution persistence.” This is very interesting research! At the time I graduated from the University with the research about the non-volatile memory, also called persistent memory, it was not a major trend in academia as far as I know. Compared to the costs and efforts of applying non-volatile memory from the volatile-memory, the performance improvement did not look attractive. Thus, the companies preferred to increase the memory physically, and the researchers start to study about the “CXL memory” instead. However, the researchers in CAMEL lab (KAIST) implement a integrated persistence centric system with the Intel OptaneDC Persistent Memory! The paper, “LightPC: Hardware and Software Co-Design for Energy-Efficient Full System Persistence)”, will be presented in ISCA’22 (International Symposium on Computer Architecture). As soon as the paper is announced, I will read and analyze the LightPC! and update this posts!</summary></entry><entry><title type="html">Para-Virtualization: Host-Guest Communication</title><link href="http://localhost:4000/2022/04/25/host-guest-communication.html" rel="alternate" type="text/html" title="Para-Virtualization: Host-Guest Communication" /><published>2022-04-25T17:13:43+09:00</published><updated>2022-04-25T17:13:43+09:00</updated><id>http://localhost:4000/2022/04/25/host-guest-communication</id><content type="html" xml:base="http://localhost:4000/2022/04/25/host-guest-communication.html">&lt;p&gt;About Host-Guest communication, research review with the professor(…?)&lt;/p&gt;
+
+&lt;p&gt;Details about Full-Virtualization (emulation)&lt;/p&gt;
+
+&lt;p&gt;Is it possible to use virtio-vsock in Windows guest?&lt;/p&gt;
+
+&lt;!--
+You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
+
+Jekyll requires blog post files to be named according to the following format:
+
+`YEAR-MONTH-DAY-title.MARKUP`
+
+Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit numbers, and `MARKUP` is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+
+Jekyll also offers powerful support for code snippets:
+
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
@@ -14,4 +35,37 @@
 &lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Tom'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints 'Hi, Tom' to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><author><name>Minjong Ha</name></author><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated. Jekyll requires blog post files to be named according to the following format: YEAR-MONTH-DAY-title.MARKUP Where YEAR is a four-digit number, MONTH and DAY are both two-digit numbers, and MARKUP is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works. Jekyll also offers powerful support for code snippets: def print_hi(name) puts &quot;Hi, #{name}&quot; end print_hi('Tom') #=&amp;gt; prints 'Hi, Tom' to STDOUT. Check out the Jekyll docs for more info on how to get the most out of Jekyll. File all bugs/feature requests at Jekyll’s GitHub repo. If you have questions, you can ask them on Jekyll Talk.</summary></entry></feed>
+
+Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+
+[jekyll-docs]: https://jekyllrb.com/docs/home
+[jekyll-gh]:   https://github.com/jekyll/jekyll
+[jekyll-talk]: https://talk.jekyllrb.com/
+--&gt;</content><author><name>Minjong Ha</name></author><summary type="html">About Host-Guest communication, research review with the professor(…?) Details about Full-Virtualization (emulation) Is it possible to use virtio-vsock in Windows guest?</summary></entry><entry><title type="html">Welcome to my personal blog with Jekyll!</title><link href="http://localhost:4000/2022/01/14/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to my personal blog with Jekyll!" /><published>2022-01-14T17:13:43+09:00</published><updated>2022-01-14T17:13:43+09:00</updated><id>http://localhost:4000/2022/01/14/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2022/01/14/welcome-to-jekyll.html">&lt;p&gt;I published my first personal blog with Jekyll and github.io.
+I want to share my research topics and personal interestings as many as possible.&lt;/p&gt;
+
+&lt;!--
+You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
+
+Jekyll requires blog post files to be named according to the following format:
+
+`YEAR-MONTH-DAY-title.MARKUP`
+
+Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit numbers, and `MARKUP` is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+
+Jekyll also offers powerful support for code snippets:
+
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Tom'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints 'Hi, Tom' to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+
+Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+
+[jekyll-docs]: https://jekyllrb.com/docs/home
+[jekyll-gh]:   https://github.com/jekyll/jekyll
+[jekyll-talk]: https://talk.jekyllrb.com/
+--&gt;</content><author><name>Minjong Ha</name></author><summary type="html">I published my first personal blog with Jekyll and github.io. I want to share my research topics and personal interestings as many as possible.</summary></entry></feed>
