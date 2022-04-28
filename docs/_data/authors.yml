@@ -1,6 +1,6 @@
 Minjong Ha:
   name    : "Minjong Ha"
-  bio     : "I am a system software engineer working at the Tmax. I am interested in the system architecture, memory management, non-volatile memory, and para-virtualization."
+  bio     : "I am a system software engineer working at the Tmax. I am interested in the system architecture, memory management, non-volatile memory, and virtualization."
   avatar  : "/assets/images/portrait.jpg"
   links   :
     - label: "Email"

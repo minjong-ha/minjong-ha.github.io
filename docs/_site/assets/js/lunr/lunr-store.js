@@ -6,7 +6,7 @@ var store = [{
         "teaser": null
       },{
         "title": "Para-Virtualization: Host-Guest Communication",
-        "excerpt":"About Host-Guest communication, research review with the professor(…?)   Details about Full-Virtualization (emulation)   Is it possible to use virtio-vsock in Windows guest?    ","categories": [],
+        "excerpt":"About Host-Guest communication! Currently writing content….    ","categories": [],
         "tags": [],
         "url": "/2022/04/25/host-guest-communication.html",
         "teaser": null

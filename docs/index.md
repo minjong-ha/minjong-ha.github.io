@@ -28,6 +28,15 @@ title: About me
 <hr/>
 
 
+## Tools
+  * Programming Language
+    - C
+	- C++
+	- Python
+	- (Optional) Swift
+<hr\>
+
+
 ## Education
   * __2020.03 - 2022.02: M.S. in Computer Science and Artificial Intelligence / Ajou University, Korea__
      - Advisor: Professor Sang-Hoon Kim (Ajou University, Korea)
