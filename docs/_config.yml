@@ -29,7 +29,7 @@ description: &description "This is description section. If you find this texts,
   update it more appropriate contents."
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
   #twitter_username: jekyllrb
-baseurl: "" # the subpath of your site, e.g. /blog
+#baseurl: "" # the subpath of your site, e.g. /blog
 github_username:  "minjong-ha"
 
 
