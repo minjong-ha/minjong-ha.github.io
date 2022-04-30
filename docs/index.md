@@ -34,7 +34,7 @@ title: About me
 	- C++
 	- Python
 	- (Optional) Swift
-<hr\>
+<hr/>
 
 
 ## Education
