@@ -44,6 +44,7 @@ remote_theme: "mmistakes/minimal-mistakes@4.24.0" #here!
 #minimal_mistakes_skin: "air" #default, aqua, contrast, dark, dirt, neon, mint, plum, sunrise
 plugins:
   - jekyll-feed
+  - jekyll-include-cache
 
 
 include:
