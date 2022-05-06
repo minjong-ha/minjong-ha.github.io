@@ -39,8 +39,9 @@ search_full_content: true
 
 # Build settings
 #theme: minima
-theme: minimal-mistakes-jekyll
-minimal_mistakes_skin: "air" #default, aqua, contrast, dark, dirt, neon, mint, plum, sunrise
+remote_theme: "mmistakes/minimal-mistakes@4.24.0" #here!
+#theme: minimal-mistakes-jekyll
+#minimal_mistakes_skin: "air" #default, aqua, contrast, dark, dirt, neon, mint, plum, sunrise
 plugins:
   - jekyll-feed
 
