@@ -26,7 +26,3 @@ Thank you.
 
 text color in markdown: https://ansohxxn.github.io/blog/markdown/
 
-
-Where is my jekyll theme?
-Why my README update not applied in usual main site?
-
