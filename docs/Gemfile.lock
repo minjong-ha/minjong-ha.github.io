@@ -292,6 +292,7 @@ DEPENDENCIES
   github-pages (~> 219)
   jekyll (~> 3.9.0)
   jekyll-feed (~> 0.12)
+  jekyll-include-cache
   minima (~> 2.5)
   minimal-mistakes-jekyll
   tzinfo (~> 1.2)
@@ -299,4 +300,4 @@ DEPENDENCIES
   wdm (~> 0.1.1)
 
 BUNDLED WITH
-   2.3.12
+   2.3.5
