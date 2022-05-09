@@ -25,4 +25,3 @@ I also explain about the vCPU as a background; what is the vCPU and how it works
 
 
 [Notion Document: Full-Virtualization(QEMU-KVM) vs Para-Virtualization(Virtio)](https://seen-fact-e72.notion.site/Full-Virtualization-vs-Para-Virtualization-cd4933792f6a4a2b871a385f58592955)
-
