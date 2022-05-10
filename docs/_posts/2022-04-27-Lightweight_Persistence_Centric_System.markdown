@@ -6,6 +6,7 @@ date:   2022-04-27 09:00:00 +0900
 ---
 
 [Non-volatile computing demo (LightPC) English version](https://www.youtube.com/watch?v=HzYe_xooOKk&feature=emb_title)
+
 [LightPC Presents a Resilient System Using Only Non-Volatile Memory](https://news.kaist.ac.kr/newsen/html/news/?GotoPage=1&list_e_date=&list_s_date=&mng_no=20111&mode=V&skey=&sval=)
 
 "A KAIST research team has developed hardware and software technology that ensures both data and execution persistence."
@@ -19,3 +20,5 @@ However, the researchers in CAMEL lab (KAIST) implement a integrated persistence
 
 The paper, "LightPC: Hardware and Software Co-Design for Energy-Efficient Full System Persistence)", will be presented in ISCA'22 (International Symposium on Computer Architecture).
 As soon as the paper is announced, I will read and analyze the LightPC! and update this posts!
+
+ISCA'22 will be opened at June 18-22, 2022.
