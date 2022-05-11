@@ -50,6 +50,96 @@ If there were no KVM support, which means in the QEMU only hypervisor, every gue
 QEMU translates the guest code to the suitable instructions for the physical CPUs in the host and the cost is tremendous.
 However ,thanks to vCPU, the QEMU-KVM hypervisor leaverages the overall performance of the VM.
 
+Then how the VM requests and initializes vCPU from the host(KVM)?
+When the hypervisor starts to emulate virtual devices, it also emulates the virtual CPUs for the VM.
+
+```c
+static const TypeInfo kvm_accel_ops_type = {
+  ...
+  .class_init = kvm_accel_ops_class_init,
+  ...
+}
+
+static void kvm_accel_ops_class_init(ObjectClass *oc, void *data) {
+  AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
+
+  **ops->create_vcpu_thread = kvm_start_vcpu_thread**
+  ...
+}
+```
+
+The above codes are in qemu/accel/kvm/kvm-accel-ops.c.
+The QEMU defines the kvm_accel_ops_type, and allocates the callback functions for the vCPU.
+Thus, when the QEMU tries to allocate vCPU, the kvm_start_vcpu_thread() funcion will be called.
+
+```c
+static void x86_cpu_realizefn(DeviceState *dev, Error **errp) {
+  ...
+  CPUState *cs = CPU(dev);
+  x86CPU *cpu = X86_CPU(dev);
+  x86CPUClass *xcc = X86_CPU_GET_CLASS(Dev);
+  CPUX86State *env = &cpu->env;
+  ...
+  **qemu_init_vcpu(cs);**
+}
+```
+
+```c
+void qemu_init_vcpu(CPUState *cpu) {
+  ...
+**cpus_accel->create_vcpu_thread(cpu);**
+  ...
+}
+```
+
+The above codes are in qemu/target/i386/cpu.c and qemu/softmmu/cpus.c.
+The hypervisor realize the virtual CPUs via x86_cpu_realizefn() and it calls qemu_init_vcpu().
+In this function, it starts to create the threads for the vCPU.
+
+
+```c
+static void kvm_start_vcpu_thread(CPUState *cpu) {
+  char thread_name[VCPU_THREAD_NAME_SIZE]; //#define VCPU_THREAD_NAME_SIZE 16
+
+  cpu->thread = g_malloc0(sizeof(QemuThread)); //alloc cpu thread memory
+  cpu->halt_cond = g_malloc0(sizeof(QemuCond));
+  ...
+  **qemu_thread_create(cpu->thread, thread_name, kvm_vcpu_thread_fn, cpu, QEMU_THREAD_JOINABLE);**
+}
+```
+
+```c
+void qemu_thread_create(QemuThread *thread, const char *name, void *(*start_routine)(void *), void *arg, int mode) {
+  ...
+  QemuThreadArgs *qemu_thread_args;
+  ...
+  qemu_thread_args = g_new0(QemuThreadsArgs, 1);
+  qemu_thread_args->name = g_strdup(name);
+  qemu_thread_args->start_routine = start_routine; //start_routine == kvm_vcpu_thread_fn
+  qemu_trehad_args->arg = arg
+
+  **err = pthread_create(&thread->thread, &attr, qemu_thread_start, qemu_thread_args);**
+  ...
+}
+
+static void *qemu_thread_start(void *args) {
+  ...
+  void *(*start_routine)(void *) = qemu_thread_args->start_routine; //start_routine == kvm_vcpu_thread_fn
+  ...
+  pthread_cleanup_push(qemu_thread_atexit_notify, NULL);
+  **r = start_routine(arg);** //start_routine == **kvm_vcpu_thread_fn**
+  pthread_cleanup_pop(1);
+  ...
+}
+```
+
+The above codes are in qemu/accel/kvm/kvm_accel-ops.c and qemu/util/qemu-thread-posix.c
+Now, we can understand that the vCPU is the posix thread actually, and this thread runs kvm_vcpu_thread_fn() function.
+
+
+
+
+
 
 
 ## Full-Virtualization
