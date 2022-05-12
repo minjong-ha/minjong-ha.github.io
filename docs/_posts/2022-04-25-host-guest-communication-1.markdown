@@ -137,11 +137,6 @@ The above codes are in qemu/accel/kvm/kvm_accel-ops.c and qemu/util/qemu-thread-
 Now, we can understand that the vCPU is the posix thread actually, and this thread runs kvm_vcpu_thread_fn() function.
 
 
-
-
-
-
-
 ## Full-Virtualization
 
 ## Para-Vitualization
