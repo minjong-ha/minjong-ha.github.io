@@ -10,7 +10,7 @@ title: About me
   * __2022.01 - Present : Researcher / TmaxOS__
      - Research and develop 'TmaxGooroom SD' based on Gooroom platform
 	    - Improve and optimize VM performance with the para-virtualization
-		- Research and implement Host-Guest communication for the synchronizing interactions
+		- Research and implement Host-Guest communication
 		- [Related Documents](https://seen-fact-e72.notion.site/133545fdf26d4506b982bbbf1c179d43?v=66806cdc50684eccaf6d7dc0ec33592f)
 <!-- - Articles -->
 <!-- - [TmaxGooroom OS based on the Gooroom platform](https://www.techm.kr/news/articleView.html?idxno=94396) -->
