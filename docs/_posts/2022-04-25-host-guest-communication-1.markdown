@@ -136,8 +136,81 @@ static void *qemu_thread_start(void *args) {
 The above codes are in qemu/accel/kvm/kvm_accel-ops.c and qemu/util/qemu-thread-posix.c
 Now, we can understand that the vCPU is the posix thread actually, and this thread runs kvm_vcpu_thread_fn() function.
 
+```c
+static void *kvm_vcpu_thread_fn(void *arg) {
+  CPUState *cpu = arg;
+  ...
+  qemu_thread_get_self(cpu->thread);
+  cpu->thread_id = qemu_get_thread_id();
+  ...
+  current_cpu = cpu;
+
+  **r = kvm_init_vcpu(cpu, &error_fatal);**
+  kvm_init_cpu_signals(cpu);
+
+  cpu_thread_signal_created(cpu); // cpu->created = true;
+  ...
+  do {
+    if (cpu_can_run(cpu)) {
+      **r = kvm_cpu_exec(cpu);**
+      ...
+    }
+  } while (!cpu->unplug || cpu_can_run(cpu));
+  ...
+}
+```
+
+In vCPU thread, kvm_vcpu_thread_fn(), QEMU requests to allocate the vCPUs to the KVM via ioctl.
+qemu_geut_thread_id() calls ioctl() and the KVM returns the vCPU fd.
+After the QEMU receives the vCPU, now it executes it with kvm_cpu_exec().
+Since we are in focusing on how the vCPU actually works, I will explain how the vCPUs are created by KVM in ohter posts later.
+
+```c
+int kvm_cpu_exec(CPUState *cpu) {
+  struct kvm_run *run = cpu->kvm_run;
+  ...
+  do {
+    ...
+    kvm_arch_put_registers(cpu, KVM_PUT_RUNTIME_STATE);
+    ...z
+    **run_ret = kvm_vcpu_ioctl(cpu, KVM_RUN, 0);**
+    ...
+    switch (**run->exit_reason**) {
+      ...
+      case KVM_EXIT_MMIO:
+        DPRINTF("handle_mmio\n");
+        address_space_rw(&address_space_memory,
+                         run->mmio.phys_addr, attrs,
+                         run->mmio.data,
+                         run->mmio.len,
+                         run->mmio.is_write);
+        ret = 0;
+      break;
+      ...
+      default:
+        DPRINTF("kvm_arch_handle_exit\n");
+        ret = kvm_arch_handle_exit(cpu, run);
+        break;
+  } while (ret == 0);
+  
+  cpu_exec_end(cpu);
+  ...
+}
+
+int kvm_vcpu_ioctl(CPUState *cpu, int type, ...) {
+  ...
+  ret = ioctl(cpu->kvm_fd, type, arg); //type == KVM_RUN
+  ...
+}
+```
+
+In kvm_cpu_exec(), we can check that it has two parts: one is the 'kvm_vcpu_ioctl()' and another is the 'switch(run->exit_reason)'
+
+
+
 
 ## Full-Virtualization
+
 
 ## Para-Vitualization
 
