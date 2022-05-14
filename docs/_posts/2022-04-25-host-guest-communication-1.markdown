@@ -204,7 +204,18 @@ int kvm_vcpu_ioctl(CPUState *cpu, int type, ...) {
 }
 ```
 
-In kvm_cpu_exec(), we can check that it has two parts: one is the 'kvm_vcpu_ioctl()' and another is the 'switch(run->exit_reason)'
+In kvm_cpu_exec(), we can check that it has two parts: one is the 'kvm_vcpu_ioctl()' and another is the 'switch(run->exit_reason)'.
+'kvm_vcpu_ioctl()' is the point makes vCPU switching to the GUEST_MODE.
+QEMU notifies that the vCPU is in ready to run in GUEST_MODE via ioctl().
+KVM_RUN flag represents how the KVM handles this ioctl() requests.
+In the contents below, I will explain how the KVM makes the vCPU, the physical CPU that runs the vCPU thread, into the GUEST_MODE.
+But for now, lets focus on the part after the ioctl().
+
+The KVM returns the result of the kvm_vcpu_ioctl() when the VM_EXIT happens.
+The VM_EXIT makes the CPU to escape from the GUEST_MODE and returns it to the so called HOST_MODE; If the CPU is in the Intel architecture, they are called non-root mode (GUEST_MODE), and root mode (HOST_MODE).
+Now for better understanding, lets assume that there is a machine having only one physical CPU, and it tries to run the VM.
+
+
 
 
 
