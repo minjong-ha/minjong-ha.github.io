@@ -204,16 +204,40 @@ int kvm_vcpu_ioctl(CPUState *cpu, int type, ...) {
 }
 ```
 
-In kvm_cpu_exec(), we can check that it has two parts: one is the 'kvm_vcpu_ioctl()' and another is the 'switch(run->exit_reason)'.
+In kvm_cpu_exec(), we can check that it consists of the two parts: one is the 'kvm_vcpu_ioctl()' and another is the 'switch(run->exit_reason)'.
 'kvm_vcpu_ioctl()' is the point makes vCPU switching to the GUEST_MODE.
 QEMU notifies that the vCPU is in ready to run in GUEST_MODE via ioctl().
-KVM_RUN flag represents how the KVM handles this ioctl() requests.
+KVM_RUN flag represents how the KVM handles the ioctl() requests.
 In the contents below, I will explain how the KVM makes the vCPU, the physical CPU that runs the vCPU thread, into the GUEST_MODE.
 But for now, lets focus on the part after the ioctl().
 
 The KVM returns the result of the kvm_vcpu_ioctl() when the VM_EXIT happens.
 The VM_EXIT makes the CPU to escape from the GUEST_MODE and returns it to the so called HOST_MODE; If the CPU is in the Intel architecture, they are called non-root mode (GUEST_MODE), and root mode (HOST_MODE).
-Now for better understanding, lets assume that there is a machine having only one physical CPU, and it tries to run the VM.
+Usually, there are two reasons that trigger the VM_EXIT: to handle the request that cannot be done in the GUEST_MODE, and the timer.
+Now for better understanding, assumes that there is a machine having only one physical CPU, and it tries to run the VM.
+First I explain is the timer reason VM_EXIT.
+Since the machine has only one physical CPU, it cannot proceed any host's task if the CPU is in the GUEST_MODE.
+The CPU in the GUEST_MODE is only for the virtualized system. 
+Thus, without the periodical VM_EXIT, the machine could not comeback from the GUEST_MODE and every host's tasks waits over and over.
+To prevent this disaster, every CPUs wakes up from the GUEST_MODE in every configurated timeslices.
+It also means if we want to give more execution time to the VM, we could achieve it via extending the timeslices for the GUEST_MODE.
+Another reason is the operations that cannot be done in the GUEST_MODE.
+For example, the requests for the emulated devices usually trigger the VM_EXIT to complete actions.
+The QEMU hypervisor emulates the virtual devices for the VM.
+With the support of the BIOS for the VM, They could interact these virtual, logical devices.
+The VM hands over the requests executed inside the GUEST to these virtual devices.
+However, they are not the real, physical devices.
+If the VM tries to send network packet to the other, the data should pass the physical network device.
+Since the emulated devices is not a real device, it cannot be done in the GUEST_MODE.
+Only the host can complete the action by passing over the data from the emulated device to the real device.
+If there is a writes(requests) on the memory area that controlled by the emulated devices, it triggers the VM_EXIT and the CPU wakes up from the GUEST_MODE.
+Now, the CPU can proceed the host tasks.
+The KVM that wakes up from the GUEST_MODE, tries to figure out the reason of the VM_EXIT and returns the reason to the QEMU.
+And this is the point where the 'switch(run->exit_reason)' works.
+QEMU completes the requests depending on the 'exit_reason'.
+And after the QEMU finishes the operations, it calls kvm_cpu_exec() again since it is performed in do while loop.
+
+
 
 
 
