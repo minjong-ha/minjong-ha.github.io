@@ -213,19 +213,19 @@ But for now, lets focus on the part after the ioctl().
 
 The KVM returns the result of the kvm_vcpu_ioctl() when the VM_EXIT happens.
 The VM_EXIT makes the CPU to escape from the GUEST_MODE and returns it to the so called HOST_MODE; If the CPU is in the Intel architecture, they are called non-root mode (GUEST_MODE), and root mode (HOST_MODE).
-Usually, there are two reasons that trigger the VM_EXIT: to handle the request that cannot be done in the GUEST_MODE, and the timer.
-Now for better understanding, assumes that there is a machine having only one physical CPU, and it tries to run the VM.
-First I explain is the timer reason VM_EXIT.
+Usually, there are two reasons what trigger the VM_EXIT: to handle the request that cannot be done in the GUEST_MODE, and the timer expire.
+For better understanding, assumes that there is a machine having only one physical CPU, and it tries to run the VM with QEMU-KVM hypervisor.
+First I will explain is the timer reason VM_EXIT.
 Since the machine has only one physical CPU, it cannot proceed any host's task if the CPU is in the GUEST_MODE.
 The CPU in the GUEST_MODE is only for the virtualized system. 
-Thus, without the periodical VM_EXIT, the machine could not comeback from the GUEST_MODE and every host's tasks waits over and over.
-To prevent this disaster, every CPUs wakes up from the GUEST_MODE in every configurated timeslices.
+Thus, without the periodical VM_EXIT, the machine could not comeback from the GUEST_MODE and every host's tasks wait over and over.
+To prevent this disaster, every CPUs wake up from the GUEST_MODE in every configurated timeslices.
 It also means if we want to give more execution time to the VM, we could achieve it via extending the timeslices for the GUEST_MODE.
 Another reason is the operations that cannot be done in the GUEST_MODE.
 For example, the requests for the emulated devices usually trigger the VM_EXIT to complete actions.
 The QEMU hypervisor emulates the virtual devices for the VM.
-With the support of the BIOS for the VM, They could interact these virtual, logical devices.
-The VM hands over the requests executed inside the GUEST to these virtual devices.
+With the support of the BIOS for the VM, It could interact these virtual, logical devices.
+The Guest inside the VM hands over the requests that executed inside the GUEST to the virtual devices.
 However, they are not the real, physical devices.
 If the VM tries to send network packet to the other, the data should pass the physical network device.
 Since the emulated devices is not a real device, it cannot be done in the GUEST_MODE.
@@ -237,8 +237,153 @@ And this is the point where the 'switch(run->exit_reason)' works.
 QEMU completes the requests depending on the 'exit_reason'.
 And after the QEMU finishes the operations, it calls kvm_cpu_exec() again since it is performed in do while loop.
 
+Now lets move on to the most important part, where the KVM actually runs vCPU.
+
+```c
+int kvm_cpu_exec(CPUState *cpu) {
+  struct kvm_run *run = cpu->kvm_run;
+  ...
+  do {
+    **run_ret = kvm_vcpu_ioctl(cpu, KVM_RUN, 0);**
+    ...
+    switch (**run->exit_reason**) {
+      ...
+      case KVM_EXIT_MMIO:
+        DPRINTF("handle_mmio\n");
+        address_space_rw(&address_space_memory,
+                         run->mmio.phys_addr, attrs,
+                         run->mmio.data,
+                         run->mmio.len,
+                         run->mmio.is_write);
+        ret = 0;
+      break;
+      ...
+      default:
+        DPRINTF("kvm_arch_handle_exit\n");
+        ret = kvm_arch_handle_exit(cpu, run);
+        break;
+  } while (ret == 0);
+
+  cpu_exec_end(cpu);
+  ...
+}
+
+int kvm_vcpu_ioctl(CPUState *cpu, int type, ...) {
+  ...
+  ret = ioctl(cpu->kvm_fd, type, arg); //type == KVM_RUN
+  ...
+}
+```
+
+As we already check above, kvm_vcpu_ioctl() calls ioctl() with KVM_RUN flag.
 
 
+```c
+static long kvm_vcpu_ioctl(struct file, *filp, unsigned int ioctl, unsigned long arg) {
+  struct kvm_vcpu *vcpu = filp->private_data;
+  ...
+  switch (ioctl) {
+  case KVM_RUN:
+    ...
+    **r = kvm_arch_vcpu_ioctl_run(vcpu);**
+  }
+  ...
+}
+```
+
+```c
+int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu) {
+  struct kvm_run *kvm_run = vcpu->run;
+  ...
+  r = vcpu_run(vcpu);
+  ...
+}
+
+static int vcpu_run(struct kvm_vcpu *vcpu) {
+  struct kvm *kvm = vcpu->kvm;
+  ..
+  for(;;) {
+    if (kvm_vcpu_running(vcpu)
+      **r = vcpu_enter_guest(vcpu);**
+  ...
+  }
+  ...
+}
+
+static int vcpu_enter_guest(struct kvm_vcp *vcpu) {
+  ...
+  vcpu->mode = IN_GUEST_MODE;
+  ...
+  exit_fastpath = static_call(kvm_x86_run)(vcpu);
+  ...
+  for (;;) {
+    ...
+    **exit_fastpath = static_call(kvm_x86_run)(vcpu); //call __vmx_vcpu_run eventually
+    if(likely(exit_fastpath != EXIT_FASTPATH_REENTER_GUEST))
+      break;
+    ...
+    if(unlikely(kvm_vcpu_exit_request(vcpu))) {
+      exit_fasthpath = EXIT_FASTPATH_EXIT_HANDLED;
+      break;
+    }**
+  }
+  ...
+  **vcpu->mode = OUTSIDE_GUEST_MODE;**
+  ...
+  **r = static_call(kvm_x86_handle_exit)(vcpu, exit_fastpath);**
+}
+```
+
+The KVM already has assigned functions for the input flag in ioctl().
+With the KVM_RUN, KVM eventually calls vcpu_enter_guest().
+And it is the most important part to understand the QEMU-KVM and vCPU.
+We can see the static_call(kvm_x86_run)(vcpu) in the for() loop.
+
+<!-- need screenshots -->
+
+
+```c
+static int handle_io(struct kvm_vcpu *vcpu) {
+	  ...
+		    if (string)
+				    **return kvm_emulate_instruction(vcpu, 0);**
+						  ...
+						    return kvm_fast_pio(vcpu, size, port, in);
+}
+```
+
+```c
+int kvm_emulate_instruction(struct kvm_vcpu *vcpu, int emulation_type) {
+	  return x86_emulate_instruction(vcpu, 0, emulation_type, NULL, 0);
+}
+
+int x86_emulate_instruction(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa, int emulation_type, void *insn, int insn_len) {
+	  ...
+		    else if(vcpu->mmio_needed) {
+				    ...
+						    **vcpu->arch.complete_userspace_io = complete_emulated_mmio;**
+							  }
+			  ...
+}
+
+static int complete_emulated_mmio(struct kvm_vcpu *vcpu) {
+	  struct kvm_run *run = vcpu->run;
+	    struct kvm_mmio_fragment *frag;
+		  ...
+			    frag = &vcpu->mmio_fragments[vcpu->mmio_cur_fragment];
+		    ...
+				  if(!vcpu->mmio_is_write)
+					      memcpy(frag->data, run->mmio.data, len);
+			  ...
+				    run->exit_reason = KVM_EXIT_MMIO;
+			    run->mmio.phys_addr = frag->gpa;
+				  if (vcpu->mmio_is_write)
+					      memcpy(run->mmio.data, frag->data, min(8u, frag->len));
+				    ...
+}
+```
+
+Above codes are the one of the exit handling by KVM: the device MMIO request.
 
 
 
