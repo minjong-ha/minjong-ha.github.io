@@ -220,6 +220,7 @@ Now for better understanding, lets assume that there is a machine having only on
 
 
 
+
 ## Full-Virtualization
 
 
