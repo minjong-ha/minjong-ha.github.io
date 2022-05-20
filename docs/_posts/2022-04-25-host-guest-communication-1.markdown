@@ -384,7 +384,11 @@ static int complete_emulated_mmio(struct kvm_vcpu *vcpu) {
 ```
 
 Above codes are the one of the exit handling by KVM: the device MMIO request.
+After the KVM completes the works it should do, it returns the control to the QEMU.
 
+<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/overall_flow.png" | relative_url }}' alt='relative'>
+
+In conclusion, the image represents the overall code flow of the vCPU execution.
 
 
 
