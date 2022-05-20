@@ -2,7 +2,7 @@
 layout: posts
 title:  "Host-Guest Communication: Full vs Para Virtualization - 1"
 author: Minjong Ha
-published: false
+published: true
 date:   2022-04-25 17:13:43 +0900
 ---
 
@@ -344,42 +344,42 @@ We can see the static_call(kvm_x86_run)(vcpu) in the for() loop.
 
 ```c
 static int handle_io(struct kvm_vcpu *vcpu) {
-	  ...
-		    if (string)
-				    **return kvm_emulate_instruction(vcpu, 0);**
-						  ...
-						    return kvm_fast_pio(vcpu, size, port, in);
+  ...
+  if (string)
+    **return kvm_emulate_instruction(vcpu, 0);**
+    ...
+  return kvm_fast_pio(vcpu, size, port, in);
 }
 ```
 
 ```c
 int kvm_emulate_instruction(struct kvm_vcpu *vcpu, int emulation_type) {
-	  return x86_emulate_instruction(vcpu, 0, emulation_type, NULL, 0);
+  return x86_emulate_instruction(vcpu, 0, emulation_type, NULL, 0);
 }
 
 int x86_emulate_instruction(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa, int emulation_type, void *insn, int insn_len) {
-	  ...
-		    else if(vcpu->mmio_needed) {
-				    ...
-						    **vcpu->arch.complete_userspace_io = complete_emulated_mmio;**
-							  }
-			  ...
+  ...
+  else if(vcpu->mmio_needed) {
+    ...
+    **vcpu->arch.complete_userspace_io = complete_emulated_mmio;**
+  }
+  ...
 }
 
 static int complete_emulated_mmio(struct kvm_vcpu *vcpu) {
-	  struct kvm_run *run = vcpu->run;
-	    struct kvm_mmio_fragment *frag;
-		  ...
-			    frag = &vcpu->mmio_fragments[vcpu->mmio_cur_fragment];
-		    ...
-				  if(!vcpu->mmio_is_write)
-					      memcpy(frag->data, run->mmio.data, len);
-			  ...
-				    run->exit_reason = KVM_EXIT_MMIO;
-			    run->mmio.phys_addr = frag->gpa;
-				  if (vcpu->mmio_is_write)
-					      memcpy(run->mmio.data, frag->data, min(8u, frag->len));
-				    ...
+  struct kvm_run *run = vcpu->run;
+  struct kvm_mmio_fragment *frag;
+  ...
+  frag = &vcpu->mmio_fragments[vcpu->mmio_cur_fragment];
+  ...
+  if(!vcpu->mmio_is_write)
+    memcpy(frag->data, run->mmio.data, len);
+  ...
+  run->exit_reason = KVM_EXIT_MMIO;
+  run->mmio.phys_addr = frag->gpa;
+  if (vcpu->mmio_is_write)
+    memcpy(run->mmio.data, frag->data, min(8u, frag->len));
+  ...
 }
 ```
 
