@@ -318,7 +318,7 @@ static int vcpu_enter_guest(struct kvm_vcp *vcpu) {
   ...
   for (;;) {
     ...
-    **exit_fastpath = static_call(kvm_x86_run)(vcpu); //call __vmx_vcpu_run eventually
+    **exit_fastpath = static_call(kvm_x86_run)(vcpu); 
     if(likely(exit_fastpath != EXIT_FASTPATH_REENTER_GUEST))
       break;
     ...
@@ -386,9 +386,30 @@ static int complete_emulated_mmio(struct kvm_vcpu *vcpu) {
 Above codes are the one of the exit handling by KVM: the device MMIO request.
 After the KVM completes the works it should do, it returns the control to the QEMU.
 
+I think the most important code is vcpu_enter_guest().
+"static_call(kvm_x86_run)(vcpu)" is the point where the CPU switches itself into the GUEST_MODE.
+
+<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/vmx_vcpu_run-1.png" | relative_url }}' alt='relative'>
+
+The code calls an assembly function in the image.
+Since my machine has Intel CPU, vmx_vcpu_run() is called.
+In this function, we can see that the cpu tries to load and save the cpu's state data.
+I estimate this is the part where the VMCS (Virtual Machine Control Structure) switch happens, but it is not sure.
+If my assume is right, this is the part where the machine prepare the HOST-GUEST mode switch.
+
+
+<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/vmx_vcpu_run-2.png" | relative_url }}' alt='relative'>
+
+After it saves all HOST's state data and load GUEST's state data on the CPU, it calls vmenter() function
+
+<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/vmx_vmenter.png" | relative_url }}' alt='relative'>
+
+This is the instruction that makes CPU mode into the GUEST_MODE.
+
+
 <img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/overall_flow.png" | relative_url }}' alt='relative'>
 
-In conclusion, the image represents the overall code flow of the vCPU execution.
+The image represents the overall code flow of the vCPU execution.
 
 
 
