@@ -411,8 +411,6 @@ After the KVM completes the works it should do, it returns the control to the QE
 
 
 
-
-
 ## Full-Virtualization
 
 
@@ -423,4 +421,4 @@ After the KVM completes the works it should do, it returns the control to the QE
 ## Conclusion
 
 
-[Notion Document: Full-Virtualization(QEMU-KVM) vs Para-Virtualization(Virtio)](https://seen-fact-e72.notion.site/Full-Virtualization-vs-Para-Virtualization-cd4933792f6a4a2b871a385f58592955)
+[Notion Document: Full-Virtualization(QEMU-KVM) vs Para-Virtualization(Virtio) (written in Korean)](https://seen-fact-e72.notion.site/Full-Virtualization-vs-Para-Virtualization-cd4933792f6a4a2b871a385f58592955)
