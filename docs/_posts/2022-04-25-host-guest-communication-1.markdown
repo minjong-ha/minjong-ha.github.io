@@ -50,7 +50,14 @@ If there were no KVM support, which means in the QEMU only hypervisor, every gue
 QEMU translates the guest code to the suitable instructions for the physical CPUs in the host and the cost is tremendous.
 However ,thanks to vCPU, the QEMU-KVM hypervisor leaverages the overall performance of the VM.
 
-Then how the VM requests and initializes vCPU from the host(KVM)?
+<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/overall_flow.png" | relative_url }}' alt='relative'>
+
+The image represents the overall code flow of the vCPU execution.
+We can see that the vCPU enters to the GUEST_MODE and exits periodically.
+I describe details about it in later writes.
+
+
+Now lets discuss about how the VM requests and initialize vCPU from the KVM.
 When the hypervisor starts to emulate virtual devices, it also emulates the virtual CPUs for the VM.
 
 ```c
@@ -275,7 +282,7 @@ int kvm_vcpu_ioctl(CPUState *cpu, int type, ...) {
 }
 ```
 
-As we already check above, kvm_vcpu_ioctl() calls ioctl() with KVM_RUN flag.
+As we already checked above, kvm_vcpu_ioctl() calls ioctl() with KVM_RUN flag.
 
 
 ```c
@@ -334,12 +341,28 @@ static int vcpu_enter_guest(struct kvm_vcp *vcpu) {
 }
 ```
 
-The KVM already has assigned functions for the input flag in ioctl().
-With the KVM_RUN, KVM eventually calls vcpu_enter_guest().
-And it is the most important part to understand the QEMU-KVM and vCPU.
-We can see the static_call(kvm_x86_run)(vcpu) in the for() loop.
+Above codes are represent the flow of the KVM ioctl handling.
+KVM handles ioctl() for the KVM with the KVM_RUN through __kvm_arch_vcpu_ioctl_run()__.
+It leads the KVM to the __vcpu_enter_guest()__, which is the most important code I think.
+In the for loop in it,  __static_call(kvm_x86_run)(vcpu)__ is the point where the CPU switches itself into the GUEST_MODE.
+
 
 <!-- need screenshots -->
+<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/vmx_vcpu_run-1.png" | relative_url }}' alt='relative'>
+
+It calls an assembly function in the image.
+Since my machine has Intel CPU, vmx_vcpu_run() is called (It is called smx under the AMD CPU).
+In this function, we can see that the cpu tries to load and save the cpu's state data.
+I estimate this is the part where the VMCS (Virtual Machine Control Structure) switch happens, but it is not sure.
+If my assume is right, this is the part where the machine prepare the HOST-GUEST mode switch.
+
+<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/vmx_vcpu_run-2.png" | relative_url }}' alt='relative'>
+
+After it saves all HOST's state data and load GUEST's state data on the CPU, it calls vmenter() function
+
+<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/vmx_vmenter.png" | relative_url }}' alt='relative'>
+
+This is the instruction that makes CPU mode into the GUEST_MODE in the vmenter() function through vm_resume, and vm_launch.
 
 
 ```c
@@ -385,31 +408,6 @@ static int complete_emulated_mmio(struct kvm_vcpu *vcpu) {
 
 Above codes are the one of the exit handling by KVM: the device MMIO request.
 After the KVM completes the works it should do, it returns the control to the QEMU.
-
-I think the most important code is vcpu_enter_guest().
-"static_call(kvm_x86_run)(vcpu)" is the point where the CPU switches itself into the GUEST_MODE.
-
-<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/vmx_vcpu_run-1.png" | relative_url }}' alt='relative'>
-
-The code calls an assembly function in the image.
-Since my machine has Intel CPU, vmx_vcpu_run() is called.
-In this function, we can see that the cpu tries to load and save the cpu's state data.
-I estimate this is the part where the VMCS (Virtual Machine Control Structure) switch happens, but it is not sure.
-If my assume is right, this is the part where the machine prepare the HOST-GUEST mode switch.
-
-
-<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/vmx_vcpu_run-2.png" | relative_url }}' alt='relative'>
-
-After it saves all HOST's state data and load GUEST's state data on the CPU, it calls vmenter() function
-
-<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/vmx_vmenter.png" | relative_url }}' alt='relative'>
-
-This is the instruction that makes CPU mode into the GUEST_MODE.
-
-
-<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/overall_flow.png" | relative_url }}' alt='relative'>
-
-The image represents the overall code flow of the vCPU execution.
 
 
 
