@@ -2,7 +2,7 @@
 layout: posts
 title:  "Host-Guest Communication: Full vs Para Virtualization - 1"
 author: Minjong Ha
-published: false
+published: true
 date:   2022-04-25 17:13:43 +0900
 ---
 
@@ -49,13 +49,6 @@ When the vCPU enters to the GUEST_MODE, the guest can use it exclusively.
 If there were no KVM support, which means in the QEMU only hypervisor, every guest code should be handled by the QEMU.
 QEMU translates the guest code to the suitable instructions for the physical CPUs in the host and the cost is tremendous.
 However ,thanks to vCPU, the QEMU-KVM hypervisor leaverages the overall performance of the VM.
-
-<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/overall_flow.png" | relative_url }}' alt='relative'>
-
-The image represents the overall code flow of the vCPU execution.
-We can see that the vCPU enters to the GUEST_MODE and exits periodically.
-I describe details about it in later writes.
-
 
 Now lets discuss about how the VM requests and initialize vCPU from the KVM.
 When the hypervisor starts to emulate virtual devices, it also emulates the virtual CPUs for the VM.
@@ -409,7 +402,18 @@ static int complete_emulated_mmio(struct kvm_vcpu *vcpu) {
 Above codes are the one of the exit handling by KVM: the device MMIO request.
 After the KVM completes the works it should do, it returns the control to the QEMU.
 
+<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/overall_flow.png" | relative_url }}' alt='relative'>
 
+The image represents the overall code flow of the vCPU execution.
+We saw that the vCPU enters to the GUEST_MODE and exits periodically with the detail codes.
+The vCPU posix threads on the HOST exist only to secure the running time of the GUEST_MODE through the scheduling.
+
+Now we understand how the vCPU works in QEMU-KVM hypervisor and ready to compare the difference between the Full-Virtualization and Para-Virtualization.
+I will explain about it in the next post.
+
+
+
+<!---
 
 ## Full-Virtualization
 
@@ -419,6 +423,7 @@ After the KVM completes the works it should do, it returns the control to the QE
 ## Experiment
 
 ## Conclusion
+--->
 
 
 [Notion Document: Full-Virtualization(QEMU-KVM) vs Para-Virtualization(Virtio) (written in Korean)](https://seen-fact-e72.notion.site/Full-Virtualization-vs-Para-Virtualization-cd4933792f6a4a2b871a385f58592955)
