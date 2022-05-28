@@ -28,10 +28,13 @@ However, the device itself is a thread in the user area, KVM (kernel) could not 
 KVM returns the result of the ioctl() that the QEMU had called.
 Now, QEMU looks up the reason of vmexit.
 It figures out the vmexit is triggered since the device request, and copies the data from the kernel area (2nd user-kernel data copy).
-
+Finally, QEMU passes over the data to the native kernel drive and it causes 3rd user-kernel data copy.
 
 
 ## Para-Vitualization
+Not only the vmexits, user-kernel data copy is the huge overheads.
+It is because that the Guest does not know the device is a virtual, emulated device.
+
 
 ## Experiment
 
