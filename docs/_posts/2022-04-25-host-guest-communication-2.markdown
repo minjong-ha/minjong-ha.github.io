@@ -34,6 +34,7 @@ Finally, QEMU passes over the data to the native kernel drive and it causes 3rd 
 ## Para-Vitualization
 Not only the vmexits, user-kernel data copy is the huge overheads.
 It is because that the Guest does not know the device is a virtual, emulated device.
+Para-Virtualization (Virtio) presents
 
 
 ## Experiment
