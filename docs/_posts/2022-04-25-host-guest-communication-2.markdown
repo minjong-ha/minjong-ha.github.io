@@ -20,21 +20,26 @@ Since the device is not a real, The host's help is required to transfer the gues
 It requires work on a host that can access the physical device.
 
 <!-- It is not sure-->
-To handle it, QEMU-KVM implements the BIOS to trigger the __vmexit__ when the write is made to the memory area allocated to the virtual device.
+To handle it, QEMU-KVM implements a BIOS to trigger the __vmexit__ when the write is made to the memory area allocated to the virtual device.
 As I already mentioned in the previous post, the KVM returned from the GUEST_MODE through the vmexit tries to figure out the reason of it.
 Soon, it discovers that a device working for the Guest has a data to handle.
 KVM __copies__ the data inside the device's memory area to the kernel space (1st user-kernel data copy).
-However, the device itself is a thread in the user area, KVM (kernel) could not handle it over to the device.
-KVM returns the result of the ioctl() that the QEMU had called.
+However, since the device itself is a thread in the user area, KVM (kernel) could not handle it over to the device.
+KVM should return the result of the ioctl() that the QEMU had called and let the QEMU handles it.
 Now, QEMU looks up the reason of vmexit.
-It figures out the vmexit is triggered since the device request, and copies the data from the kernel area (2nd user-kernel data copy).
-Finally, QEMU passes over the data to the native kernel drive and it causes 3rd user-kernel data copy.
+It figures out the vmexit is triggered since the device request, and __copies__ the data from the kernel area (2nd user-kernel data copy).
+Finally, QEMU __passes over (copies)__ the data to the native kernel drive and it causes 3rd user-kernel data copy.
+
+If we look at the result, data about the device in the guest area is only moved to the host, but actually, it can be seen that unnecessary data copy (overhead) happens because the guest does not know that it is on the virtualization.
 
 
 ## Para-Vitualization
 Not only the vmexits, user-kernel data copy is the huge overheads.
 It is because that the Guest does not know the device is a virtual, emulated device.
-Para-Virtualization (Virtio) presents
+Para-Virtualization (Virtio) presents virtualization-aware devices and dedicated drivers based on the virtio based communication.
+
+Virtio has a shared memory area between the Host and Guest since the device awares it is on the virtualization.
+Frontend virtio device driver in the Guest, and the backend virtio device driver in the Host share the memory area and implement data structure called virtqueues (v-rings).
 
 
 ## Experiment
