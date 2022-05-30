@@ -40,6 +40,14 @@ Para-Virtualization (Virtio) presents virtualization-aware devices and dedicated
 
 Virtio has a shared memory area between the Host and Guest since the device awares it is on the virtualization.
 Frontend virtio device driver in the Guest, and the backend virtio device driver in the Host share the memory area and implement data structure called virtqueues (v-rings).
+They communicate each other through the virtqueues.
+Unlike the Full-Virtualization copies data from user to kernel and kernel to user, virtio only kicks a notification.
+The data itself is located in the virtqueue.
+The notification notices there is a data that Host or Guest should read, and it takes the data from the virtqueue.
+
+Still, virtio causes vmexit to context switch to the Host or Guest.
+However, it could reduces the copy overheads compared to the Full-Virtualization.
+
 
 
 ## Experiment
