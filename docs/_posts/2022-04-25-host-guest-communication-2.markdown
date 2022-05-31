@@ -61,4 +61,12 @@ However, it could reduces the copy overheads compared to the Full-Virtualization
 
 ## Conclusion
 
+Virtio reduces the overhead from the user-kernel data copying through the virtqueue (v-ring) based communication.
+Virtio presents various drivers for developer's convinience and efficiency using virtqueue, such as virtio-blk, virtio-serial, virtio-pci.
+For instancde, QEMU-Guest-Agent (qga) is implemented based on the virtio-serial.
+
+There are more interesting technologies and implementations based on vhost, vhost-user which are the more recent Para-Virtualization techniques.
+For example, vSock (Virtual Socket) connects the Host and Guest's sockets and supports the application communication.
+I hope there will be a chance to analyze about it.
+
 
