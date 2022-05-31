@@ -1,4 +1,4 @@
-This is Minjong-Ha's personal github page!!
+This is Minjong-Ha's personal github.io page
 ===========================================
 
 Nice to meet you!
@@ -6,7 +6,7 @@ Nice to meet you!
 
 # What I use to implement personal page?
 
-I use "github.io" as a server, and "jekyll" as a page constructor.
+I use "github.io" as a server(?), and "jekyll" as a page constructor.
 
 First, I organize default and base structures and posts on vanila jekyll, and then I import jekyll template I like.
 

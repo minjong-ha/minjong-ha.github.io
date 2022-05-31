@@ -11,14 +11,14 @@ date:   2022-04-27 09:00:00 +0900
 
 "A KAIST research team has developed hardware and software technology that ensures both data and execution persistence."
 
-This is very interesting research!
+This is very interesting research.
 At the time I graduated from the University with the research about the non-volatile memory, also called persistent memory, it was not a major trend in academia as far as I know.
 Compared to the costs and efforts of applying non-volatile memory from the volatile-memory, the performance improvement did not look attractive.
 Thus, the companies preferred to increase the memory physically, and the researchers start to study about the "CXL memory" instead.
 
-However, the researchers in CAMEL lab (KAIST) implement a integrated persistence centric system with the Intel OptaneDC Persistent Memory!
+However, I read the articles that the researchers in CAMEL lab (KAIST) implement a integrated persistence centric system with the Intel OptaneDC Persistent Memory.
 
 The paper, "LightPC: Hardware and Software Co-Design for Energy-Efficient Full System Persistence)", will be presented in ISCA'22 (International Symposium on Computer Architecture).
-As soon as the paper is announced, I will read and analyze the LightPC! and update this posts!
+As soon as the paper is announced, I will read and analyze about it and update this posts!
 
 ISCA'22 will be opened at June 18-22, 2022.

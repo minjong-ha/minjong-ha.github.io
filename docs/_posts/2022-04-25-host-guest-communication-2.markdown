@@ -12,6 +12,10 @@ Now, lets look around how Para-Virtualization (virtio) works and compare it to t
 Since we already understand the detail operations, comparison between the Full and Para Virtualization is much easier.
 
 ## Full-Virtualization
+
+<!-- require proper image-->
+<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/QEMU-KVM.png" | relative_url }}' alt='relative'>
+
 Assume that we try to send network packet inside the Guest.
 In the Guest, the application requests to the Guest's Kernel and hands over the data to make it as a packet and send.
 However, in Full-Virtualization, Guest does not know that the network device is a emulated, virtual device.
@@ -34,6 +38,10 @@ If we look at the result, data about the device in the guest area is only moved 
 
 
 ## Para-Vitualization
+
+<!-- require proper image-->
+<img data-action="zoom" src='{{ "../assets/images/2022-04-25-host-guest-communication/VIRTIO.png" | relative_url }}' alt='relative'>
+
 Not only the vmexits, user-kernel data copy is the huge overheads.
 It is because that the Guest does not know the device is a virtual, emulated device.
 Para-Virtualization (Virtio) presents virtualization-aware devices and dedicated drivers based on the virtio based communication.
@@ -45,9 +53,8 @@ Unlike the Full-Virtualization copies data from user to kernel and kernel to use
 The data itself is located in the virtqueue.
 The notification notices there is a data that Host or Guest should read, and it takes the data from the virtqueue.
 
-Still, virtio causes vmexit to context switch to the Host or Guest.
+Still, virtio causes vmexit to context switch to the Host from the Guest.
 However, it could reduces the copy overheads compared to the Full-Virtualization.
-
 
 
 ## Experiment
