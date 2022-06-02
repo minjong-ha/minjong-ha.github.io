@@ -1,0 +1,440 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Host-Guest Communication: Full vs Para Virtualization - 1 - Home</title>
+<meta name="description" content="About Host-Guest communication! Currently writing content….  In this post, I share my research and analysis about the data communication between the host and guest in case of the device request and focus on the differences in the full and para virtualized machine. I also explain about the vCPU as a background; what is the vCPU and how it works.  Introduction  A virtual machine in “Full-Virtualization” does not know that it is operating in a virtualized environment. On the other hand, a VM in “Para-Virtualization” knows that it is since the hypervisor who emulates the device notifies it. Since the VM already knows that the device is for the virtualization, it has different device request logic. The para virtualization reduces the data copy between the user and the kernel compared to full virtualization which is one of the most largest overhead in the Host-Guest communication  One of the most famous para-virtualization is “Virtio”. “Virtio” presents the devices and drivers specially dedicated for the virtualization. If the user specifies the virtio device to the hypervisor, VM tries to connect to the device with virtio driver. Since the virtio driver is installed in Linux as default, it can be activated through kernel config. However, in Windows, it is not included in the Windows kernel and the user should install virtio driver manually in the VM.  For example, you can configurate your disk device to the normal SATA emulation or the virtio device disk. In my personal experiments, virtio outperforms the SATA emulation approximately 30-50% in the sysbench - FIO test.  Background  ioctl()  The ioctl() system call manipulates the underlying device parameters of special files(reference). Usually, it is used to configurate and send requests to the device. For instance, user could configurate the printer device via ioctl(); such as what is the font it using and what is the size of the paper in the device. We can see the information about the ioctl()s that KVM supports in qemu/linux-headers/linux/kVM.h  vCPU()  QEMU-KVM hypervisor supports vCPU, executing the code in the guest directly on the physical CPU. When the QEMU-KVM hypervisor emulates the CPU for the VM, the emulated CPU is supported by vCPU in the KVM. When the vCPU enters to the GUEST_MODE, the guest can use it exclusively.  If there were no KVM support, which means in the QEMU only hypervisor, every guest code should be handled by the QEMU. QEMU translates the guest code to the suitable instructions for the physical CPUs in the host and the cost is tremendous. However ,thanks to vCPU, the QEMU-KVM hypervisor leaverages the overall performance of the VM.  Then how the VM requests and initializes vCPU from the host(KVM)? When the hypervisor starts to emulate virtual devices, it also emulates the virtual CPUs for the VM.  static const TypeInfo kvm_accel_ops_type = {   ...   .class_init = kvm_accel_ops_class_init,   ... }  static void kvm_accel_ops_class_init(ObjectClass *oc, void *data) {   AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);    **ops-&gt;create_vcpu_thread = kvm_start_vcpu_thread**   ... }   The above codes are in qemu/accel/kvm/kvm-accel-ops.c. The QEMU defines the kvm_accel_ops_type, and allocates the callback functions for the vCPU. Thus, when the QEMU tries to allocate vCPU, the kvm_start_vcpu_thread() funcion will be called.  static void x86_cpu_realizefn(DeviceState *dev, Error **errp) {   ...   CPUState *cs = CPU(dev);   x86CPU *cpu = X86_CPU(dev);   x86CPUClass *xcc = X86_CPU_GET_CLASS(Dev);   CPUX86State *env = &amp;cpu-&gt;env;   ...   **qemu_init_vcpu(cs);** }   void qemu_init_vcpu(CPUState *cpu) {   ... **cpus_accel-&gt;create_vcpu_thread(cpu);**   ... }   The above codes are in qemu/target/i386/cpu.c and qemu/softmmu/cpus.c. The hypervisor realize the virtual CPUs via x86_cpu_realizefn() and it calls qemu_init_vcpu(). In this function, it starts to create the threads for the vCPU.  static void kvm_start_vcpu_thread(CPUState *cpu) {   char thread_name[VCPU_THREAD_NAME_SIZE]; //#define VCPU_THREAD_NAME_SIZE 16    cpu-&gt;thread = g_malloc0(sizeof(QemuThread)); //alloc cpu thread memory   cpu-&gt;halt_cond = g_malloc0(sizeof(QemuCond));   ...   **qemu_thread_create(cpu-&gt;thread, thread_name, kvm_vcpu_thread_fn, cpu, QEMU_THREAD_JOINABLE);** }   void qemu_thread_create(QemuThread *thread, const char *name, void *(*start_routine)(void *), void *arg, int mode) {   ...   QemuThreadArgs *qemu_thread_args;   ...   qemu_thread_args = g_new0(QemuThreadsArgs, 1);   qemu_thread_args-&gt;name = g_strdup(name);   qemu_thread_args-&gt;start_routine = start_routine; //start_routine == kvm_vcpu_thread_fn   qemu_trehad_args-&gt;arg = arg    **err = pthread_create(&amp;thread-&gt;thread, &amp;attr, qemu_thread_start, qemu_thread_args);**   ... }  static void *qemu_thread_start(void *args) {   ...   void *(*start_routine)(void *) = qemu_thread_args-&gt;start_routine; //start_routine == kvm_vcpu_thread_fn   ...   pthread_cleanup_push(qemu_thread_atexit_notify, NULL);   **r = start_routine(arg);** //start_routine == **kvm_vcpu_thread_fn**   pthread_cleanup_pop(1);   ... }   The above codes are in qemu/accel/kvm/kvm_accel-ops.c and qemu/util/qemu-thread-posix.c Now, we can understand that the vCPU is the posix thread actually, and this thread runs kvm_vcpu_thread_fn() function.  Full-Virtualization  Para-Vitualization  Experiment  Conclusion  Notion Document: Full-Virtualization(QEMU-KVM) vs Para-Virtualization(Virtio)">
+
+
+  <meta name="author" content="Minjong Ha">
+  
+  <meta property="article:author" content="Minjong Ha">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Home">
+<meta property="og:title" content="Host-Guest Communication: Full vs Para Virtualization - 1">
+<meta property="og:url" content="http://localhost:4000/2022/04/25/host-guest-communication-1.html">
+
+
+  <meta property="og:description" content="About Host-Guest communication! Currently writing content….  In this post, I share my research and analysis about the data communication between the host and guest in case of the device request and focus on the differences in the full and para virtualized machine. I also explain about the vCPU as a background; what is the vCPU and how it works.  Introduction  A virtual machine in “Full-Virtualization” does not know that it is operating in a virtualized environment. On the other hand, a VM in “Para-Virtualization” knows that it is since the hypervisor who emulates the device notifies it. Since the VM already knows that the device is for the virtualization, it has different device request logic. The para virtualization reduces the data copy between the user and the kernel compared to full virtualization which is one of the most largest overhead in the Host-Guest communication  One of the most famous para-virtualization is “Virtio”. “Virtio” presents the devices and drivers specially dedicated for the virtualization. If the user specifies the virtio device to the hypervisor, VM tries to connect to the device with virtio driver. Since the virtio driver is installed in Linux as default, it can be activated through kernel config. However, in Windows, it is not included in the Windows kernel and the user should install virtio driver manually in the VM.  For example, you can configurate your disk device to the normal SATA emulation or the virtio device disk. In my personal experiments, virtio outperforms the SATA emulation approximately 30-50% in the sysbench - FIO test.  Background  ioctl()  The ioctl() system call manipulates the underlying device parameters of special files(reference). Usually, it is used to configurate and send requests to the device. For instance, user could configurate the printer device via ioctl(); such as what is the font it using and what is the size of the paper in the device. We can see the information about the ioctl()s that KVM supports in qemu/linux-headers/linux/kVM.h  vCPU()  QEMU-KVM hypervisor supports vCPU, executing the code in the guest directly on the physical CPU. When the QEMU-KVM hypervisor emulates the CPU for the VM, the emulated CPU is supported by vCPU in the KVM. When the vCPU enters to the GUEST_MODE, the guest can use it exclusively.  If there were no KVM support, which means in the QEMU only hypervisor, every guest code should be handled by the QEMU. QEMU translates the guest code to the suitable instructions for the physical CPUs in the host and the cost is tremendous. However ,thanks to vCPU, the QEMU-KVM hypervisor leaverages the overall performance of the VM.  Then how the VM requests and initializes vCPU from the host(KVM)? When the hypervisor starts to emulate virtual devices, it also emulates the virtual CPUs for the VM.  static const TypeInfo kvm_accel_ops_type = {   ...   .class_init = kvm_accel_ops_class_init,   ... }  static void kvm_accel_ops_class_init(ObjectClass *oc, void *data) {   AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);    **ops-&gt;create_vcpu_thread = kvm_start_vcpu_thread**   ... }   The above codes are in qemu/accel/kvm/kvm-accel-ops.c. The QEMU defines the kvm_accel_ops_type, and allocates the callback functions for the vCPU. Thus, when the QEMU tries to allocate vCPU, the kvm_start_vcpu_thread() funcion will be called.  static void x86_cpu_realizefn(DeviceState *dev, Error **errp) {   ...   CPUState *cs = CPU(dev);   x86CPU *cpu = X86_CPU(dev);   x86CPUClass *xcc = X86_CPU_GET_CLASS(Dev);   CPUX86State *env = &amp;cpu-&gt;env;   ...   **qemu_init_vcpu(cs);** }   void qemu_init_vcpu(CPUState *cpu) {   ... **cpus_accel-&gt;create_vcpu_thread(cpu);**   ... }   The above codes are in qemu/target/i386/cpu.c and qemu/softmmu/cpus.c. The hypervisor realize the virtual CPUs via x86_cpu_realizefn() and it calls qemu_init_vcpu(). In this function, it starts to create the threads for the vCPU.  static void kvm_start_vcpu_thread(CPUState *cpu) {   char thread_name[VCPU_THREAD_NAME_SIZE]; //#define VCPU_THREAD_NAME_SIZE 16    cpu-&gt;thread = g_malloc0(sizeof(QemuThread)); //alloc cpu thread memory   cpu-&gt;halt_cond = g_malloc0(sizeof(QemuCond));   ...   **qemu_thread_create(cpu-&gt;thread, thread_name, kvm_vcpu_thread_fn, cpu, QEMU_THREAD_JOINABLE);** }   void qemu_thread_create(QemuThread *thread, const char *name, void *(*start_routine)(void *), void *arg, int mode) {   ...   QemuThreadArgs *qemu_thread_args;   ...   qemu_thread_args = g_new0(QemuThreadsArgs, 1);   qemu_thread_args-&gt;name = g_strdup(name);   qemu_thread_args-&gt;start_routine = start_routine; //start_routine == kvm_vcpu_thread_fn   qemu_trehad_args-&gt;arg = arg    **err = pthread_create(&amp;thread-&gt;thread, &amp;attr, qemu_thread_start, qemu_thread_args);**   ... }  static void *qemu_thread_start(void *args) {   ...   void *(*start_routine)(void *) = qemu_thread_args-&gt;start_routine; //start_routine == kvm_vcpu_thread_fn   ...   pthread_cleanup_push(qemu_thread_atexit_notify, NULL);   **r = start_routine(arg);** //start_routine == **kvm_vcpu_thread_fn**   pthread_cleanup_pop(1);   ... }   The above codes are in qemu/accel/kvm/kvm_accel-ops.c and qemu/util/qemu-thread-posix.c Now, we can understand that the vCPU is the posix thread actually, and this thread runs kvm_vcpu_thread_fn() function.  Full-Virtualization  Para-Vitualization  Experiment  Conclusion  Notion Document: Full-Virtualization(QEMU-KVM) vs Para-Virtualization(Virtio)">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-04-25T17:13:43+09:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/2022/04/25/host-guest-communication-1.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Minjong Ha",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Home Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--posts">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Home
+          <span class="site-subtitle">24 Hours under Construction</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/contact/">Contact</a>
+            </li><li class="masthead__menu-item">
+              <a href="/archive/">Archive</a>
+            </li><li class="masthead__menu-item">
+              <a href="/category/">category</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="archive">
+    
+      <h1 id="page-title" class="page__title">Host-Guest Communication: Full vs Para Virtualization - 1</h1>
+    
+    <p>About Host-Guest communication!
+Currently writing content….</p>
+
+<p>In this post, I share my research and analysis about the data communication between the host and guest in case of the device request and focus on the differences in the full and para virtualized machine.
+I also explain about the vCPU as a background; what is the vCPU and how it works.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>A virtual machine in “Full-Virtualization” does not know that it is operating in a virtualized environment.
+On the other hand, a VM in “Para-Virtualization” knows that it is since the hypervisor who emulates the device notifies it.
+Since the VM already knows that the device is for the virtualization, it has different device request logic.
+The para virtualization reduces the data copy between the user and the kernel compared to full virtualization which is one of the most largest overhead in the Host-Guest communication</p>
+
+<p>One of the most famous para-virtualization is “Virtio”.
+“Virtio” presents the devices and drivers specially dedicated for the virtualization.
+If the user specifies the virtio device to the hypervisor, VM tries to connect to the device with virtio driver.
+Since the virtio driver is installed in Linux as default, it can be activated through kernel config.
+However, in Windows, it is not included in the Windows kernel and the user should install virtio driver manually in the VM.</p>
+
+<p>For example, you can configurate your disk device to the normal SATA emulation or the virtio device disk.
+In my personal experiments, virtio outperforms the SATA emulation approximately 30-50% in the sysbench - FIO test.</p>
+
+<h2 id="background">Background</h2>
+
+<h3 id="ioctl">ioctl()</h3>
+
+<p>The ioctl() system call manipulates the underlying device parameters of special files(<a href="https://man7.org/linux/man-pages/man2/ioctl.2.html">reference</a>).
+Usually, it is used to configurate and send requests to the device.
+For instance, user could configurate the printer device via ioctl(); such as what is the font it using and what is the size of the paper in the device.
+We can see the information about the ioctl()s that KVM supports in <strong>qemu/linux-headers/linux/kVM.h</strong></p>
+
+<h3 id="vcpu">vCPU()</h3>
+
+<p>QEMU-KVM hypervisor supports vCPU, executing the code in the guest directly on the physical CPU.
+When the QEMU-KVM hypervisor emulates the CPU for the VM, the emulated CPU is supported by vCPU in the KVM.
+When the vCPU enters to the GUEST_MODE, the guest can use it exclusively.
+<!-- Otherwise, it should runs operations that incur large overhead, such as code generation for instructions through the QEMU. -->
+If there were no KVM support, which means in the QEMU only hypervisor, every guest code should be handled by the QEMU.
+QEMU translates the guest code to the suitable instructions for the physical CPUs in the host and the cost is tremendous.
+However ,thanks to vCPU, the QEMU-KVM hypervisor leaverages the overall performance of the VM.</p>
+
+<p>Then how the VM requests and initializes vCPU from the host(KVM)?
+When the hypervisor starts to emulate virtual devices, it also emulates the virtual CPUs for the VM.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="k">const</span> <span class="n">TypeInfo</span> <span class="n">kvm_accel_ops_type</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="p">...</span>
+  <span class="p">.</span><span class="n">class_init</span> <span class="o">=</span> <span class="n">kvm_accel_ops_class_init</span><span class="p">,</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">kvm_accel_ops_class_init</span><span class="p">(</span><span class="n">ObjectClass</span> <span class="o">*</span><span class="n">oc</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">AccelOpsClass</span> <span class="o">*</span><span class="n">ops</span> <span class="o">=</span> <span class="n">ACCEL_OPS_CLASS</span><span class="p">(</span><span class="n">oc</span><span class="p">);</span>
+
+  <span class="o">**</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">create_vcpu_thread</span> <span class="o">=</span> <span class="n">kvm_start_vcpu_thread</span><span class="o">**</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The above codes are in qemu/accel/kvm/kvm-accel-ops.c.
+The QEMU defines the kvm_accel_ops_type, and allocates the callback functions for the vCPU.
+Thus, when the QEMU tries to allocate vCPU, the kvm_start_vcpu_thread() funcion will be called.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">void</span> <span class="nf">x86_cpu_realizefn</span><span class="p">(</span><span class="n">DeviceState</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span> <span class="n">Error</span> <span class="o">**</span><span class="n">errp</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">...</span>
+  <span class="n">CPUState</span> <span class="o">*</span><span class="n">cs</span> <span class="o">=</span> <span class="n">CPU</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+  <span class="n">x86CPU</span> <span class="o">*</span><span class="n">cpu</span> <span class="o">=</span> <span class="n">X86_CPU</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+  <span class="n">x86CPUClass</span> <span class="o">*</span><span class="n">xcc</span> <span class="o">=</span> <span class="n">X86_CPU_GET_CLASS</span><span class="p">(</span><span class="n">Dev</span><span class="p">);</span>
+  <span class="n">CPUX86State</span> <span class="o">*</span><span class="n">env</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">cpu</span><span class="o">-&gt;</span><span class="n">env</span><span class="p">;</span>
+  <span class="p">...</span>
+  <span class="o">**</span><span class="n">qemu_init_vcpu</span><span class="p">(</span><span class="n">cs</span><span class="p">);</span><span class="o">**</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">qemu_init_vcpu</span><span class="p">(</span><span class="n">CPUState</span> <span class="o">*</span><span class="n">cpu</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">...</span>
+<span class="o">**</span><span class="n">cpus_accel</span><span class="o">-&gt;</span><span class="n">create_vcpu_thread</span><span class="p">(</span><span class="n">cpu</span><span class="p">);</span><span class="o">**</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The above codes are in qemu/target/i386/cpu.c and qemu/softmmu/cpus.c.
+The hypervisor realize the virtual CPUs via x86_cpu_realizefn() and it calls qemu_init_vcpu().
+In this function, it starts to create the threads for the vCPU.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">void</span> <span class="nf">kvm_start_vcpu_thread</span><span class="p">(</span><span class="n">CPUState</span> <span class="o">*</span><span class="n">cpu</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">char</span> <span class="n">thread_name</span><span class="p">[</span><span class="n">VCPU_THREAD_NAME_SIZE</span><span class="p">];</span> <span class="c1">//#define VCPU_THREAD_NAME_SIZE 16</span>
+
+  <span class="n">cpu</span><span class="o">-&gt;</span><span class="kr">thread</span> <span class="o">=</span> <span class="n">g_malloc0</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">QemuThread</span><span class="p">));</span> <span class="c1">//alloc cpu thread memory</span>
+  <span class="n">cpu</span><span class="o">-&gt;</span><span class="n">halt_cond</span> <span class="o">=</span> <span class="n">g_malloc0</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">QemuCond</span><span class="p">));</span>
+  <span class="p">...</span>
+  <span class="o">**</span><span class="n">qemu_thread_create</span><span class="p">(</span><span class="n">cpu</span><span class="o">-&gt;</span><span class="kr">thread</span><span class="p">,</span> <span class="n">thread_name</span><span class="p">,</span> <span class="n">kvm_vcpu_thread_fn</span><span class="p">,</span> <span class="n">cpu</span><span class="p">,</span> <span class="n">QEMU_THREAD_JOINABLE</span><span class="p">);</span><span class="o">**</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">qemu_thread_create</span><span class="p">(</span><span class="n">QemuThread</span> <span class="o">*</span><span class="kr">thread</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">start_routine</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">),</span> <span class="kt">void</span> <span class="o">*</span><span class="n">arg</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mode</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">...</span>
+  <span class="n">QemuThreadArgs</span> <span class="o">*</span><span class="n">qemu_thread_args</span><span class="p">;</span>
+  <span class="p">...</span>
+  <span class="n">qemu_thread_args</span> <span class="o">=</span> <span class="n">g_new0</span><span class="p">(</span><span class="n">QemuThreadsArgs</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+  <span class="n">qemu_thread_args</span><span class="o">-&gt;</span><span class="n">name</span> <span class="o">=</span> <span class="n">g_strdup</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+  <span class="n">qemu_thread_args</span><span class="o">-&gt;</span><span class="n">start_routine</span> <span class="o">=</span> <span class="n">start_routine</span><span class="p">;</span> <span class="c1">//start_routine == kvm_vcpu_thread_fn</span>
+  <span class="n">qemu_trehad_args</span><span class="o">-&gt;</span><span class="n">arg</span> <span class="o">=</span> <span class="n">arg</span>
+
+  <span class="o">**</span><span class="n">err</span> <span class="o">=</span> <span class="n">pthread_create</span><span class="p">(</span><span class="o">&amp;</span><span class="kr">thread</span><span class="o">-&gt;</span><span class="kr">thread</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">attr</span><span class="p">,</span> <span class="n">qemu_thread_start</span><span class="p">,</span> <span class="n">qemu_thread_args</span><span class="p">);</span><span class="o">**</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="o">*</span><span class="nf">qemu_thread_start</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">...</span>
+  <span class="kt">void</span> <span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">start_routine</span><span class="p">)(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span> <span class="o">=</span> <span class="n">qemu_thread_args</span><span class="o">-&gt;</span><span class="n">start_routine</span><span class="p">;</span> <span class="c1">//start_routine == kvm_vcpu_thread_fn</span>
+  <span class="p">...</span>
+  <span class="n">pthread_cleanup_push</span><span class="p">(</span><span class="n">qemu_thread_atexit_notify</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+  <span class="o">**</span><span class="n">r</span> <span class="o">=</span> <span class="n">start_routine</span><span class="p">(</span><span class="n">arg</span><span class="p">);</span><span class="o">**</span> <span class="c1">//start_routine == **kvm_vcpu_thread_fn**</span>
+  <span class="n">pthread_cleanup_pop</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The above codes are in qemu/accel/kvm/kvm_accel-ops.c and qemu/util/qemu-thread-posix.c
+Now, we can understand that the vCPU is the posix thread actually, and this thread runs kvm_vcpu_thread_fn() function.</p>
+
+<h2 id="full-virtualization">Full-Virtualization</h2>
+
+<h2 id="para-vitualization">Para-Vitualization</h2>
+
+<h2 id="experiment">Experiment</h2>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p><a href="https://seen-fact-e72.notion.site/Full-Virtualization-vs-Para-Virtualization-cd4933792f6a4a2b871a385f58592955">Notion Document: Full-Virtualization(QEMU-KVM) vs Para-Virtualization(Virtio)</a></p>
+
+
+<ul class="taxonomy__index">
+  
+  
+    <li>
+      <a href="#2022">
+        <strong>2022</strong> <span class="taxonomy__count">3</span>
+      </a>
+    </li>
+  
+</ul>
+
+
+
+
+  <section id="2022" class="taxonomy__section">
+    <h2 class="archive__subtitle">2022</h2>
+    <div class="entries-list">
+      
+        
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2022/04/27/Lightweight_Persistence_Centric_System.html" rel="permalink">Lightweight Persistence Centric System
+</a>
+      
+    </h2>
+    
+
+
+    <p class="archive__item-excerpt" itemprop="description">Non-volatile computing demo (LightPC) English version
+
+LightPC Presents a Resilient System Using Only Non-Volatile Memory
+
+“A KAIST research team has develop...</p>
+  </article>
+</div>
+
+      
+        
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2022/04/25/host-guest-communication-1.html" rel="permalink">Host-Guest Communication: Full vs Para Virtualization - 1
+</a>
+      
+    </h2>
+    
+
+
+    <p class="archive__item-excerpt" itemprop="description">About Host-Guest communication!
+Currently writing content….
+
+In this post, I share my research and analysis about the data communication between the host and...</p>
+  </article>
+</div>
+
+      
+        
+
+
+
+<div class="list__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2022/01/14/welcome-to-jekyll.html" rel="permalink">Welcome to my personal blog with Jekyll!
+</a>
+      
+    </h2>
+    
+
+
+    <p class="archive__item-excerpt" itemprop="description">I published my first personal blog with Jekyll and github.io.
+I want to share my research topics and personal interestings as many as possible.
+
+In the case ...</p>
+  </article>
+</div>
+
+      
+    </div>
+    <a href="#page-title" class="back-to-top">Back to Top &uarr;</a>
+  </section>
+
+
+  </div>
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Minjong Ha. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+
+  </body>
+</html>
