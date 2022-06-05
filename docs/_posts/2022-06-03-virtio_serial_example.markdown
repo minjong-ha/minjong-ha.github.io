@@ -11,5 +11,6 @@ date:   2022-06-03 16:13:43 +0900
 # Linux Host socket connection with QEMU
 
 # Windows Guest port connection with WIN32 API
+<!-- with characteristics compare with orninary port in WIN32 API -->
 
 
