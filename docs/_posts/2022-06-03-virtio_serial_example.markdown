@@ -10,7 +10,14 @@ date:   2022-06-03 16:13:43 +0900
 <!-- What is the virtio-serial?-->
 Virtio presents the communication channels between the Host and Guest.
 Host and Guest share the memory space and send notification to each others to notify that there are the data that the Host or Guest should read.
+For example, if the Host tries to send some data to the Guest, it writes the data it want to send in the virtqueue (v-ring) located in the shared memory and gives a notification to the Guest through the KVM.
+The Guest's virtio driver now knows that there are data it should read.
+In this operations, virtio provides the communication API using the virtqueue.
+Since the Host and Guest both require communication handler, they should install the virtio-aware driver based on the virtio APIs.
 
+Implementing drivers for both Host and Guest is the time consuming works.
+Fortunately, Virtio also presents the ready-to-use drivers for the various purposes: virtio-blk, virtio-pci, virtio-serial, and etc.
+In this post, I will explain about the virtio-serial drivers.
 
 # Linux Host socket connection with QEMU
 
