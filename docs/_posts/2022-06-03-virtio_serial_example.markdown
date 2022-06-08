@@ -20,8 +20,12 @@ Fortunately, Virtio also presents the ready-to-use drivers for the various purpo
 In this post, I will explain about the virtio-serial drivers.
 
 # Linux Host socket connection with QEMU
+In the Linux Host, QEMU presents a socket for a channel to communicate with the Guest.
 
 # Windows Guest port connection with WIN32 API
+In the Windows Guest, QEMU presents a port for a channel to communicate with the Guest.
+In fact, QEMU also provides a port for a channel in the Linux Guest either.
+However, in this post, I only explain about the Windows Guest since there are many references for the Linux Guest.
 <!-- with characteristics compare with orninary port in WIN32 API -->
 
 
