@@ -215,7 +215,7 @@ The KVM returns the result of the kvm_vcpu_ioctl() when the VM_EXIT happens.
 The VM_EXIT makes the CPU to escape from the GUEST_MODE and returns it to the so called HOST_MODE; If the CPU is in the Intel architecture, they are called non-root mode (GUEST_MODE), and root mode (HOST_MODE).
 Usually, there are two reasons what trigger the VM_EXIT: to handle the request that cannot be done in the GUEST_MODE, and the timer expire.
 For better understanding, assumes that there is a machine having only one physical CPU, and it tries to run the VM with QEMU-KVM hypervisor.
-First I will explain is the timer reason VM_EXIT.
+First I will explain about the timer reasoned VM_EXIT.
 Since the machine has only one physical CPU, it cannot proceed any host's task if the CPU is in the GUEST_MODE.
 The CPU in the GUEST_MODE is only for the virtualized system. 
 Thus, without the periodical VM_EXIT, the machine could not comeback from the GUEST_MODE and every host's tasks wait over and over.
