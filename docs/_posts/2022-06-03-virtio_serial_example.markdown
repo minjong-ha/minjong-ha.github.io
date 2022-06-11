@@ -19,13 +19,28 @@ Implementing drivers for both Host and Guest is the time consuming works.
 Fortunately, Virtio also presents the ready-to-use drivers for the various purposes: virtio-blk, virtio-pci, virtio-serial, and etc.
 In this post, I will explain about the virtio-serial drivers.
 
-# libvirt domain xml virtio-serial channel
+# Preparation
+
 ```xml
 <channel type='unix'>
   <source mode='bind' path='/var/lib/libvirt/qemu/f16x86_64.agent'/>
   <target type='virtio' name='org.qemu.guest_agent.0'/>
 </channel>
 ```
+
+There are two steps for using virtio-serial: Install virtio-serial driver, and specify virtio-serial channel in the libvirt domain xml.
+Unlike the virtio-serial driver is already installed in the Linux as a kernel configuration, Windows does not support virtio frontend drivers in the initial state.
+The user should install the virtio drivers in manually at [here](https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md)
+Also, the user should notifies that the vm has virtio devices to the hypervisor.
+Since I manage the VMs in my machine through libvirt, I explain how to add the virtio device on the hypervisor based on it.
+Above xml codes represents the example of qemu-guest-agent specification, which is the one of the virtio-serial based guest agent.
+(oVirt guest agent also uses virtio-serial channel for communication)
+
+In the xml codes, we can see the two components: source and target.
+'source' represents the socket information on the Linux Host.
+Application in the Host can connect to the socket in the 'source' and works as a client.
+'target' represents the name of port in the Windows Guest.
+I will explain details about it through the last sections.
 
 
 # Linux Host socket connection with QEMU
