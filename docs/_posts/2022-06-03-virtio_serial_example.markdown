@@ -46,6 +46,7 @@ I will explain details about it through the last sections.
 # Linux Host socket connection with QEMU
 In the Linux Host, QEMU presents a socket for a channel to communicate with the Guest.
 QEMU hypervisor performs a role as a server, and a process which tries to connect to the socket is a client.
+Since the QEMU only accept one client, it is impossible connecting multiple processes to the socket unless modifies the source codes of QEMU (It is not sure because I did not try it).
 
 # Windows Guest port connection with WIN32 API
 In the Windows Guest, QEMU presents a port for a channel to communicate with the Guest.
