@@ -47,11 +47,20 @@ I will explain details about it through the last sections.
 In the Linux Host, QEMU presents a socket for a channel to communicate with the Guest.
 QEMU hypervisor performs a role as a server, and a process which tries to connect to the socket is a client.
 Since the QEMU only accept one client, it is impossible connecting multiple processes to the socket unless modifies the source codes of QEMU (It is not sure because I did not try it).
+You can use the socket through the Linux socket API (open, connect, listen , receive, send, and etcs).
+
 
 # Windows Guest port connection with WIN32 API
 In the Windows Guest, QEMU presents a port for a channel to communicate with the Guest.
 In fact, QEMU also provides a port for a channel in the Linux Guest either.
 However, in this post, I only explain about the Windows Guest since there are many references for the Linux Guest.
+
+You can use the virtio-serial port in Windows Guest through the WIN32 API such as CreateFile, ReadFile, WriteFile and etcs.
+However, there are unique characteristics (or restrictions) for virtio-serial port.
+In my experience, it is impossible to use SetCommMask(), WaitForEvent().
+It means that I can't implement event-driven port communication with virtio-serial.
+I do not know why it is not unable.
+
 <!-- with characteristics compare with orninary port in WIN32 API -->
 
 
