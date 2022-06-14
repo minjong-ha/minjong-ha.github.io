@@ -16,7 +16,7 @@ In this operations, virtio provides the communication API using the virtqueue.
 Since the Host and Guest both require communication handler, they should install the virtio-aware driver based on the virtio APIs.
 
 Implementing drivers for both Host and Guest is the time consuming works.
-Fortunately, Virtio also presents the ready-to-use drivers for the various purposes: virtio-blk, virtio-pci, virtio-serial, and etc.
+Fortunately, Virtio also presents the ready-to-use drivers for the various purposes: virtio-blk, virtio-pci, virtio-serial, and etcs.
 In this post, I will explain about the virtio-serial drivers.
 
 # Preparation
@@ -58,8 +58,8 @@ However, in this post, I only explain about the Windows Guest since there are ma
 You can use the virtio-serial port in Windows Guest through the WIN32 API such as CreateFile, ReadFile, WriteFile and etcs.
 However, there are unique characteristics (or restrictions) for virtio-serial port.
 In my experience, it is impossible to use SetCommMask(), WaitForEvent().
-It means that I can't implement event-driven port communication with virtio-serial.
-I do not know why it is not unable.
+It means that I can't implement event-driven port communication with virtio-serial and configurate timeout.
+I do not know why it is not enable.
 
 <!-- with characteristics compare with orninary port in WIN32 API -->
 
