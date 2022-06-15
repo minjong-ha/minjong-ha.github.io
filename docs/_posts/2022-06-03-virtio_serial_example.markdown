@@ -59,7 +59,8 @@ You can use the virtio-serial port in Windows Guest through the WIN32 API such a
 However, there are unique characteristics (or restrictions) for virtio-serial port.
 In my experience, it is impossible to use SetCommMask(), WaitForEvent().
 It means that I can't implement event-driven port communication with virtio-serial and configurate timeout.
-I do not know why it is not enable.
+I do not know why it is not enable (there is no official document or reference for it).
+However, since there are some mentions about these problems in different situation, I assume that the driver does not support full WIN32 API.
 
 <!-- with characteristics compare with orninary port in WIN32 API -->
 
