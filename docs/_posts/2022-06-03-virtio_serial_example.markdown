@@ -65,3 +65,8 @@ However, since there are some mentions about these problems in different situati
 <!-- with characteristics compare with orninary port in WIN32 API -->
 
 
+# Example
+Below codes and images represent a simple example using virtio-serial port in the Windows Guest.
+Unlike the qemu-guest-agent or oVirt-guest-agent work as host-driven services, I implemented it as a guest-driven agent, which means the Guest requests or sends commands to the Host.
+
+<!-- add example codes and explanation-->
