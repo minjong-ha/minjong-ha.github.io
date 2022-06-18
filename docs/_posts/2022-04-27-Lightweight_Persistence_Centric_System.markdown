@@ -22,3 +22,5 @@ The paper, "LightPC: Hardware and Software Co-Design for Energy-Efficient Full S
 As soon as the paper is announced, I will read and analyze about it and update this posts!
 
 ISCA'22 will be opened at June 18-22, 2022.
+
+[PDF](https://dl.acm.org/doi/pdf/10.1145/3470496.3527397)
