@@ -70,3 +70,5 @@ Below codes and images represent a simple example using virtio-serial port in th
 Unlike the qemu-guest-agent or oVirt-guest-agent work as host-driven services, I implemented it as a guest-driven agent, which means the Guest requests or sends commands to the Host.
 
 <!-- add example codes and explanation-->
+In the host, as I mentioned in previous section, the 3rd party process can connect to the bind socket as a client.
+The path of the socket is defined in the libvirt xml (at least in my working environment).
