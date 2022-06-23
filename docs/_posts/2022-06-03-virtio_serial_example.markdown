@@ -72,3 +72,13 @@ Unlike the qemu-guest-agent or oVirt-guest-agent work as host-driven services, I
 <!-- add example codes and explanation-->
 In the host, as I mentioned in previous section, the 3rd party process can connect to the bind socket as a client.
 The path of the socket is defined in the libvirt xml (at least in my working environment).
+You can use ordinary socket API: open, close, read, write.
+However, it is impossible to connect multiple clients at the same time.
+In my analysis, QEMU only presents a single connection bind.
+
+In the guest, the communication channel is presented as a form of serial-port.
+Unlike the normal serial-port is in the serial-port section as a COM in the device manager, virtio-serial port is in the hidden device - other device section.
+In the above xml, Preparation section, I explained that the name in the target represents the name of the port inside the guest.
+However, that name never appears inside the guest on the UI.
+It only appears as a vport0n format no matter how many virtio-serial channel exists.
+
