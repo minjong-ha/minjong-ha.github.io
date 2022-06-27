@@ -34,7 +34,7 @@ It looks attractive to managing the image versions as a template.
 
 # oVirt: Architecture
 I deployed a CentOS 7 as a hosted engine, and three oVirt-nodes (4.3) as host and storage domains.
-Also, to manage FQDNs for each nodes, I implemented docker-dnsmasq in additional machine as an internal DNS server.
+Also, to manage FQDNs for each nodes, I implemented docker-dnsmasq on the another machine as an internal DNS server.
 
 # Deployment
 
