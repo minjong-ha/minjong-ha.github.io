@@ -37,6 +37,7 @@ I deployed a CentOS 7 as a hosted engine, and three oVirt-nodes (4.3) as host an
 Also, to manage FQDNs for each nodes, I implemented docker-dnsmasq on the another machine as an internal DNS server.
 
 # Deployment
+<!--- need image to describe the architecture --->
 
 # Result
 
