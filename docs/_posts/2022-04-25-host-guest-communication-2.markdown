@@ -2,7 +2,7 @@
 layout: posts
 title:  "Host-Guest Communication: Full vs Para Virtualization - 2"
 author: Minjong Ha
-published: false
+published: true
 date:   2022-04-25 19:13:43 +0900
 ---
 
@@ -57,7 +57,9 @@ Still, virtio causes vmexit to context switch to the Host from the Guest.
 However, it could reduces the copy overheads compared to the Full-Virtualization.
 
 
+<!---
 ## Experiment
+--->
 
 ## Conclusion
 
