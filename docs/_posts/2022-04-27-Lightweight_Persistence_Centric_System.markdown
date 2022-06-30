@@ -2,6 +2,7 @@
 layout: posts
 title:  "Lightweight Persistence Centric System"
 author: Minjong Ha
+published: false
 date:   2022-04-27 09:00:00 +0900
 ---
 
