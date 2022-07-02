@@ -28,4 +28,12 @@ ISCA'22 will be opened at June 18-22, 2022.
 
 # 1. Abstract
 
+The following summarizes represent the contributions of the paper
+
+### 1. Open-Channel architecture for PMEM
+
+### 2. Transparent full persistence mechanism
+
+### 3. Practical non-volatile computing and prototypes
+
 [PDF](https://dl.acm.org/doi/pdf/10.1145/3470496.3527397)
