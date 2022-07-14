@@ -70,11 +70,36 @@ Below codes and images represent a simple example using virtio-serial port in th
 Unlike the qemu-guest-agent or oVirt-guest-agent work as host-driven services, I implemented it as a guest-driven agent, which means the Guest requests or sends commands to the Host.
 
 <!-- add example codes and explanation-->
+```Python 3
+ def open_all_sock(self):
+        g2h_path = Xml().get_sock_path(self.__dom)
+
+        if self.g2h_sock == None:
+            self.g2h_sock = self.__open_sock(g2h_path)
+
+```
 In the host, as I mentioned in previous section, the 3rd party process can connect to the bind socket as a client.
 The path of the socket is defined in the libvirt xml (at least in my working environment).
 You can use ordinary socket API: open, close, read, write.
 However, it is impossible to connect multiple clients at the same time.
 In my analysis, QEMU only presents a single connection bind.
+
+```Python 3
+ def __open_port(self, path):
+        try:
+            port = win32file.CreateFile(path, win32con.GENERIC_READ | win32con.GENERIC_WRITE,
+                                        0,#win32con.FILE_SHARE_READ | win32con.FILE_SHARE_WRITE,
+                                        win32security.SECURITY_ATTRIBUTES(),
+                                        win32con.OPEN_EXISTING,
+                                        win32con.FILE_FLAG_OVERLAPPED,
+                                        0)
+            return port
+
+        except:
+            error = windll.kernel32.GetLastError()
+            _logger.debug("fail to open port. GetLastError: %d" % error)
+            return None
+```
 
 In the guest, the communication channel is presented as a form of serial-port.
 Unlike the normal serial-port is in the serial-port section as a COM in the device manager, virtio-serial port is in the hidden device - other device section.
