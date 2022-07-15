@@ -70,6 +70,8 @@ Below codes and images represent a simple example using virtio-serial port in th
 Unlike the qemu-guest-agent or oVirt-guest-agent work as host-driven services, I implemented it as a guest-driven agent, which means the Guest requests or sends commands to the Host.
 
 <!-- add example codes and explanation-->
+## Open the Socket and Serial-Port
+<!-- host -->
 ```Python 3
  def open_all_sock(self):
         g2h_path = Xml().get_sock_path(self.__dom)
@@ -84,6 +86,7 @@ You can use ordinary socket API: open, close, read, write.
 However, it is impossible to connect multiple clients at the same time.
 In my analysis, QEMU only presents a single connection bind.
 
+<!-- guest -->
 ```Python 3
  def __open_port(self, path):
         try:
@@ -106,4 +109,59 @@ Unlike the normal serial-port is in the serial-port section as a COM in the devi
 In the above xml, Preparation section, I explained that the name in the target represents the name of the port inside the guest.
 However, that name never appears inside the guest on the UI.
 It only appears as a vport0n format no matter how many virtio-serial channel exists.
+
+## send/recv and write/read
+<!-- host -->
+``` Python 3
+  def __send_to(self, sock, msg):
+        sock.send(msg.encode('utf-8'))
+
+    def __recv_from(self, sock):
+        recv_data = sock.recv(BUF_LEN).decode('utf-8')
+        return recv_data
+```
+
+<!-- guest -->
+``` Python 3
+def __send_to(self, port, ovrlpd, msg):
+        ret, nr_written = win32file.WriteFile(port, msg, ovrlpd)
+        if ret == 997: #ERROR_IO_PENDING
+            _logger.debug("I/O Pending ERROR in __send_to() is normal return. Continue")
+        else:
+            _logger.debug("Fail to WriteFile() with Error: %d" % ret)
+            _logger.debug("WriteFile() can return 0 and ERROR_IO_PENDING")
+            return False
+
+        win32event.WaitForSingleObject(ovrlpd.hEvent, TIMEOUT) #(hHANDLE, milliseconds)
+
+        try:
+            win32file.GetOverlappedResult(port, ovrlpd, False)
+        except:
+            return False
+
+        return True
+
+
+    def __recv_from(self, port, ovrlpd):
+        ret, buf = win32file.ReadFile(port, win32file.AllocateReadBuffer(BUF_LEN), ovrlpd)
+        if ret == 997: #ERROR_IO_PENDING
+            _logger.debug("I/O Pending ERROR in __recv_from() is normal return. continue")
+        else:
+            _logger.debug("Fail to ReadFile() Error: %d" % ret)
+            _logger.debug("ReadFile() can return 0, ERROR_MORE_DATA or ERROR_IO_PENDING")
+
+        win32event.WaitForSingleObject(ovrlpd.hEvent, TIMEOUT) #(hHANDLE, milliseconds)
+        try:
+            nr = win32file.GetOverlappedResult(port, ovrlpd, False)
+        except:
+            _logger.debug("Timeout for the __recv_from(). Timeout: %d msec" % TIMEOUT)
+            return False
+
+        buf = buf.tobytes()
+        buf = buf[:nr]
+        buf = buf.decode('utf-8')
+
+        return buf
+
+```
 
