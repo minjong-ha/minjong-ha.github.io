@@ -121,6 +121,9 @@ It only appears as a vport0n format no matter how many virtio-serial channel exi
         return recv_data
 ```
 
+If you want to send the data in the Host (Linux), it is much easier than Guest (Windows).
+you can simply send the data using standard socket API in Linux: send and recv.
+
 <!-- guest -->
 ``` Python 3
 def __send_to(self, port, ovrlpd, msg):
@@ -162,6 +165,14 @@ def __send_to(self, port, ovrlpd, msg):
         buf = buf.decode('utf-8')
 
         return buf
-
 ```
+
+Unlike the Linux, WIN32 API is a little more tricky to use.
+First, since the data came from the host are bytes, it requires to decode.
+Second, since the virtio-serial port does not support WIN32 API perfectly, implementing timeout read and write operations requires additional steps.
+For some unknown reason, setup the timeout configuration for synchronous ReadFile() and WriteFile() always fails with ERR 1 (invalid function).
+So I used asynchronous (overlapped) WriteFile() and ReadFile() to configurate the timeout.
+It immediately wait for ReadFile() or WriteFile() is in complete and proceed the remaining tasks.
+I am not sure why the virtio does not support WIN32 API perfectly, however, there are some hints that the reason ERR 1 happen is usually the problem of the device itself.
+In this case, virtio-serial device itself seems like does not support the functions.
 
