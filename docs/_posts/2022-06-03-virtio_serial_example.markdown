@@ -2,7 +2,7 @@
 layout: posts
 title:  "virtio-serial Linux Host - Windows Guest"
 author: Minjong Ha
-published: false
+published: true
 date:   2022-06-03 16:13:43 +0900
 ---
 
@@ -109,6 +109,8 @@ Unlike the normal serial-port is in the serial-port section as a COM in the devi
 In the above xml, Preparation section, I explained that the name in the target represents the name of the port inside the guest.
 However, that name never appears inside the guest on the UI.
 It only appears as a vport0n format no matter how many virtio-serial channel exists.
+
+To connect the serial-port, you have to use the WIN32 API.
 
 ## send/recv and write/read
 <!-- host -->
