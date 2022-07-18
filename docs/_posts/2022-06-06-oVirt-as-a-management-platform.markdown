@@ -41,3 +41,6 @@ Also, to manage FQDNs for each nodes, I implemented docker-dnsmasq on the anothe
 
 # Result
 
+# Appendix
+## oVirt template image download in the CLI with REST API
+
