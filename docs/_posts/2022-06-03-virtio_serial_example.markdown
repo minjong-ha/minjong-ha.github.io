@@ -6,7 +6,7 @@ published: true
 date:   2022-06-03 16:13:43 +0900
 ---
 
-# Virtio-Serial Appeareance in Linux Host and Windows Guest
+## Virtio-Serial Appeareance in Linux Host and Windows Guest
 <!-- What is the virtio-serial?-->
 Virtio presents the communication channels between the Host and Guest.
 Host and Guest share the memory space and send notification to each others to notify that there are the data that the Host or Guest should read.
@@ -19,7 +19,7 @@ Implementing drivers for both Host and Guest is the time consuming works.
 Fortunately, Virtio also presents the ready-to-use drivers for the various purposes: virtio-blk, virtio-pci, virtio-serial, and etcs.
 In this post, I will explain about the virtio-serial drivers.
 
-# Preparation
+## Preparation
 
 ```xml
 <channel type='unix'>
@@ -43,14 +43,14 @@ Application in the Host can connect to the socket in the 'source' and works as a
 I will explain details about it through the last sections.
 
 
-# Linux Host socket connection with QEMU
+## Linux Host socket connection with QEMU
 In the Linux Host, QEMU presents a socket for a channel to communicate with the Guest.
 QEMU hypervisor performs a role as a server, and a process which tries to connect to the socket is a client.
 Since the QEMU only accept one client, it is impossible connecting multiple processes to the socket unless modifies the source codes of QEMU (It is not sure because I did not try it).
 You can use the socket through the Linux socket API (open, connect, listen , receive, send, and etcs).
 
 
-# Windows Guest port connection with WIN32 API
+## Windows Guest port connection with WIN32 API
 In the Windows Guest, QEMU presents a port for a channel to communicate with the Guest.
 In fact, QEMU also provides a port for a channel in the Linux Guest either.
 However, in this post, I only explain about the Windows Guest since there are many references for the Linux Guest.
@@ -65,12 +65,12 @@ However, since there are some mentions about these problems in different situati
 <!-- with characteristics compare with orninary port in WIN32 API -->
 
 
-# Example
+## Example
 Below codes and images represent a simple example using virtio-serial port in the Windows Guest.
 Unlike the qemu-guest-agent or oVirt-guest-agent work as host-driven services, I implemented it as a guest-driven agent, which means the Guest requests or sends commands to the Host.
 
 <!-- add example codes and explanation-->
-## Open the Socket and Serial-Port
+### Open the Socket and Serial-Port
 
 <!-- host -->
 ```python
@@ -113,7 +113,7 @@ It only appears as a vport0n format no matter how many virtio-serial channel exi
 
 To connect the serial-port, you have to use the WIN32 API.
 
-## send/recv and write/read
+### send/recv and write/read
 <!-- host -->
 ```python
   def __send_to(self, sock, msg):
