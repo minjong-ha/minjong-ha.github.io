@@ -73,7 +73,7 @@ Unlike the qemu-guest-agent or oVirt-guest-agent work as host-driven services, I
 ## Open the Socket and Serial-Port
 
 <!-- host -->
-```
+```python
  def open_all_sock(self):
         g2h_path = Xml().get_sock_path(self.__dom)
 
@@ -88,7 +88,7 @@ However, it is impossible to connect multiple clients at the same time.
 In my analysis, QEMU only presents a single connection bind.
 
 <!-- guest -->
-```
+```python
  def __open_port(self, path):
         try:
             port = win32file.CreateFile(path, win32con.GENERIC_READ | win32con.GENERIC_WRITE,
@@ -115,7 +115,7 @@ To connect the serial-port, you have to use the WIN32 API.
 
 ## send/recv and write/read
 <!-- host -->
-```
+```python
   def __send_to(self, sock, msg):
         sock.send(msg.encode('utf-8'))
 
@@ -128,7 +128,7 @@ If you want to send the data in the Host (Linux), it is much easier than Guest (
 you can simply send the data using standard socket API in Linux: send and recv.
 
 <!-- guest -->
-``` 
+```python
 def __send_to(self, port, ovrlpd, msg):
         ret, nr_written = win32file.WriteFile(port, msg, ovrlpd)
         if ret == 997: #ERROR_IO_PENDING
