@@ -1,6 +1,6 @@
 ---
 layout: posts
-title:  "virtio-serial Linux Host - Windows Guest"
+title:  "Virtio-serial Linux Host - Windows Guest"
 author: Minjong Ha
 published: true
 date:   2022-06-03 16:13:43 +0900
@@ -74,14 +74,14 @@ Unlike the qemu-guest-agent or oVirt-guest-agent work as host-driven services, I
 
 <!-- host -->
 ```python
- def open_all_sock(self):
+	def open_all_sock(self):
         g2h_path = Xml().get_sock_path(self.__dom)
 
         if self.g2h_sock == None:
             self.g2h_sock = self.__open_sock(g2h_path)
 
 ```
-In the host, as I mentioned in previous section, the 3rd party process can connect to the bind socket as a client.
+In the host, as I mentioned in previous section, the third-party process can connect to the bind socket as a client.
 The path of the socket is defined in the libvirt xml (at least in my working environment).
 You can use ordinary socket API: open, close, read, write.
 However, it is impossible to connect multiple clients at the same time.
@@ -89,7 +89,7 @@ In my analysis, QEMU only presents a single connection bind.
 
 <!-- guest -->
 ```python
- def __open_port(self, path):
+	def __open_port(self, path):
         try:
             port = win32file.CreateFile(path, win32con.GENERIC_READ | win32con.GENERIC_WRITE,
                                         0,#win32con.FILE_SHARE_READ | win32con.FILE_SHARE_WRITE,
@@ -116,7 +116,7 @@ To connect the serial-port, you have to use the WIN32 API.
 ### send/recv and write/read
 <!-- host -->
 ```python
-  def __send_to(self, sock, msg):
+	def __send_to(self, sock, msg):
         sock.send(msg.encode('utf-8'))
 
     def __recv_from(self, sock):
@@ -129,7 +129,7 @@ you can simply send the data using standard socket API in Linux: send and recv.
 
 <!-- guest -->
 ```python
-def __send_to(self, port, ovrlpd, msg):
+	def __send_to(self, port, ovrlpd, msg):
         ret, nr_written = win32file.WriteFile(port, msg, ovrlpd)
         if ret == 997: #ERROR_IO_PENDING
             _logger.debug("I/O Pending ERROR in __send_to() is normal return. Continue")
@@ -173,9 +173,9 @@ def __send_to(self, port, ovrlpd, msg):
 Unlike the Linux, WIN32 API is a little more tricky to use.
 First, since the data came from the host are bytes, it requires to decode.
 Second, since the virtio-serial port does not support WIN32 API perfectly, implementing timeout read and write operations requires additional steps.
-For some unknown reason, setup the timeout configuration for synchronous ReadFile() and WriteFile() always fails with ERR 1 (invalid function).
+For some unknown reason, setting up the timeout configuration for synchronous ReadFile() and WriteFile() always fails with ERR 1 (reason: invalid function).
 So I used asynchronous (overlapped) WriteFile() and ReadFile() to configurate the timeout.
 It immediately wait for ReadFile() or WriteFile() is in complete and proceed the remaining tasks.
 I am not sure why the virtio does not support WIN32 API perfectly, however, there are some hints that the reason ERR 1 happen is usually the problem of the device itself.
-In this case, virtio-serial device itself seems like does not support the functions.
+In this case, virtio-serial device itself seems like not support the functions.
 
