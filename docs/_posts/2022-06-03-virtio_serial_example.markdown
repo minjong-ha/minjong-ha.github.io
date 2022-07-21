@@ -178,4 +178,5 @@ So I used asynchronous (overlapped) WriteFile() and ReadFile() to configurate th
 It immediately wait for ReadFile() or WriteFile() is in complete and proceed the remaining tasks.
 I am not sure why the virtio does not support WIN32 API perfectly, however, there are some hints that the reason ERR 1 happen is usually the problem of the device itself.
 In this case, virtio-serial device itself seems like not support the functions.
+(It is not because I use Python intead C. Even in C, it shows same results)
 
