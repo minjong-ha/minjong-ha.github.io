@@ -1,6 +1,6 @@
 ---
 layout: posts
-title:  "Virtio-serial Linux Host - Windows Guest"
+title:  "Virtio-serial Communication:  Linux Host - Windows Guest"
 author: Minjong Ha
 published: true
 date:   2022-06-03 16:13:43 +0900
