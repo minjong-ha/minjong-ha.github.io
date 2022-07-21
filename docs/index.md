@@ -7,7 +7,7 @@ title: About me
 ---
 
 ## Experience
-  * __2022.01 - Present : Researcher / TmaxOS__
+  * __2022.01 - Present : Research & Develop / TmaxOS__
      - Research and develop 'TmaxGooroom SD' based on Gooroom platform
 	    - Improve and optimize VM performance with the para-virtualization
 		- Research and implement Host-Guest communication
