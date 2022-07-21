@@ -6,9 +6,6 @@ published: true
 date:   2022-04-25 17:13:43 +0900
 ---
 
-About Host-Guest communication!
-Currently writing content....
-
 In this post, I share my research and analysis about the data communication between the host and guest in case of the device request and focus on the differences in the full and para virtualized machine.
 I also explain about the vCPU as a background; what is the vCPU and how it works.
 
