@@ -19,6 +19,13 @@ Implementing drivers for both Host and Guest is the time consuming works.
 Fortunately, Virtio also presents the ready-to-use drivers for the various purposes: virtio-blk, virtio-pci, virtio-serial, and etcs.
 In this post, I will explain about the virtio-serial drivers.
 
+<img data-action="zoom" src='{{ "../assets/images/2022-06-03-virtio_serial_example/Guest-VM-Agent.png" | relative_url }}' alt='relative'>
+
+Above image represents the overall architecture of communication with virtio-serial.
+Virtio serial front-end driver and back-end driver perform the communication between the Host and Guest.
+Host (Linux) communicates the QEMU with socket and it uses Linux socket API.
+Guest (Windows) communicates the QEMU with serial-port and it uses the WIN32 API.
+
 ## Preparation
 
 ```xml
@@ -74,7 +81,7 @@ Unlike the qemu-guest-agent or oVirt-guest-agent work as host-driven services, I
 
 <!-- host -->
 ```python
-	def open_all_sock(self):
+    def open_all_sock(self):
         g2h_path = Xml().get_sock_path(self.__dom)
 
         if self.g2h_sock == None:
@@ -89,7 +96,7 @@ In my analysis, QEMU only presents a single connection bind.
 
 <!-- guest -->
 ```python
-	def __open_port(self, path):
+    def __open_port(self, path):
         try:
             port = win32file.CreateFile(path, win32con.GENERIC_READ | win32con.GENERIC_WRITE,
                                         0,#win32con.FILE_SHARE_READ | win32con.FILE_SHARE_WRITE,
@@ -116,7 +123,7 @@ To connect the serial-port, you have to use the WIN32 API.
 ### send/recv and write/read
 <!-- host -->
 ```python
-	def __send_to(self, sock, msg):
+    def __send_to(self, sock, msg):
         sock.send(msg.encode('utf-8'))
 
     def __recv_from(self, sock):
@@ -129,7 +136,7 @@ you can simply send the data using standard socket API in Linux: send and recv.
 
 <!-- guest -->
 ```python
-	def __send_to(self, port, ovrlpd, msg):
+    def __send_to(self, port, ovrlpd, msg):
         ret, nr_written = win32file.WriteFile(port, msg, ovrlpd)
         if ret == 997: #ERROR_IO_PENDING
             _logger.debug("I/O Pending ERROR in __send_to() is normal return. Continue")
