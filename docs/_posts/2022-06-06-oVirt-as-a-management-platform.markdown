@@ -2,7 +2,7 @@
 layout: posts
 title:  "Deploy oVirt as a VM Image Management Platform"
 author: Minjong Ha
-published: false
+published: true
 date:   2022-06-16 10:48:00 +0900
 ---
 
@@ -123,6 +123,7 @@ iptables -I INPUT -p all -s 192.168.103.84 -j ACCEPT
 ```
 
 2. Configure known_host
+
 * Configurate in 83, which is the main glusterfs server
 ```bash
 ssh-keygen
@@ -191,7 +192,14 @@ firewall-cmd --reload
 
 
 # Result
+If you followed above guides and deploy the oVirt-engine success, it presents 4 hosts (ovirt-node-0 ~ 3) and 2 storage (glusterFS, NFS).
+You can upload the image and make that image a VM.
+Then, you can template the VM.
+
+Each templates has their own name, description, comments.
+It is also possible to manage the templates with versions using sub-template feature.
 
 # Appendix
 ## oVirt template image download in the CLI with REST API
 [ovirt-template-manager](https://github.com/minjong-ha/ovirt-template-manager)
+[oVirt-engine Deployment Notion Document (korean)](https://seen-fact-e72.notion.site/VM-oVirt-92ca20a41c1741f4ac4b39f0c97f56a2)
