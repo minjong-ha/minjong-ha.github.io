@@ -175,14 +175,16 @@ mount -a
 ```
 
 3. Configurate NFS
+
 ```bash
 vi /etc/exports
-#exports/data *(rw)
+exports/data *(rw)
 
 exportfs -r
 ```
 
 4. Configurate Firewall
+
 ```bash
 firewall-cmd --permanent --add-service=nfs
 firewall-cmd --permanent --add-service=rpc-bind
