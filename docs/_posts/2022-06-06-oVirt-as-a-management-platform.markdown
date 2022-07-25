@@ -101,46 +101,48 @@ After I finished above sequences, I add the oVirt-nodes as hosts for oVirt-engin
 
 1. Configure Firewall
 
-* 83
+Run following commands in node 83
+
 ```bash
 iptables -I INPUT -p all -s 192.168.103.82 -j ACCEPT
 iptables -I INPUT -p all -s 192.168.103.84 -j ACCEPT
 iptables -I INPUT -p all -s 192.168.103.85 -j ACCEPT
 ```
 
-* 84
+Run following commands in node 84
+
 ```bash
 iptables -I INPUT -p all -s 192.168.103.82 -j ACCEPT
 iptables -I INPUT -p all -s 192.168.103.83 -j ACCEPT
 iptables -I INPUT -p all -s 192.168.103.85 -j ACCEPT
 ```
 
-* 85
+Run following commands in node 85
+
 ```bash
 iptables -I INPUT -p all -s 192.168.103.82 -j ACCEPT
 iptables -I INPUT -p all -s 192.168.103.83 -j ACCEPT
 iptables -I INPUT -p all -s 192.168.103.84 -j ACCEPT
 ```
 
-2. Configure known_host
+Configurate in 83, which is the main glusterfs server
 
-* Configurate in 83, which is the main glusterfs server
 ```bash
 ssh-keygen
 ssh-copy-id root@ovirt-node-*.ovirt.net
 ssh-keyscan -H ovirt-node*.ovirt.net
 ```
 
-3. Configure the trusted pool
-* COnfigurate in 83, 84, 85
+Cofigurate in 83, 84, 85
+
 ```bash
 service glusterd start
 gluster peer probe ovirt-node*.ovirt.net
 ```
 
-4. Format the partition
-* gluster requires dedicated storage to deploy
-* I formatted the 1TB HDD (/dev/sdb)
+gluster requires dedicated storage to deploy.
+I formatted the 1TB HDD (/dev/sdb)
+
 ```bash
 fdisk /dev/sdb
 n
@@ -148,23 +150,23 @@ w
 mkfs.xfs -f -i size=512 /dev/sd
 ```
 
-5. Setup the gluster volume
-* https://ovirt-node-0.ovirt.net
-** Virtualization - Hosted Engine - Hyperconverged
-** /dev/sdb1
+Setup the gluster volume on the https://ovirt-node-0.ovirt.net
+> Virtualization - Hosted Engine - Hyperconverged
+>/dev/sdb1
 
 
 ### Storage: NFS
-1. Create NFS directory and configuration
-* Make directory for the NFS
+
+Create NFS directory and configuration
+
 ```bash
 mkdir /exports/data
 chown 36:36 /exports/data
 chmod g+s /exports/data
 ```
 
-2. automount NFS storage device
-* Configurate NFS storage device
+Automount NFS storage device
+
 ```bash
 mkfs.xfs -f -i size=512 /dev/sdb1 /exports
 
@@ -174,8 +176,8 @@ vi /etc/fstab
 mount -a
 ```
 
-3. Configurate NFS
-* Configurate NFS accessible
+Configurate NFS accessible
+
 ```bash
 vi /etc/exports
 exports/data *(rw)
@@ -183,8 +185,7 @@ exports/data *(rw)
 exportfs -r
 ```
 
-4. Configurate Firewall
-* Configurate NFS service accessible from external network
+Configurate NFS service accessible from external network
 ```bash
 firewall-cmd --permanent --add-service=nfs
 firewall-cmd --permanent --add-service=rpc-bind
@@ -192,7 +193,7 @@ firewall-cmd --permanent --add-service=mountd
 firewall-cmd --reload
 ```
 
-5. add storage domain (ovirt-node-3.ovirt.net:/exports/data) in ovirt-engine web console
+Add storage domain (ovirt-node-3.ovirt.net:/exports/data) in ovirt-engine web console
 
 
 # Result
