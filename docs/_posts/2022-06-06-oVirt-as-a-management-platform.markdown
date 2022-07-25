@@ -206,5 +206,7 @@ It is also possible to manage the templates with versions using sub-template fea
 
 # Appendix
 ## oVirt template image download in the CLI with REST API
+
 [ovirt-template-manager](https://github.com/minjong-ha/ovirt-template-manager)
+
 [oVirt-engine Deployment Notion Document (korean)](https://seen-fact-e72.notion.site/VM-oVirt-92ca20a41c1741f4ac4b39f0c97f56a2)
