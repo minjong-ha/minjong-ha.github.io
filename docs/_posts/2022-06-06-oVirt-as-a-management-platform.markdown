@@ -156,7 +156,7 @@ mkfs.xfs -f -i size=512 /dev/sd
 
 ### Storage: NFS
 1. Create NFS directory and configuration
-
+* Make directory for the NFS
 ```bash
 mkdir /exports/data
 chown 36:36 /exports/data
@@ -164,7 +164,7 @@ chmod g+s /exports/data
 ```
 
 2. automount NFS storage device
-
+* Configurate NFS storage device
 ```bash
 mkfs.xfs -f -i size=512 /dev/sdb1 /exports
 
@@ -175,7 +175,7 @@ mount -a
 ```
 
 3. Configurate NFS
-
+* Configurate NFS accessible
 ```bash
 vi /etc/exports
 exports/data *(rw)
@@ -184,7 +184,7 @@ exportfs -r
 ```
 
 4. Configurate Firewall
-
+* Configurate NFS service accessible from external network
 ```bash
 firewall-cmd --permanent --add-service=nfs
 firewall-cmd --permanent --add-service=rpc-bind
