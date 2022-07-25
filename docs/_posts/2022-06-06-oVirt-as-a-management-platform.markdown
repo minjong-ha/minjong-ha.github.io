@@ -156,13 +156,15 @@ mkfs.xfs -f -i size=512 /dev/sd
 
 ### Storage: NFS
 1. Create NFS directory and configuration
+
 ```bash
 mkdir /exports/data
 chown 36:36 /exports/data
 chmod g+s /exports/data
 ```
 
-2. 
+2. automount NFS storage device
+
 ```bash
 mkfs.xfs -f -i size=512 /dev/sdb1 /exports
 
