@@ -207,6 +207,14 @@ It is also possible to manage the templates with versions using sub-template fea
 # Appendix
 ## oVirt template image download in the CLI with REST API
 
-[ovirt-template-manager](https://github.com/minjong-ha/ovirt-template-manager)
+I also implement a CLI template downloader using Python 3. 
+I used oVirt-engine REST API.
+> [ovirt-template-manager](https://github.com/minjong-ha/ovirt-template-manager)
+
+## oVirt-engine REST API
+oVirt-engine presents REST API.
+Above ovirt template downloader using Python uses the REST API.
+> [ovirt-engine REST API](http://ovirt.github.io/ovirt-engine-api-model/)
+
 
 [oVirt-engine Deployment Notion Document (korean)](https://seen-fact-e72.notion.site/VM-oVirt-92ca20a41c1741f4ac4b39f0c97f56a2)
