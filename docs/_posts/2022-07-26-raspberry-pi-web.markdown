@@ -45,3 +45,61 @@ npm start
 ```
 
 You can create react application using above commands.
+
+==================================================================
+
+## Components and JSX
+'npm-start' command starts the react application by executing 'index.js'.
+
+Web page build by react has multiple components.
+Each components can be represented as a chunk and the browser only deploys them.
+We can implement the class component or functional component.
+
+
+JSX is a extended javascript grammar.
+It looks like html, but translated as a javascript.
+Since we can write html at the same time, it has a high readability and easy to write.
+
+We can check above features in the 'App.js'
+
+```javascript
+import logo from './logo.svg';
+import './App.css';
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+'App.js' defines App() function and we can see the html codes at return.
+It is the part where JSX returns when index.js tries to use <App />.
+Almost every components in this project will be returned as a JSX, except the database, computing, and etc.
+
+
+=================================================================
+
+## Used Libraries
+
+## References
+* [reactjs tutorial](https://ko.reactjs.org/tutorial/tutorial.html)
+* [reactjs building web page posts](https://leftday.tistory.com/category/%EA%B0%9C%EB%B0%9C/react%20%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80%20%EB%A7%8C%EB%93%A4%EA%B8%B0)
