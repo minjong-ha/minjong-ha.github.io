@@ -211,6 +211,8 @@ I also implement a CLI template downloader using Python 3.
 I used oVirt-engine REST API.
 > [ovirt-template-manager](https://github.com/minjong-ha/ovirt-template-manager)
 
+"oVirt-engine" issues certification to the client, and client requests multiple features including download template, create VM and etc.
+
 ## oVirt-engine REST API
 oVirt-engine presents REST API.
 Above ovirt template downloader using Python uses the REST API.
