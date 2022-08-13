@@ -6,6 +6,8 @@ published: false
 date:   2022-08-08 14:37:00 +0900
 ---
 
+## Introduction
+
 Qemu hypervisor presents qcow2 format for disk image.
 Guest considers the qcow2 image as a physical disk, and qemu hypervisor handles the I/O requests from the VM.
 It is efficient since the disk size increases depending on the usage of the disk.
@@ -20,9 +22,19 @@ Internal snapshot contains its snapshot data in the original base image file.
 On the other hand, external snapshot creates seperate so called overlay image.
 In this post, I will explain about external snapshot.
 
+## QCoW2 Header
+
 <!-- overlay image overview image -->
+<img data-action="zoom" src='{{ "../assets/images/_posts/2022-08-08-vm-image-versioning/qcow_struct.png" | relative_url }}' alt='relative'>
+
+Above image represents the header (metadata) of qcow2 file.
+
+
+## QCoW2 Architecture
 
 <!-- L1/L2 table + refcount table-->
+<img data-action="zoom" src='{{ "../assets/images/_posts/2022-08-08-vm-image-versioning/qcow_image_achitecture.png" | relative_url }}' alt='relative'>
 
+Above image represents the architecture of qcow2 file.
 
 
