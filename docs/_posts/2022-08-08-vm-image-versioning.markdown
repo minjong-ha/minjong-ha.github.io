@@ -22,19 +22,20 @@ Internal snapshot contains its snapshot data in the original base image file.
 On the other hand, external snapshot creates seperate so called overlay image.
 In this post, I will explain about external snapshot.
 
-## QCoW2 Header
+## qcow2 Architecture
 
 <!-- overlay image overview image -->
 <img data-action="zoom" src='{{ "../assets/images/_posts/2022-08-08-vm-image-versioning/qcow_struct.png" | relative_url }}' alt='relative'>
 
 Above image represents the header (metadata) of qcow2 file.
+"qcow2" image can be divided to seven sectors: Header, L1 Table, Refcount Table, More Refcount Blocks, Snapshot Headers, L2 Tables and Data Reserved (data cluster).
 
 
-## QCoW2 Architecture
+## qcow2 Data Allocation
 
 <!-- L1/L2 table + refcount table-->
 <img data-action="zoom" src='{{ "../assets/images/_posts/2022-08-08-vm-image-versioning/qcow_image_achitecture.png" | relative_url }}' alt='relative'>
 
-Above image represents the architecture of qcow2 file.
+Above image represents the architecture of qcow2 file when it writes the data.
 
 
