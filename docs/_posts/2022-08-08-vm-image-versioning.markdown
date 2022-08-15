@@ -29,6 +29,8 @@ In this post, I will explain about external snapshot.
 
 Above image represents the header (metadata) of qcow2 file.
 "qcow2" image can be divided to seven sectors: Header, L1 Table, Refcount Table, More Refcount Blocks, Snapshot Headers, L2 Tables and Data Reserved (data cluster).
+Header includes metadata of qcow2 image such as number of snapshot it has, actual(current) size, virtual(maximum) size, and etc.
+L1 Table, L2 Table and Refcount Table, More Refcount Blocks are two-level tables for managing data allocation with Copy-on-Write (CoW).
 
 
 ## qcow2 Data Allocation
