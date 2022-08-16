@@ -29,8 +29,22 @@ In this post, I will explain about external snapshot.
 
 Above image represents the header (metadata) of qcow2 file.
 "qcow2" image can be divided to seven sectors: Header, L1 Table, Refcount Table, More Refcount Blocks, Snapshot Headers, L2 Tables and Data Reserved (data cluster).
+
 Header includes metadata of qcow2 image such as number of snapshot it has, actual(current) size, virtual(maximum) size, and etc.
+Snapshot header also represents the information of snapshot that the image has.
+
 L1 Table, L2 Table and Refcount Table, More Refcount Blocks are two-level tables for managing data allocation with Copy-on-Write (CoW).
+L1, L2 Tables are corresponding to multi-level page tables.
+It indicates the data cluster, where the data are actually allocated.
+On the other hand, refcount are corresponding to represent the attribute of each data clusters.
+There are three types of refcount: 0, 1, and more than 2.
+When the refcount is 0, it represents it is free, empty data cluster.
+Refcount 1 means it is allocated, used data cluster.
+Application can overwrite the data cluster having refcount 1.
+Refcount more than 2 is similar to 1.
+It means that the data cluster is used, allocated.
+However, the difference is that the data clusters having refcount more than 2 should be allocated to new data cluster, just like Copy-on-Write.
+I will explain more details about it in later section.
 
 
 ## qcow2 Data Allocation
