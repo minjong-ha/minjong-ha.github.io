@@ -53,5 +53,8 @@ I will explain more details about it in later section.
 <img data-action="zoom" src='{{ "../assets/images/_posts/2022-08-08-vm-image-versioning/qcow_image_achitecture.png" | relative_url }}' alt='relative'>
 
 Above image represents the architecture of qcow2 file when it writes the data.
+qcow2 image manages the data with L1,L2 tables and Refcount tables like page table.
+Each table entries are corresponding to the data clusters.
+Each data clusters having 64KB default size (512B - 2MB).
 
 
