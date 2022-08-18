@@ -38,7 +38,7 @@ L1, L2 Tables are corresponding to multi-level page tables.
 It indicates the data cluster, where the data are actually allocated.
 On the other hand, refcount are corresponding to represent the attribute of each data clusters.
 There are three types of refcount: 0, 1, and more than 2.
-When the refcount is 0, it represents it is free, empty data cluster.
+When the refcount is 0, it represents it is free, non-allocated data cluster.
 Refcount 1 means it is allocated, used data cluster.
 Application can overwrite the data cluster having refcount 1.
 Refcount more than 2 is similar to 1.
@@ -54,7 +54,26 @@ I will explain more details about it in later section.
 
 Above image represents the architecture of qcow2 file when it writes the data.
 qcow2 image manages the data with L1,L2 tables and Refcount tables like page table.
-Each table entries are corresponding to the data clusters.
-Each data clusters having 64KB default size (512B - 2MB).
+Each table entries are corresponding to the data clusters and each data clusters having 64KB default size (512B - 2MB).
 
+
+```bash
+qemu-img create -f qcow -b original_image_name new_overlay_image
+```
+
+qcow2 image supports "overlay" image which is CoW based data allocation.
+If the user execute above command, new_overlay_image is created and indicates the original_image as a backing file.
+When the application tries to read data from new_overlay_image, it returns the value referencing its data cluster or the backing file.
+If the application tries to write new data or overwrite data cluster, overlay_image allocates new data clusters and writes the data.
+new_overlay_image copies L1,L2 tables and refcount tables from the original_image when generated.
+However, unlike it copies L1,L2 tables, it copies refcount tables with increment.
+If the original refcount table has the values 0,1,1,0,1, then new_overlay_image has the values 1,2,2,1,2 (overlay image only has 1 or more than 2 refcount).
+When the application tries to write data, it checks the refcount of the data cluster.
+If the refcount is 1, it means the original data cluster is free, non-allocated state.
+Since the original_image does not have allocated data cluster, it generates new data cluster and write the data.
+If the refcount is more than 2, it means the original data cluster is exist.
+Hence, overlay_image allocates new data cluster and update the L1,L2 table.
+The difference between refcount 1 and more than 2 is the prior does not change refcount.
+However, the later updates L1,L2 table and refcount at the same time, since the CoW happened.
+With the CoW based data cluster management, qcow2 image can hold the original data and overlap the new data at the same time.
 
