@@ -1,6 +1,6 @@
 ---
 layout: posts
-title:  "VM Management: Recovery and Checkpoint Images in Limited Storage Capacity"
+title:  "VM Management: Implement Recovery and Checkpoint for Image"
 author: Minjong Ha
 published: false
 date:   2022-08-08 14:37:00 +0900
@@ -77,3 +77,4 @@ The difference between refcount 1 and more than 2 is the prior does not change r
 However, the later updates L1,L2 table and refcount at the same time, since the CoW happened.
 With the CoW based data cluster management, qcow2 image can hold the original data and overlap the new data at the same time.
 
+## Image Overlay
