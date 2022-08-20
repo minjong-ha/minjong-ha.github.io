@@ -22,7 +22,7 @@ Internal snapshot contains its snapshot data in the original base image file.
 On the other hand, external snapshot creates seperate so called overlay image.
 In this post, I will explain about external snapshot.
 
-## qcow2 Architecture
+## Qcow2 Architecture
 
 <!-- overlay image overview image -->
 <img data-action="zoom" src='{{ "../assets/images/_posts/2022-08-08-vm-image-versioning/qcow_struct.png" | relative_url }}' alt='relative'>
@@ -47,7 +47,7 @@ However, the difference is that the data clusters having refcount more than 2 sh
 I will explain more details about it in later section.
 
 
-## qcow2 Data Allocation
+## Qcow2 Data Allocation
 
 <!-- L1/L2 table + refcount table-->
 <img data-action="zoom" src='{{ "../assets/images/_posts/2022-08-08-vm-image-versioning/qcow_image_achitecture.png" | relative_url }}' alt='relative'>
@@ -78,3 +78,8 @@ However, the later updates L1,L2 table and refcount at the same time, since the 
 With the CoW based data cluster management, qcow2 image can hold the original data and overlap the new data at the same time.
 
 ## Image Overlay
+
+<!-- Overlay Image -->
+
+Above image represents the overview of the overlays.
+Since the changes are only updated to the overlay images, it is possible to create two different images based on the same original image.
