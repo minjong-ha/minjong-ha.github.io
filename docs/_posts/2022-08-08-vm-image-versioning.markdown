@@ -83,3 +83,12 @@ With the CoW based data cluster management, qcow2 image can hold the original da
 
 Above image represents the overview of the overlays.
 Since the changes are only updated to the overlay images, it is possible to create two different images based on the same original image.
+
+```bash
+qemu-img commit ${overlay_image}
+```
+
+Qcow2 image also presents commit feature.
+
+As you can see, qcow2 overlay is very similar to git.
+
