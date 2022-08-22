@@ -81,6 +81,37 @@ With the CoW based data cluster management, qcow2 image can hold the original da
 
 <!-- Overlay Image -->
 
+```text
+.--------------.    .-------------.    .-------------.    .-------------.
+|              |    |             |    |             |    |             |
+| RootBase     |<---| Overlay-1   |<---| Overlay-1A  <--- | Overlay-1B  |
+| (raw/qcow2)  |    | (qcow2)     |    | (qcow2)     |    | (qcow2)     |
+'--------------'    '-------------'    '-------------'    '-------------'
+
+-------------------------------------------------------------------------------------
+
+.-----------.   .-----------.   .------------.  .------------.  .------------.
+|           |   |           |   |            |  |            |  |            |
+| RootBase  |<--- Overlay-1 |<--- Overlay-1A <--- Overlay-1B <--- Overlay-1C |
+|           |   |           |   |            |  |            |  | (Active)   |
+'-----------'   '-----------'   '------------'  '------------'  '------------'
+   ^    ^
+   |    |
+   |    |       .-----------.    .------------.
+   |    |       |           |    |            |
+   |    '-------| Overlay-2 |<---| Overlay-2A |
+   |            |           |    | (Active)   |
+   |            '-----------'    '------------'
+   |
+   |
+   |            .-----------.    .------------.
+   |            |           |    |            |
+   '------------| Overlay-3 |<---| Overlay-3A |
+                |           |    | (Active)   |
+                '-----------'    '------------'
+```
+
+
 Above image represents the overview of the overlays.
 Since the changes are only updated to the overlay images, it is possible to create two different images based on the same original image.
 
@@ -92,3 +123,6 @@ Qcow2 image also presents commit feature.
 
 As you can see, qcow2 overlay is very similar to git.
 
+
+## References
+[Qcow2 Overlay Images](https://kashyapc.fedorapeople.org/virt/lc-2012/snapshots-handout.html)
