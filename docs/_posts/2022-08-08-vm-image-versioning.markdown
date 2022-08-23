@@ -2,7 +2,7 @@
 layout: posts
 title:  "VM Management: Implement Recovery and Checkpoint for Image"
 author: Minjong Ha
-published: false
+published: true
 date:   2022-08-08 14:37:00 +0900
 ---
 
@@ -21,6 +21,8 @@ There are two snapshot methods: internal and external.
 Internal snapshot contains its snapshot data in the original base image file.
 On the other hand, external snapshot creates seperate so called overlay image.
 In this post, I will explain about external snapshot.
+
+
 
 ## Qcow2 Architecture
 
@@ -77,6 +79,7 @@ The difference between refcount 1 and more than 2 is the prior does not change r
 However, the later updates L1,L2 table and refcount at the same time, since the CoW happened.
 With the CoW based data cluster management, qcow2 image can hold the original data and overlap the new data at the same time.
 
+
 ## Image Overlay
 
 <!-- Overlay Image -->
@@ -120,8 +123,14 @@ qemu-img commit ${overlay_image}
 ```
 
 Qcow2 image also presents commit feature.
+For example, if I commit Overlay-1A in the first figure, every data clusters and L1/L2 tables, and refcounts are merged to the Overlay-1.
+After the merging completed, Overlay-1A now has a clear, vanila overlay image.
+Since it merging the data from 1A to 1, additional storage is required (maximum Overlay-1A size).
 
 As you can see, qcow2 overlay is very similar to git.
+We can change the disk image of VM with libvirt, and create new branch, commit.
+The only difference is qcow2 is not available for recovering old history.
+
 
 
 ## References
