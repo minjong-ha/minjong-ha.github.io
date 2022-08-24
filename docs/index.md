@@ -13,6 +13,7 @@ title: About me
 		- Research and implement Host-Guest communication
 <!--		- Implement VM image management infrastructure -->
 		- Deploy VM image version management infrastructure based on the oVirt
+		- Implement VM image restoration
 <!-- - Articles -->
 <!-- - [TmaxGooroom OS based on the Gooroom platform](https://www.techm.kr/news/articleView.html?idxno=94396) -->
 <!-- - [Network separated work environment](http://www.dt.co.kr/contents.html?article_no=2022022102109931650003&ref=naver) -->
