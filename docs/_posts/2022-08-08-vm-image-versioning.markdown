@@ -26,7 +26,6 @@ In this post, I will explain about external snapshot.
 
 ## Qcow2 Architecture
 
-<!-- overlay image overview image -->
 <img data-action="zoom" src='{{ "../assets/images/_posts/2022-08-08-vm-image-versioning/qcow_struct.png" | relative_url }}' alt='relative'>
 
 Above image represents the header (metadata) of qcow2 file.
@@ -51,7 +50,6 @@ I will explain more details about it in later section.
 
 ## Qcow2 Data Allocation
 
-<!-- L1/L2 table + refcount table-->
 <img data-action="zoom" src='{{ "../assets/images/_posts/2022-08-08-vm-image-versioning/qcow_image_achitecture.png" | relative_url }}' alt='relative'>
 
 Above image represents the architecture of qcow2 file when it writes the data.
