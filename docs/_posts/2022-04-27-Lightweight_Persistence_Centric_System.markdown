@@ -6,7 +6,7 @@ published: false
 date:   2022-04-27 09:00:00 +0900
 ---
 
-# 0. What is LightPC?
+## 0. What is LightPC?
 
 [Non-volatile computing demo (LightPC) English version](https://www.youtube.com/watch?v=HzYe_xooOKk&feature=emb_title)
 
@@ -24,9 +24,8 @@ However, I read an articles that the researchers in CAMEL lab (KAIST) implemente
 The paper, "LightPC: Hardware and Software Co-Design for Energy-Efficient Full System Persistence)", will be presented in ISCA'22 (International Symposium on Computer Architecture).
 As soon as the paper is announced, I will read and analyze about it and update this posts!
 
-ISCA'22 will be opened at June 18-22, 2022.
 
-# 1. Abstract
+## 1. Abstract
 
 The following summarizes represent the contributions of the paper
 
