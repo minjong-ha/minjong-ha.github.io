@@ -28,11 +28,11 @@ In this post, I will summarize their contributions, explain their architecture, 
 
 The following summarizes represent the contributions of the paper
 
-### 1. Open-Channel architecture for PMEM
+* Open-Channel architecture for PMEM
 
-### 2. Transparent full persistence mechanism
+* Transparent full persistence mechanism
 
-### 3. Practical non-volatile computing and prototypes
+* Practical non-volatile computing and prototypes
 
 
 ## References
