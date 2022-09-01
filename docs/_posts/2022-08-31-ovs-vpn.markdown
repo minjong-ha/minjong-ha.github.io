@@ -12,7 +12,9 @@ date:   2022-08-31 09:14:00 +0900
 In this post, I will explain What the OvS is and how can we utilize it on the multi-VM machine.
 
 Suppose that there is a computer that should be connected with seperated, independent network for each VMs.
-Host OS can manage the network it has with OvS and logically seperates them.
+Host OS can manage the networks with OvS and seperates them logically.
+Since the target networks are located in the private network, host should consider the VPN handling from VMs.
+
 
 ## Introduction
 
