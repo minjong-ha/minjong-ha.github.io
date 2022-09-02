@@ -20,4 +20,6 @@ Since the target networks are located in the private network, host should consid
 
 ## Open vSwitch (OvS)
 
+## Target Design
 
+The goal is logically seperated multi-VMs environment.
