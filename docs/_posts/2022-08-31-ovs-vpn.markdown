@@ -20,6 +20,10 @@ Since the target networks are located in the private network, host should consid
 
 ## Open vSwitch (OvS)
 
+Open vSwitch implements virtual, software based switch instead of physical switch.
+OvS can support multiple virtual NICs(vNIC) with single physical NIC cable
+
 ## Target Design
 
 The goal is logically seperated multi-VMs environment.
+Each VMs looks like located in the private network.
