@@ -26,6 +26,7 @@ OvS can support multiple virtual NICs(vNIC) with single physical NIC cable
 <!---OvS example image --->
 
 Above image represents the overall architecture of OvS applied system.
+There are multiple VMs with different purposes, and OvS supports them by providing virtual NICs.
 
 ## Target Design
 
