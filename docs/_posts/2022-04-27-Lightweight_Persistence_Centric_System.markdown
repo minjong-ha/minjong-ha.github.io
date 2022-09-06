@@ -22,6 +22,13 @@ Thus, the companies preferred to increase the memory physically, and the researc
 However, I read an articles that the researchers in CAMEL lab (KAIST) implemented a integrated persistence centric system with the Intel OptaneDC Persistent Memory.
 
 In this post, I will summarize their contributions, explain their architecture, and evaluate their experiment.
+Followings are my questions before I read the paper
+
+* How could they maintain the consistency among the each operations?
+
+* How could they reduce the overhead coming from amplification?
+
+* How could they leaverage the write performance?
 
 
 ## 1. Abstract
