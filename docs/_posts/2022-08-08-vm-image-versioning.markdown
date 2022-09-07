@@ -130,6 +130,14 @@ We can change the disk image of VM with libvirt, and create new branch, commit.
 The only difference is qcow2 is not available for recovering old history.
 
 
+## Conclusion
+
+qcow2 presents useful snapshot features and backing logic motivated by CoW.
+It makes managing the versions of VMs convinient.
+However, it is still the problem that write amplification
+
+
+
 
 ## References
 [Qcow2 Overlay Images](https://kashyapc.fedorapeople.org/virt/lc-2012/snapshots-handout.html)
