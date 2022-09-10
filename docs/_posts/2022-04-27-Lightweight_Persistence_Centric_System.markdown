@@ -33,6 +33,10 @@ Followings are my questions before I read the paper
 
 ## 1. Abstract
 
+Long-running applications such as DB require a stable, robust system against the failures.
+Persistent Memory (PMEM) was released by Intel in 2019, and it can persist the data even if there were a blackout.
+However, although its characteristics such as x10 times capacity and non-volatile, it also has limitations since its lower performance than volatile memory with hard to use.
+
 The following summarizes represent the contributions of the paper
 
 * Open-Channel architecture for PMEM
