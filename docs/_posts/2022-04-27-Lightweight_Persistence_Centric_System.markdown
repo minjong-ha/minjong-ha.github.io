@@ -33,9 +33,9 @@ Followings are my questions before I read the paper
 
 ## 1. Abstract
 
-Long-running applications such as DB require a stable, robust system against the failures.
 Persistent Memory (PMEM) was released by Intel in 2019, and it can persist the data even if there were a blackout.
 However, although its characteristics such as x10 times capacity and non-volatile, it also has limitations since its lower performance than volatile memory with hard to use.
+In this paper, the researchers suggest LightPC: easy to use non-volatile computing platform consist of dedicated OS.
 
 The following summarizes represent the contributions of the paper
 
@@ -44,6 +44,21 @@ The following summarizes represent the contributions of the paper
 * Transparent full persistence mechanism
 
 * Practical non-volatile computing and prototypes
+
+
+## 2. Introduction
+
+Long-running applications such as server-class domains require a stable, robust system against the failures since their characteristics.
+They run more than a few month to year at once, and take a few hours for MTBF (Meat Time Between Failure).
+In addition, it is necessary to recover the system from failure.
+Many long-running applications supports persistence mechanism.
+They periodically flush the volatile data in the memory device to the non-volatile storage.
+
+<!-- this is my personal opinion-->
+However, volatile memory has limitations.
+
+
+
 
 
 ## References
