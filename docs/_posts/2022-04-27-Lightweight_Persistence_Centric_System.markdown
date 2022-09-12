@@ -55,7 +55,13 @@ Many long-running applications supports persistence mechanism.
 They periodically flush the volatile data in the memory device to the non-volatile storage.
 
 <!-- this is my personal opinion-->
+<!--
 However, volatile memory has limitations.
+They have small capacity relative to the storage.
+There is a gap between the flushes and it is the potential data missing point.
+-->
+
+
 
 
 
