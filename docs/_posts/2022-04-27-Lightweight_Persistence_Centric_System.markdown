@@ -50,16 +50,19 @@ The following summarizes represent the contributions of the paper
 
 Long-running applications such as server-class domains require a stable, robust system against the failures since their characteristics.
 They run more than a few month to year at once, and take a few hours for MTBF (Meat Time Between Failure).
-In addition, it is necessary to recover the system from failure.
-Many long-running applications supports persistence mechanism.
-They periodically flush the volatile data in the memory device to the non-volatile storage.
+For this reason, most of the long-running applications support persistence mechanism.
+They periodically flush the volatile data in the memory device to the non-volatile storage for recovery.
 
 <!-- this is my personal opinion-->
-<!--
 However, volatile memory has limitations.
-They have small capacity relative to the storage.
-There is a gap between the flushes and it is the potential data missing point.
--->
+They have small capacity relative to the storage and there are gap between the flushes which is the potential data missing point.
+For example, performance critical application, such as in-memory databases, have to pay expensive cost for large capacity.
+And they should periodically flush their memories to the storages.
+It is the chanllenge for the memory-intensive workload that leaverages its performance.
+
+Intel Optane DC Persistent Memory (DCPM, PMEM) is the first commercial product released by Intel in 2019.
+<!-- maybe the first and the last...-->
+
 
 
 
