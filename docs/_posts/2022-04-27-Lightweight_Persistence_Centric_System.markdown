@@ -68,7 +68,16 @@ And since the device is installed on the DIMM, PMEM has better read, write perfo
 However these advantages are also disadvantages.
 It has smaller capacity than normal storage device, and higher latency than volatile memory.
 
-For these reasons, it is very challenable that utilize PMEM for leaverage system performance.
+In addition, the paper explain more limitations.
+
+<!-- limitaion 1 slides-->
+First, it requires source code modification.
+
+<!-- limitation 2 slides-->
+Second, it has unpredicatable latency
+
+
+For these reasons, it is very challenable that utilize PMEM for leaveraging system performance.
 
 
 
