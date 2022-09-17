@@ -72,6 +72,9 @@ In addition, the paper explain more limitations.
 
 <!-- limitaion 1 slides-->
 First, it requires source code modification.
+Since PMEM is installed through DIMM, it is possible to use memory-intensive application on it.
+However, difference between PMEM and memory, which is volatility, I cannot convince that the characteristics of PMEM are fully exploited simply by changing the device.
+PMDK (Persistent Memory Development Kit) supports PMEM aware application modification.
 
 <!-- limitation 2 slides-->
 Second, it has unpredicatable latency
