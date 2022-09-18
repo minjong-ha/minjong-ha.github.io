@@ -31,4 +31,7 @@ There are multiple VMs with different purposes, and OvS supports them by providi
 ## Target Design
 
 The goal is logically seperated multi-VMs environment.
-Each VMs looks like located in the private network.
+Each VMs should looks like located in the private network.
+
+Fortunately, libvirt supports ovs network bridge for KVM.
+
