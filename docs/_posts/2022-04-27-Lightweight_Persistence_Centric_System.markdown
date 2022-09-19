@@ -79,6 +79,8 @@ PMDK (Persistent Memory Development Kit) supports PMEM aware application modific
 <!-- limitation 2 slides-->
 Second, it has unpredicatable latency
 
+<!-- limitation 3 slides-->
+Third, complicated PMEM's DIMM-level architecture which causes non-deterministic read latency
 
 For these reasons, it is very challenable that utilize PMEM for leaveraging system performance.
 
@@ -94,3 +96,4 @@ For these reasons, it is very challenable that utilize PMEM for leaveraging syst
 
 [PDF](https://dl.acm.org/doi/pdf/10.1145/3470496.3527397)
 [Slides](https://www.iscaconf.org/isca2022/slides/isca22-kwon.pdf)
+[pmem.io](https://pmem.io/)
