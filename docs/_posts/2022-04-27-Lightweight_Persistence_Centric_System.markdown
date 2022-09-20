@@ -60,6 +60,8 @@ For example, performance critical application, such as in-memory databases, have
 And they should periodically flush their memories to the storages.
 It is the chanllenge for the memory-intensive workload that leaverages its performance.
 
+## 3. PMEM (Persistent Memory)
+
 <!-- maybe the first and the last...-->
 Intel Optane DC Persistent Memory (DCPM, PMEM) is the first commercial product released by Intel in 2019.
 For better understanding, I can describe it as a SSD installed in DIMM slot.
@@ -87,7 +89,6 @@ For these reasons, it is very challenable that utilize PMEM for leaveraging syst
 
 
 
-## 3. PMEM (Persistent Memory)
 
 
 
