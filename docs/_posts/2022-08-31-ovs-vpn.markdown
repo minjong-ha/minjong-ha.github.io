@@ -35,3 +35,16 @@ Each VMs should looks like located in the private network.
 
 Fortunately, libvirt supports ovs network bridge for KVM.
 
+```
+<network>
+  <name>test</name>
+  <forward mode='bridge'/>
+  <bridge name='internal-br'/>
+  <virtualport type='openvswitch'/>
+  <portgroup name='vlan-01' default='yes'>
+  </portgroup>
+</network>
+```
+
+Following xml represents the libvirt network supporting ovs bridge.
+Unlike the original network xml has information about the network itself, ovs network xml only contains the name of bridge and virtual port type.
