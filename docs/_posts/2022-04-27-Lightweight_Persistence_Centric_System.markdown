@@ -28,7 +28,7 @@ Followings are my questions before I read the paper
 
 * How could they reduce the overhead coming from amplification?
 
-* How could they leaverage the write performance?
+* How could they leverage the write performance?
 
 
 ## 1. Abstract
@@ -58,7 +58,7 @@ However, volatile memory has limitations.
 They have small capacity relative to the storage and there are gap between the flushes which is the potential data missing point.
 For example, performance critical application, such as in-memory databases, have to pay expensive cost for large capacity.
 And they should periodically flush their memories to the storages.
-It is the chanllenge for the memory-intensive workload that leaverages its performance.
+It is the chanllenge for the memory-intensive workload that leverages its performance.
 
 ## 3. PMEM (Persistent Memory)
 
