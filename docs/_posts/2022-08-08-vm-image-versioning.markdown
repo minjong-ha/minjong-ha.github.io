@@ -39,8 +39,9 @@ L1, L2 Tables are corresponding to multi-level page tables.
 It indicates the data cluster, where the data are actually allocated.
 On the other hand, refcount are corresponding to represent the attribute of each data clusters.
 There are three types of refcount: 0, 1, and more than 2.
-When the refcount is 0, it represents it is free, non-allocated data cluster.
-Refcount 1 means it is allocated, used data cluster.
+It represents the number of referenced of data cluster.
+For example, when the refcount is 0, it represents it is free, non-allocated data cluster (no L2 table indicates it).
+Refcount 1 means it is allocated, used data cluster (there is a L2 table exists indicating the data cluster).
 Application can overwrite the data cluster having refcount 1.
 Refcount more than 2 is similar to 1.
 It means that the data cluster is used, allocated.
