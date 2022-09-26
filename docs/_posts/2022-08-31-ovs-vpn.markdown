@@ -26,11 +26,11 @@ OvS can support multiple virtual NICs(vNIC) with single physical NIC cable
 <!---OvS example image --->
 
 Above image represents the overall architecture of OvS applied system.
-There are multiple VMs with different purposes, and OvS supports them by providing virtual NICs.
+There are two VMs with different purposes (internal / external), and OvS supports them by providing virtual NICs.
 
 ## Target Design
 
-The goal is logically seperated multi-VMs environment.
+The goal is logically seperated multi-VM environment.
 Each VMs should looks like located in the private network.
 
 Fortunately, libvirt supports ovs network bridge for KVM.
@@ -49,3 +49,4 @@ Fortunately, libvirt supports ovs network bridge for KVM.
 Following xml represents the libvirt network supporting ovs bridge.
 Unlike the original network xml has information about the network itself, ovs network xml only contains the name of bridge and virtual port type.
 Since it only indicates the name of ovs bridge, the policy about the network name is required.
+If the ovs-bridge were created and activated, network packets coming from the VM go to it.
