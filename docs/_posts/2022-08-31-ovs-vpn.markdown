@@ -18,7 +18,7 @@ Since the target networks are located in the private network, host should consid
 
 ## Introduction
 
-## Open vSwitch (OvS)
+### Open vSwitch (OvS)
 
 Open vSwitch implements virtual, software based switch instead of physical switch.
 OvS can support multiple virtual NICs(vNIC) with single physical NIC cable
@@ -28,16 +28,19 @@ OvS can support multiple virtual NICs(vNIC) with single physical NIC cable
 Above image represents the overall architecture of OvS applied system.
 There are two VMs with different purposes (internal / external), and OvS supports them by providing virtual NICs.
 
-## Target Design
+### Target Design
 
 The goal is implementing logically seperated multi-VM environment.
-For example, suppose there are two VMs: one for private network, and another for public network.
+For example, suppose there are two VMs: one for private network (intranet), and another for public network (internet).
 Many enterprises and organizations deploy their private network for privacy.
-They manage their private information which not supposed to leak.
+They manage their sensitive informations which not supposed to be leak.
 However, they also need to connect to the internet to use e-mail and etc.
 In this case, their network are usually having following shape.
 
 <!---VPN Environment image--->
+
+It is reasonable network topology if their computers are located in private network.
+However, since the increase of the remote work, it is required that accessing to the private network from the public network.
  
 Each VMs should looks like located in the private network.
 
