@@ -40,7 +40,17 @@ In this case, their network are usually having following shape.
 <!---VPN Environment image--->
 
 It is reasonable network topology if their computers are located in private network.
+Usually, there are two computers in these environments: one for the private, and another for the public.
 However, since the increase of the remote work, it is required that accessing to the private network from the public network.
+It is possible to access to the private or managed public network using VPN.
+Commercial VPN product supports VPN client for the computer and it connects each computers to the target network.
+
+The problem is that carrying two independent computers (usually laptops) is almost impossible.
+Since the risk of leakage, it is not recommended to use a single computer for both networks.
+
+
+
+
  
 Each VMs should looks like located in the private network.
 
