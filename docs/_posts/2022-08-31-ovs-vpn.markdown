@@ -43,10 +43,14 @@ It is reasonable network topology if their computers are located in private netw
 Usually, there are two computers in these environments: one for the private, and another for the public.
 However, since the increase of the remote work, it is required that accessing to the private network from the public network.
 It is possible to access to the private or managed public network using VPN.
-Commercial VPN product supports VPN client for the computer and it connects each computers to the target network.
+Commercial and free VPN products support VPN client for the computer and it connects each computers to the target network.
 
 The problem is that carrying two independent computers (usually laptops) is almost impossible.
 Since the risk of leakage, it is not recommended to use a single computer for both networks.
+
+
+Virtual machines(VM) could be a solution for it.
+Advances of hardware performance and VM optimization make it possible to run VMs on the laptop.
 
 
 
