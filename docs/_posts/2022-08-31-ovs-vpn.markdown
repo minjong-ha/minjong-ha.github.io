@@ -48,9 +48,14 @@ Commercial and free VPN products support VPN client for the computer and it conn
 The problem is that carrying two independent computers (usually laptops) is almost impossible.
 Since the risk of leakage, it is not recommended to use a single computer for both networks.
 
-
 Virtual machines(VM) could be a solution for it.
 Advances of hardware performance and VM optimization make it possible to run VMs on the laptop.
+
+
+Since the internal networks (public, private) are not open for everyone, using VPN is one of the access point.
+There are two types of VPN: Guest-centric VPN and Host-centric VPN.
+
+
 
 
 
