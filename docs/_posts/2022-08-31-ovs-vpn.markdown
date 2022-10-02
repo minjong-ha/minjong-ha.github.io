@@ -54,6 +54,11 @@ Advances of hardware performance and VM optimization make it possible to run VMs
 
 Since the internal networks (public, private) are not open for everyone, using VPN is one of the access point.
 There are two types of VPN: Guest-centric VPN and Host-centric VPN.
+Guest-centric VPN simply means there are VPN client on the VM itself.
+It is easy to deploy and use.
+User just installs the VPN client for each VMs and execute them seperately.
+However, if the system requires high security network policy, Guest-centric VPN client will be not enough.
+Suppose that using multi-VM installed computer on the wireless, remote, external network.
 
 
 
