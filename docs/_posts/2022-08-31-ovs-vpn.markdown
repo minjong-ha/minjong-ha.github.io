@@ -64,10 +64,9 @@ System should disconnect VPN when the network switching is detected.
 However, VPN client on the VM cannot detect network changing.
 It is still possible that pushing network information to the guest from host, but it requires additional customization for VPN client and it leads cost up.
 
-
-
-
-
+Host-centric VPN can solve the problem.
+It means that there are VPN clients on the host side.
+Since the network and VPN modules are on same layer, it is possible to configurate VPN depending on the network state.
 
 
  
