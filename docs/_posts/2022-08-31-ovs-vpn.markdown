@@ -67,12 +67,12 @@ It is still possible that pushing network information to the guest from host, bu
 Host-centric VPN can solve the problem.
 It means that there are VPN clients on the host side.
 Since the network and VPN modules are on same layer, it is possible to configurate VPN depending on the network state.
-The problem is the host-centric network topology can seperate each networks for VMs.
 
 <!--- vm-vm model network topology --->
 
- 
 Each VMs should looks like located in the private network.
+Open vSwitch can be used to seperate the networks for each VMs.
+By generating ovs-bridges and let the VM corresponds each bridges, we can process the packetes for each VMs independently.
 
 Fortunately, libvirt supports ovs network bridge for KVM.
 
