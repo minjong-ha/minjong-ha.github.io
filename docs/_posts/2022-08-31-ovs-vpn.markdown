@@ -72,7 +72,11 @@ Since the network and VPN modules are on same layer, it is possible to configura
 
 Each VMs should looks like located in the private network.
 Open vSwitch can be used to seperate the networks for each VMs.
-By generating ovs-bridges and let the VM corresponds each bridges, we can process the packetes for each VMs independently.
+By generating ovs-bridges and let the VM corresponds each bridges, we can process the packets for each VMs independently.
+
+Each network tap devices for VMs is connected with ovs-bridge.
+And each bridges communicates with the corresponding VPN module.
+For example, packets from public VM are delivered to the public VPN module through the ovs-bridge.
 
 Fortunately, libvirt supports ovs network bridge for KVM.
 
