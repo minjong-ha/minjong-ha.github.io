@@ -77,6 +77,11 @@ By generating ovs-bridges and let the VM corresponds each bridges, we can proces
 Each network tap devices for VMs is connected with ovs-bridge.
 And each bridges communicates with the corresponding VPN module.
 For example, packets from public VM are delivered to the public VPN module through the ovs-bridge.
+Packtes from private VM are also delivered to the public VPN since the private network is located inside the public network.
+However, before they pass over to the public VPN, they should be handled by private VPN first.
+They are delivered to the private ovs-bridge and private VPN.
+Then, following the routing rules, they are handled over to public ovs-bridge.
+Remains are same with the public packtes.
 
 Fortunately, libvirt supports ovs network bridge for KVM.
 
