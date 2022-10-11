@@ -86,6 +86,7 @@ Remains are same with the public packtes.
 The packtes from private VM follow following sequences.
 Private VM -> Encapsulated by Private VPN -> Encapsulated by Public VPN -> Delievered to ISP -> Arrive and decapsulated by public VPN server -> Delievered and decapsulated by private VPN server -> Delievered to the original destination
 
+To implement above figure, VMs should pass their packets to the ovs-bridge.
 Fortunately, libvirt supports ovs network bridge for KVM.
 
 ```
