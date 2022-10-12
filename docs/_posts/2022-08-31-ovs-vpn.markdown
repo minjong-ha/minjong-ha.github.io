@@ -105,4 +105,8 @@ Unlike the original network xml has information about the network itself, ovs ne
 Since it only indicates the name of ovs bridge, the policy about the network name is required.
 If the ovs-bridge were created and activated, network packets coming from the VM go to it through the VM tap.
 
+Each ovs-bridges has a tap device for VPN module.
+The packets from VMs are delievered to the ovs-bridge through VM tap, and also delivered to the VPN tap.
+Following the routing rules, packets will be sended to NIC (in case of public network VM) or ovs-bridge for public network (in case of private network VM).
+
 
