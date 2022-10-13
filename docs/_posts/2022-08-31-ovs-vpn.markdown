@@ -24,8 +24,8 @@ Open vSwitch implements virtual, software based switch instead of physical switc
 OvS can support multiple virtual NICs(vNIC) with single physical NIC cable
 
 <!---OvS example image --->
-<img data-action="zoom" src='{{ "../assets/images/_posts/2022-08-31-ovs-vpn/ovs_example_1.png" | relative_url }}' alt='relative'>
-<img data-action="zoom" src='{{ "../assets/images/_posts/2022-08-31-ovs-vpn/ovs_example_2.png" | relative_url }}' alt='relative'>
+<img data-action="zoom" src='{{ "../assets/images/posts/2022-08-31-ovs-vpn/ovs_example_1.png" | relative_url }}' alt='relative'>
+<img data-action="zoom" src='{{ "../assets/images/posts/2022-08-31-ovs-vpn/ovs_example_2.png" | relative_url }}' alt='relative'>
 
 Above image represents the overall architecture of OvS applied system.
 There are two VMs with different purposes (internal / external), and OvS supports them by providing virtual NICs.

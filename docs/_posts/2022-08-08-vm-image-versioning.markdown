@@ -26,7 +26,7 @@ In this post, I will explain about external snapshot.
 
 ## Qcow2 Architecture
 
-<img data-action="zoom" src='{{ "../assets/images/_posts/2022-08-08-vm-image-versioning/qcow_struct.png" | relative_url }}' alt='relative'>
+<img data-action="zoom" src='{{ "../assets/images/posts/2022-08-08-vm-image-versioning/qcow_struct.png" | relative_url }}' alt='relative'>
 
 Above image represents the header (metadata) of qcow2 file.
 "qcow2" image can be divided to seven sectors: Header, L1 Table, Refcount Table, More Refcount Blocks, Snapshot Headers, L2 Tables and Data Reserved (data cluster).
@@ -51,7 +51,7 @@ I will explain more details about it in later section.
 
 ## Qcow2 Data Allocation
 
-<img data-action="zoom" src='{{ "../assets/images/_posts/2022-08-08-vm-image-versioning/qcow_image_achitecture.png" | relative_url }}' alt='relative'>
+<img data-action="zoom" src='{{ "../assets/images/posts/2022-08-08-vm-image-versioning/qcow_image_achitecture.png" | relative_url }}' alt='relative'>
 
 Above image represents the architecture of qcow2 file when it writes the data.
 qcow2 image manages the data with L1,L2 tables and Refcount tables like page table.

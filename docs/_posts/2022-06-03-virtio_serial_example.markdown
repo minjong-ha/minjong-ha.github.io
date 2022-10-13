@@ -19,7 +19,7 @@ Implementing drivers for both Host and Guest is the time consuming works.
 Fortunately, Virtio also presents the ready-to-use drivers for the various purposes: virtio-blk, virtio-pci, virtio-serial, and etcs.
 In this post, I will explain about the virtio-serial drivers.
 
-<img data-action="zoom" src='{{ "../assets/images/_posts/2022-06-03-virtio_serial_example/Guest-VM-Agent.png" | relative_url }}' alt='relative'>
+<img data-action="zoom" src='{{ "../assets/images/posts/2022-06-03-virtio_serial_example/Guest-VM-Agent.png" | relative_url }}' alt='relative'>
 
 Above image represents the overall architecture of communication with virtio-serial.
 Virtio serial front-end driver and back-end driver perform the communication between the Host and Guest.
