@@ -15,6 +15,7 @@ Since we already understand the detail operations, comparison between the Full a
 
 <!-- require proper image-->
 <img data-action="zoom" src='{{ "../assets/images/_posts/2022-04-25-host-guest-communication/QEMU-KVM.png" | relative_url }}' alt='relative'>
+![QEMU-KVM]({{"../assets/images/_posts/2022-04-25-host-guest-communication/QEMU-KVM.png" | relative_url}})
 
 Assume that we try to send network packet inside the Guest.
 In the Guest, the application requests to the Guest's Kernel and hands over the data to make it as a packet and send.

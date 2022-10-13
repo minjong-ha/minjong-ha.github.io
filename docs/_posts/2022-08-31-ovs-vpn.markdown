@@ -24,6 +24,8 @@ Open vSwitch implements virtual, software based switch instead of physical switc
 OvS can support multiple virtual NICs(vNIC) with single physical NIC cable
 
 <!---OvS example image --->
+<img data-action="zoom" src='{{ "../assets/images/_posts/2022-08-31-ovs-vpn/ovs_example_1.png" | relative_url }}' alt='relative'>
+<img data-action="zoom" src='{{ "../assets/images/_posts/2022-08-31-ovs-vpn/ovs_example_2.png" | relative_url }}' alt='relative'>
 
 Above image represents the overall architecture of OvS applied system.
 There are two VMs with different purposes (internal / external), and OvS supports them by providing virtual NICs.
@@ -109,4 +111,9 @@ Each ovs-bridges has a tap device for VPN module.
 The packets from VMs are delievered to the ovs-bridge through VM tap, and also delivered to the VPN tap.
 Following the routing rules, packets will be sended to NIC (in case of public network VM) or ovs-bridge for public network (in case of private network VM).
 
+
+## Reference
+* https://opennetworking.org/news-and-events/blog/p4-and-open-vswitch/
+* https://docs.openvswitch.org/en/latest/howto/vlan/
+* https://commons.wikimedia.org/wiki/File:Distributed_Open_vSwitch_instance.svg
 
