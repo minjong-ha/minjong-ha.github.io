@@ -40,6 +40,7 @@ However, they also need to connect to the internet to use e-mail and etc.
 In this case, their network are usually having following shape.
 
 <!---VPN Environment image--->
+<img data-action="zoom" src='{{ "../assets/images/posts/2022-08-31-ovs-vpn/vpn_topology.png" | relative_url }}' alt='relative'>
 
 It is reasonable network topology if their computers are located in private network.
 Usually, there are two computers in these environments: one for the private, and another for the public.
@@ -71,6 +72,7 @@ It means that there are VPN clients on the host side.
 Since the network and VPN modules are on same layer, it is possible to configurate VPN depending on the network state.
 
 <!--- vm-vm model network topology --->
+<img data-action="zoom" src='{{ "../assets/images/posts/2022-08-31-ovs-vpn/vm_topology.png" | relative_url }}' alt='relative'>
 
 Each VMs should looks like located in the private network.
 Open vSwitch can be used to seperate the networks for each VMs.
@@ -84,6 +86,8 @@ However, before they pass over to the public VPN, they should be handled by priv
 They are delivered to the private ovs-bridge and private VPN.
 Then, following the routing rules, they are handled over to public ovs-bridge.
 Remains are same with the public packtes.
+
+<img data-action="zoom" src='{{ "../assets/images/posts/2022-08-31-ovs-vpn/overall_topology.png" | relative_url }}' alt='relative'>
 
 The packtes from private VM follow following sequences.
 Private VM -> Encapsulated by Private VPN -> Encapsulated by Public VPN -> Delievered to ISP -> Arrive and decapsulated by public VPN server -> Delievered and decapsulated by private VPN server -> Delievered to the original destination
