@@ -141,6 +141,15 @@ One of the task is executed with file system.
 Since it updates or writes its system files, thin-provisioned qcow2 file grows up more than 1 GB only with the booting.
 For this reason, managing VM versions requires amount of storage.
 
+## Apendix
+
+### Capacity Coverage for QCow2 image
+
+A single L1 or L2 table can hold maximum 262,144 entries (2^18).
+And the size of data cluster can be 512 bytes to 2 MB (2^9 to 2^21).
+Since there is only one L1 table for qcow2 image, the maximum number of L2 entries are 2^18 x 2^18 = 2^36.
+In the case when the data cluster is 512 bytes, qcow2 image can handle maximum 2^36 x 2^9 = 2^45 bytes (32 TB).
+In the case when the data cluster is 2 MB, qcow2 image can handle maximum 2^36 x 2^21 = 2^57 (128 PB).
 
 
 ## References
