@@ -152,5 +152,12 @@ In the case when the data cluster is 512 bytes, qcow2 image can handle maximum 2
 In the case when the data cluster is 2 MB, qcow2 image can handle maximum 2^36 x 2^21 = 2^57 (128 PB).
 
 
+### How libvirt communicates with QEMU?
+
+"libvirt" only manages qemu-related information as XML format and provides additional features to users.
+"libvirt" itself only perform XML managing.
+QEMU-related works are performed by executing command through g_loop asymmetrically.
+
+
 ## References
 [Qcow2 Overlay Images](https://kashyapc.fedorapeople.org/virt/lc-2012/snapshots-handout.html)
