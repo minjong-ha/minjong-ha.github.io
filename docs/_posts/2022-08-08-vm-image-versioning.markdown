@@ -157,6 +157,8 @@ In the case when the data cluster is 2 MB, qcow2 image can handle maximum 2^36 x
 "libvirt" only manages qemu-related information as XML format and provides additional features to users.
 "libvirt" itself only perform XML managing.
 QEMU-related works are performed by executing command through g_loop asymmetrically.
+For example, libvirt only generates xmls for a snapshot.
+Actual snapshot image is created by QEMU through "qemu-img" command from libvirt.
 
 
 ## References
