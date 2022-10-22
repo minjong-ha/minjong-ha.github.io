@@ -16,10 +16,16 @@ I already explained the architecture of qcow2 image in ${url_link}.
 To understand more details about I/O and snapshots, I analyzed qcow2 header and source codes based on qemu-7.0.0.
 
 Qcow2 header contains several arguments for its action.
-"nb_snapshots" and "snapshots_offset" represent the number of snapshot that image has and the address.
+"nb_snapshots" and "snapshots_offset" represent the number of snapshot and offsets that image has.
 "image_backing_file" represents the path of backing file that image references.
 
 Since the describes about the internal and external snapshots in QEMU related documents<sup>[1](#footnote_1)</sup> and difference between qcow1 and qcow2<sup>[1](#footnote_2)</sup>, I misundertood that internal and external snapshot are added features in qcow2.
+
+However, based on the name and source codes, qemu does not consider the external snapshot as a snapshot.
+I think its original name is backing file.
+Of course it can be used as a snapshot, however, it is more likely to use it as a template in oVirt.
+oVirt supports template feature, which means that you can create a VM template based on the VM image.
+Usually, the size of the template is thin-provisioned VM image.
 
 ## Qcow2 Snapshot
 
