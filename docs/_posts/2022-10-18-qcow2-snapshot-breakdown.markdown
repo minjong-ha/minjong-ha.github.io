@@ -22,10 +22,17 @@ Qcow2 header contains several arguments for its action.
 Since the describes about the internal and external snapshots in QEMU related documents<sup>[1](#footnote_1)</sup> and difference between qcow1 and qcow2<sup>[1](#footnote_2)</sup>, I misundertood that internal and external snapshot are added features in qcow2.
 
 However, based on the name and source codes, qemu does not consider the external snapshot as a snapshot.
-I think its original name is backing file.
+I think its original name is backing file, and qemu support it from qcow (version 1).
 Of course it can be used as a snapshot, however, it is more likely to use it as a template in oVirt.
 oVirt supports template feature, which means that you can create a VM template based on the VM image.
 Usually, the size of the template is thin-provisioned VM image.
+If you generate new VM based on the template, new VM image only has a few MB size and grows.
+oVirt uses backing file feature to implement template.
+
+Since qcow2, qemu supports its new feature: snapshot (internal snapshot).
+Unlike the backing file, internal snapshot contains every snapshot (overlay) architecture within the single file.
+Qemu can switch the VM between the snapshots during the runtime of VM.
+Moreover, it also provide memory state snapshot either, so it can reload the VM state when the snapshot created.
 
 ## Qcow2 Snapshot
 
