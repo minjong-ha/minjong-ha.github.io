@@ -118,6 +118,11 @@ The packets from VMs are delievered to the ovs-bridge through VM tap, and also d
 Following the routing rules, packets will be sended to NIC (in case of public network VM) or ovs-bridge for public network (in case of private network VM).
 
 
+### Packet Path
+Using the networks of VMs requires handling the logically seperated networks.
+There are steps that system should follow.
+
+
 ## Reference
 * https://opennetworking.org/news-and-events/blog/p4-and-open-vswitch/
 * https://docs.openvswitch.org/en/latest/howto/vlan/
