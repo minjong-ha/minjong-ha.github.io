@@ -168,6 +168,135 @@ New L1 table in snapshot has same size with the L1 table of base image and also 
 It means that both L1 tables has same L2 table offsets.
 Qcow2 snapshot does not allocate independent L2 table when it snapshots the image.
 
+Copy-on-Write operations, including allocate new L2 table and data clusters, are performed during the I/O operations.
+
+```c
+/* qemu/block/qed.c */
+
+/**
+ * Begin next I/O or complete the request
+ */
+static int coroutine_fn qed_aio_next_io(QEDAIOCB *acb)
+{
+	...
+	while (1) {
+		...
+		if (acb->flags & QED_AIOCB_WRITE) {
+			ret = qed_aio_write_data(acb, ret, offset, len);
+		}
+		...
+	}
+	...
+}
+
+
+/**
+ * Write data cluster
+ *
+ * @opaque:     Write request
+ * @ret:        QED_CLUSTER_FOUND, QED_CLUSTER_L2 or QED_CLUSTER_L1
+ * @offset:     Cluster offset in bytes
+ * @len:        Length in bytes
+ *
+ * Called with table_lock held.
+ */
+static int coroutine_fn qed_aio_write_data(void *opaque, int ret,
+                                           uint64_t offset, size_t len)
+{
+    QEDAIOCB *acb = opaque;
+
+    trace_qed_aio_write_data(acb_to_s(acb), acb, ret, offset, len);
+
+    acb->find_cluster_ret = ret;
+
+    switch (ret) {
+    case QED_CLUSTER_FOUND:
+        return qed_aio_write_inplace(acb, offset, len);
+
+    case QED_CLUSTER_L2: // cluster missing in L2: no data cluster, L2 table exist
+    case QED_CLUSTER_L1: // cluster missing in L1: no L2 table, L1 table exist (of course)
+    case QED_CLUSTER_ZERO: // zero cluster found: zero page?: L2 table exist, but no data cluster
+        return qed_aio_write_alloc(acb, len);
+
+    default:
+        g_assert_not_reached();
+    }
+}
+
+/**
+ * Write new data cluster
+ *
+ * @acb:        Write request
+ * @len:        Length in bytes
+ *
+ * This path is taken when writing to previously unallocated clusters.
+ *
+ * Called with table_lock held.
+ */
+static int coroutine_fn qed_aio_write_alloc(QEDAIOCB *acb, size_t len)
+{
+	...
+	if (!(acb->flags & QED_AIOCB_ZERO)) {
+		ret = qed_aio_write_cow(acb); // copy data-cluster of backing file
+		...
+	}
+	...
+	return qed_aio_write_l2_update(acb, acb->cur_cluster); // alloc and update L2 table
+}
+
+/**
+ * Populate untouched regions of new data cluster
+ *
+ * Called with table_lock held.
+ */
+static int coroutine_fn qed_aio_write_cow(QEDAIOCB *acb)
+{
+	...
+  ret = qed_copy_from_backing_file(s, start, len, acb->cur_cluster);
+	...
+}
+
+/**
+ * Update L2 table with new cluster offsets and write them out
+ *
+ * Called with table_lock held.
+ */
+static int coroutine_fn qed_aio_write_l2_update(QEDAIOCB *acb, uint64_t offset)
+{
+    BDRVQEDState *s = acb_to_s(acb);
+    bool need_alloc = acb->find_cluster_ret == QED_CLUSTER_L1;
+    int index, ret;
+
+    if (need_alloc) {
+        qed_unref_l2_cache_entry(acb->request.l2_table);
+        acb->request.l2_table = qed_new_l2_table(s);
+    }
+
+    index = qed_l2_index(s, acb->cur_pos);
+    qed_update_l2_table(s, acb->request.l2_table->table, index, acb->cur_nclusters,
+                         offset);
+
+    if (need_alloc) {
+        /* Write out the whole new L2 table */
+        ret = qed_write_l2_table(s, &acb->request, 0, s->table_nelems, true);
+        if (ret) {
+            return ret;
+        }
+        return qed_aio_write_l1_update(acb);
+    } else {
+        /* Write out only the updated part of the L2 table */
+        ret = qed_write_l2_table(s, &acb->request, index, acb->cur_nclusters,
+                                 false);
+        if (ret) {
+            return ret;
+        }
+    }
+    return 0;
+}
+```
+
+Above codes is located in qemu/block/qed.c.
+
 
 ## References
 
