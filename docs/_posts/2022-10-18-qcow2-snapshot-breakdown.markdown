@@ -296,6 +296,15 @@ static int coroutine_fn qed_aio_write_l2_update(QEDAIOCB *acb, uint64_t offset)
 ```
 
 Above codes is located in qemu/block/qed.c.
+Qemu handles I/O operations from VM with async I/O (coroutine).
+Suppose there is a new snapshot and write request arrived from VM.
+First, Qemu translates the value from VM to qcow2 offset.
+Since it is a new snapshot image, it only has L1 table.
+In qed_aio_write_date() function, we can see there is a switch: QED_CLUSTER_FOUND/L2/L1/ZERO.
+QED_CLUSTER_X represents there is only X.
+For example, QED_CLUSTER_L1 means there are only L1 table only in designated, translated address.
+We supposed that the image is a new snapshot, it also has QED_CLUSTER_L1 state.
+
 
 
 ## References
