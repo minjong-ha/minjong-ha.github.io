@@ -300,10 +300,16 @@ Qemu handles I/O operations from VM with async I/O (coroutine).
 Suppose there is a new snapshot and write request arrived from VM.
 First, Qemu translates the value from VM to qcow2 offset.
 Since it is a new snapshot image, it only has L1 table.
-In qed_aio_write_date() function, we can see there is a switch: QED_CLUSTER_FOUND/L2/L1/ZERO.
-QED_CLUSTER_X represents there is only X.
+In qed_aio_write_date() function, we can see there is a switch for states: QED_CLUSTER_FOUND/L2/L1/ZERO.
+QED_CLUSTER_X represents that there is only X.
 For example, QED_CLUSTER_L1 means there are only L1 table only in designated, translated address.
-We supposed that the image is a new snapshot, it also has QED_CLUSTER_L1 state.
+We supposed that the image is a new snapshot, and it is also QED_CLUSTER_L1 state.
+
+In qed_aio_write_alloc(), qemu decide that the write operation requires CoW.
+If the CoW required, it allocates new data cluster and copy the data from the data cluster of base image with updated data.
+Then, it allocates new L2 table.
+Qemu figure out the index of original data cluster, and update the index of new L2 table with new data cluster.
+After the L2 table update, it also copies the last L2 table entries of base image to the snapshot.
 
 
 
