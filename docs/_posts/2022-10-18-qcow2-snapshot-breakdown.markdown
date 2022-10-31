@@ -309,7 +309,18 @@ In qed_aio_write_alloc(), qemu decide that the write operation requires CoW.
 If the CoW required, it allocates new data cluster and copy the data from the data cluster of base image with updated data.
 Then, it allocates new L2 table.
 Qemu figure out the index of original data cluster, and update the index of new L2 table with new data cluster.
-After the L2 table update, it also copies the last L2 table entries of base image to the snapshot.
+
+Qemu repeats above actions with CoW.
+
+
+Qemu determine its QED_CLUSTER_X state with bitmap.
+In L1/L2 table, each entries has 8 byte data type (unsigned int64_t).
+However, it only use 6 bytes for offset.
+In remaining 2 bytes, qemu use the 1 bit for representing that the offset is owned by its image.
+When the L1 table allocated, it initialize its entries with 0 (memset).
+Representing 1 bit also be 0.
+If the representing 1 bit is 0, it means that there is no L2 table in this offset pointing.
+When the L2 table is allocated, qemu also update the representing 1 bit value to 1 and it means there is a L2 table in owned image.
 
 
 
