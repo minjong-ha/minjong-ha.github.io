@@ -119,13 +119,14 @@ Following the routing rules, packets will be sended to NIC (in case of public ne
 
 
 ### Packet Path
+
 Using the networks of VMs requires the logically seperated networks.
 Each VMs is connected to the OvS bridge, and the bridges are also connected with VPN modules or other OvS bridge or NIC.
-Ovs bridges send the packet following the routing rule that host has.
-There are steps that system should follow.
+Ovs bridges send the packet following the routing rule that host configurated.
 
 
 ## Reference
+
 * https://opennetworking.org/news-and-events/blog/p4-and-open-vswitch/
 * https://docs.openvswitch.org/en/latest/howto/vlan/
 * https://commons.wikimedia.org/wiki/File:Distributed_Open_vSwitch_instance.svg
