@@ -162,10 +162,10 @@ fail:
 }
 ```
 
-Above codes are located in qemu/block/qcow2-snapshot.c, and it represents the start point of snapshot.
+Above codes are located in qemu/block/qcow2-snapshot.c, and it represents the start point of snapshot action.
 When snapshot is created, L1 table is allocated by qcow2_alloc_clusters().
 New L1 table in snapshot has same size with the L1 table of base image and also has same values.
-It means that both L1 tables has same L2 table offsets.
+It means that both L1 tables have same L2 table offsets.
 Qcow2 snapshot does not allocate independent L2 table when it snapshots the image.
 
 Copy-on-Write operations, including allocate new L2 table and data clusters, are performed during the I/O operations.
@@ -298,20 +298,18 @@ static int coroutine_fn qed_aio_write_l2_update(QEDAIOCB *acb, uint64_t offset)
 Above codes is located in qemu/block/qed.c.
 Qemu handles I/O operations from VM with async I/O (coroutine).
 Suppose there is a new snapshot and write request arrived from VM.
-First, Qemu translates the value from VM to qcow2 offset.
-Since it is a new snapshot image, it only has L1 table.
+First, Qemu translates the value from VM to qcow2 offset while snapshot image only has L1 table.
 In qed_aio_write_date() function, we can see there is a switch for states: QED_CLUSTER_FOUND/L2/L1/ZERO.
 QED_CLUSTER_X represents that there is only X.
 For example, QED_CLUSTER_L1 means there are only L1 table only in designated, translated address.
 We supposed that the image is a new snapshot, and it is also QED_CLUSTER_L1 state.
 
-In qed_aio_write_alloc(), qemu decide that the write operation requires CoW.
+In qed_aio_write_alloc(), qemu decides that the write operation requires CoW.
 If the CoW required, it allocates new data cluster and copy the data from the data cluster of base image with updated data.
 Then, it allocates new L2 table.
 Qemu figure out the index of original data cluster, and update the index of new L2 table with new data cluster.
 
 Qemu repeats above actions with CoW.
-
 
 Qemu determine its QED_CLUSTER_X state with bitmap.
 In L1/L2 table, each entries has 8 byte data type (unsigned int64_t).
