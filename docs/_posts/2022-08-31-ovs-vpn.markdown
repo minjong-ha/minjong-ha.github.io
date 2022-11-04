@@ -124,6 +124,14 @@ Using the networks of VMs requires the logically seperated networks.
 Each VMs is connected to the OvS bridge, and the bridges are also connected with VPN modules or other OvS bridge or NIC.
 Ovs bridges send the packet following the routing rule that host configurated.
 
+Followings represent the packet flow of each VMs.
+
+Public Network VM: VM -> tap for VM -> ovs bridge for VM (Public) -> VPN Module (1st) -> NIC
+
+Private Network VM: VM -> tap for VM -> ovs bridge for VM (Private) -> VPN Module (2nd) -> ovs bridge for VM (Public) -> VPN Module (1st) -> NIC
+
+
+
 
 ## Reference
 
