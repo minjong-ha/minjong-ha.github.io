@@ -19,16 +19,18 @@ At the time I graduated from the university with the research about the non-vola
 Compared to the costs and efforts of applying non-volatile memory from the volatile-memory, the performance improvement did not look attractive.
 Thus, the companies preferred to increase the memory physically, and the researchers start to study about the "CXL memory" instead.
 
-However, I read an articles that the researchers in CAMEL lab (KAIST) implemented a integrated persistence centric system with the Intel OptaneDC Persistent Memory.
+However, I read an articles that the researchers in CAMEL lab of KAIST implemented a integrated persistence centric system with the Intel OptaneDC Persistent Memory.
 
-In this post, I will summarize their contributions, explain their architecture, and evaluate their experiment.
+In this post, I will review their contributions, explain their architecture, and evaluate their experiment.
 Followings are my questions before I read the paper
 
 * How could they maintain the consistency among the each operations?
 
-* How could they reduce the overhead coming from amplification?
+* How could they reduce the overhead coming from amplification and consistency?
 
 * How could they leverage the write performance?
+
+Actually, those three questions are all connected very close.
 
 
 ## 1. Abstract
@@ -37,7 +39,7 @@ Persistent Memory (PMEM) was released by Intel in 2019, and it can persist the d
 However, although its characteristics such as x10 times capacity and non-volatile, it also has limitations since its lower performance than volatile memory with hard to use.
 In this paper, the researchers suggest LightPC: easy to use non-volatile computing platform consist of dedicated OS.
 
-The following summarizes represent the contributions of the paper
+The following summarizes represent the contributions of the paper:
 
 * Open-Channel architecture for PMEM
 
