@@ -89,6 +89,9 @@ Third, complicated PMEM's DIMM-level architecture which causes non-deterministic
 For these reasons, it is very challenable that utilize PMEM for leaveraging system performance.
 
 
+## 4. Design (LightPC)
+
+
 
 
 
