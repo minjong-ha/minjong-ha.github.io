@@ -8,7 +8,7 @@ title: About me
 
 ## Experience
   * __2022.01 - Present : Research & Develop / TmaxOS__
-     - Research and develop 'TmaxGooroom SD' based on Gooroom OS
+     - Research and develop 'TmaxGooroom SD' based on [Gooroom OS](https://gooroom.kr].
 	    - Improve and optimize VM performance with the para-virtualization
 		- Research and implement Host-Guest communication
 <!--		- Implement VM image management infrastructure -->
