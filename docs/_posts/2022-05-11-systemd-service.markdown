@@ -14,6 +14,13 @@ It starts the services / daemons, keeps track of precesses with control groups, 
 ## Backgrounds
 
 <!-- about services... what are they and where we use them-->
+"systemd" always has PID 1.
+When the system booted, the services start following the orders with parallelization by the systemd.
+
+There are two directories for systemd services: "/lib/systemd/" and "/etc/systemd/".
+There is no strict rules that deciding which service should be where; it is a policy.
+The services in "/lib/systemd/" path are usually installed by default package manager (i.e. apt in Debians, yum in CentOS).
+On the other hand, "/etc/systemd/" path generally has manually installed, modified services and symbolic links of systemd services.
 
 
 ## .service Files
