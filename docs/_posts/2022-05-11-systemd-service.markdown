@@ -27,6 +27,12 @@ If there are two service files having different contents with same title, the se
 Also there are "/system" and "/user" directories under the "/lib/systemd/" and "/etc/systemd".
 The services under the "/system" directory are system services.
 They starts when the system booted, and follow the order that systemd pre-defined.
+For example, libvirtd-related services include multi-user.target in their service files (I will explain it in later).
+It starts when the Linux enters in multi-user.target; it is usually considered as CLI based with tty.
+On the other hand, gnome-related services include graphical.target in their service files.
+It starts when the GUI is provided by the Linux.
+Thus, gnome-related services never start before the libvirtd-related services.
+The services having graphical.target.
 
 
 ## .service Files
