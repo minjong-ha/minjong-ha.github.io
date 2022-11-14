@@ -37,6 +37,30 @@ Thus, gnome-related services never start before the libvirtd-related services si
 ## ".service" Files
 
 <!-- Details about service.file-->
+```
+# libvirtd.service
+
+[Unit]
+Description=Virtualization daemon
+Requires=virtlogd.socket
+...
+After=xencommons.service
+Conflicts=xendomains.service
+...
+
+[Service]
+Type=notify
+ExecStart=/usr/sbin/libvirtd $LIBVIRTD_ARGS
+...
+
+[Install]
+WantedBy=multi-user.target
+Also=virtlockd.socket
+...
+```
+
+Above is the part of "libvirtd.service" file.
+There are three sections in ".service" file: Unit, Service, and Install.
 
 ### 1. Unit
 
