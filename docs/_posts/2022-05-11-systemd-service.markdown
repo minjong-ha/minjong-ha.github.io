@@ -12,11 +12,16 @@ In this post, I share what I learned about systemd.
 It starts the services / daemons, keeps track of precesses with control groups, maintains mount/unmount points, and provide dependency-based service control logic.
 "systemd" involves the Linux system widely, but I focus the starting services and dependency-based service control logics in this post.
 
+
 ## Backgrounds
 
-<!-- about services... what are they and where we use them-->
-"systemd" always has PID 1.
-When the system booted, the services start following the orders with parallelization by the systemd.
+<!-- some description about systemd -->
+<!-- overview? -->
+
+
+## ".service" Files
+
+<!-- Details about service.file-->
 
 There are two directories for systemd services: "/lib/systemd/" and "/etc/systemd/".
 There is no strict rules that deciding which service should be where; it is a policy.
@@ -33,10 +38,9 @@ On the other hand, gnome-related services include graphical.target in their serv
 It starts when the GUI is provided by the Linux.
 Thus, gnome-related services never start before the libvirtd-related services since services belong to graphical.target start after the services belong to multi-user.target start (multi-user.target -> graphical.target).
 
+Above is the part of "libvirtd.service" file.
+There are three sections in ".service" file: Unit, Service, and Install.
 
-## ".service" Files
-
-<!-- Details about service.file-->
 ```
 # libvirtd.service
 
@@ -59,8 +63,6 @@ Also=virtlockd.socket
 ...
 ```
 
-Above is the part of "libvirtd.service" file.
-There are three sections in ".service" file: Unit, Service, and Install.
 
 ### 1. Unit
 
