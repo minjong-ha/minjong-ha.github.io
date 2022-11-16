@@ -38,6 +38,11 @@ On the other hand, gnome-related services include graphical.target in their serv
 It starts when the GUI is provided by the Linux.
 Thus, gnome-related services never start before the libvirtd-related services since services belong to graphical.target start after the services belong to multi-user.target start (multi-user.target -> graphical.target).
 
+"systemd" service has three state: inactive, activating, and active.
+"inactive" represents that the service is not executed.
+"systemd" runs the services following the relations between of them, and make their state to "activating".
+If the service satisfies the active contidion, its state becomes "active".
+
 Above is the part of "libvirtd.service" file.
 There are three sections in ".service" file: Unit, Service, and Install.
 
@@ -65,6 +70,23 @@ Also=virtlockd.socket
 
 
 ### 1. Unit
+Unit section defines the relations with other services.
+Suppose there is a service "A":
+
+- Description
+> * Short describes what service it is.
+
+- Requires
+> * The services belong to "Requires" should be active to activate service "A".
+
+- Wants
+> * When the service "A" executes, the services belong to "Wants" also be executed. Unlike "Requires", "A" can be active even if the service in "Wants" fails to run.
+
+- BindsTo:
+> * If the services in "BindsTo" become inactive, "A" also be inactive.
+
+- PartOf:
+> * If the services in "PartOf" try to restart or inactive, "A" follows their action.
 
 
 ### 2. Service
