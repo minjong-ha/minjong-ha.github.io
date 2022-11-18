@@ -108,8 +108,26 @@ Suppose there is a service "A":
 >> * dbus: When the service acquires the dbus it defined, it is considered as active.
 >> * notify: When the service sends message through sd_notify, it is considered as active.
 
+- Exec
+> * Execution command or file for the service.
+
+- ExecStart Post | ExecStart Pre
+> * Execution command or file before or after the service starts.
+
+- ExecStop Post | ExecStop Pre
+> * Execution command or file before or after the service stops.
+
 
 ### 3. Install
+
+- WantedBy | RequiredBy
+> * Define the services that should be enabled when the service "A" is enabled == Enable them with "A".
+
+- Alias
+> * Create symbolic link for the service "A" in the name in "Alias".
+
+- Also
+> * Define the services that should be enabled or disabled when the service "A" is enabled or disabled.
 
 
 ## Appendix
