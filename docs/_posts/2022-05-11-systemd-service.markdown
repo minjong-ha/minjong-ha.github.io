@@ -132,13 +132,26 @@ Suppose there is a service "A":
 
 ## Appendix
 
-### systemd-analyze
-<!-- systemd-analyize critical-chain -->
-
-### What about starting service after the other service finished?
-<!-- about FDE: dev-mapper-extra2.device file case-->
-
 ### "override.conf"
+
+In ".service file" section, I explained there are two paths for systemd: /lib/systemd and /etc/systemd.
+If there are two same service files both in /lib/systemd and /etc/systemd, the file in /etc/systemd has prioirity.
+As a result, it is possible to customize the systemd service with /etc/systemd.
+
+However, if the original service file in /lib/systemd is updated and its contents changes, service file in /etc/systemd might causes unintended behavior.
+It is high complexity task that managing service file in /etc/systemd whenever the original service file is updated.
+"systemd" supports override.conf feature for this situation.
+For example, suppose that I want to add dependency for libvirtd.service.
+I can create a directory called /etc/systemd/system/libvirtd.service.d and write a "override.conf" file and its content is:
+
+```
+[Unit]
+After=dev-mapper-extra.device
+```
+
+I add a dependency for libvirtd.service using override.conf file.
+With the override.conf, service file in /lib/systemd dynamically add the dependency when the systemd define the order between the services.
+
 
 
 
