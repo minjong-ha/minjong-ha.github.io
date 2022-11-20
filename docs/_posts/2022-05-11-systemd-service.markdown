@@ -68,6 +68,8 @@ Also=virtlockd.socket
 ...
 ```
 
+Above codes represent the contents of the service file.
+
 
 ### 1. Unit
 Unit section defines the relations with other services.
@@ -100,6 +102,9 @@ Suppose there is a service "A":
 
 ### 2. Service
 
+Service section defines the execution related tasks for service "A".
+One thing important is there are multiple types for define the active of service "A".
+
 - Type = simple | forking | oneshot | dbus | notify
 > * "Type" represents the conditions for active. If the service satisfies the condition in "Type", its state changes to active from activating.
 >> * simple: Executing the service is considered as active.
@@ -119,6 +124,8 @@ Suppose there is a service "A":
 
 
 ### 3. Install
+
+Instal section contains the information when the service "A" enabled (installed) by systemd.
 
 - WantedBy | RequiredBy
 > * Define the services that should be enabled when the service "A" is enabled == Enable them with "A".
