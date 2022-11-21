@@ -10,7 +10,7 @@ In this post, I share what I learned about systemd.
 
 "systemd" is a suite of basic building blocks for a Linux system[Wiki](https://www.freedesktop.org/wiki/Software/systemd/).
 It starts the services / daemons, keeps track of precesses with control groups, maintains mount/unmount points, and provide dependency-based service control logic.
-"systemd" involves the Linux system widely, but I focus the starting services and dependency-based service control logics in this post.
+"systemd" involves to the Linux system widely, but I focus on the launching services and dependency-based service control logics in this post.
 
 
 ## Backgrounds
@@ -125,7 +125,13 @@ One thing important is there are multiple types for define the active of service
 
 ### 3. Install
 
-Instal section contains the information when the service "A" enabled (installed) by systemd.
+Install section contains the information when the service "A" enabled (installed) by systemd.
+Usually, install section includes ".target" dependency using WantedBy or RequiredBy.
+When the system is booted, systemd launches the services following the target level: init.target -> basic.target -> ... -> multi-user.target -> graphical.target.
+If the service has multi-user.target dependency in Install section, systemd launches it at the multi-user.target turn.
+
+
+It is also can be used to manage the services as a group.
 
 - WantedBy | RequiredBy
 > * Define the services that should be enabled when the service "A" is enabled == Enable them with "A".
