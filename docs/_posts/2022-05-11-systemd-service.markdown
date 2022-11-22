@@ -2,22 +2,17 @@
 layout: posts
 title:  "systemd: How can I manage the services in Linux?""
 author: Minjong Ha
-published: false
+published: true
 date:   2022-05-11 19:38:22 +0900
 ---
+
+## Introduction
 
 In this post, I share what I learned about systemd.
 
 "systemd" is a suite of basic building blocks for a Linux system[Wiki](https://www.freedesktop.org/wiki/Software/systemd/).
 It starts the services / daemons, keeps track of precesses with control groups, maintains mount/unmount points, and provide dependency-based service control logic.
 "systemd" involves to the Linux system widely, but I focus on the launching services and dependency-based service control logics in this post.
-
-
-## Backgrounds
-
-<!-- some description about systemd -->
-<!-- overview? -->
-
 
 ## ".service" Files
 
