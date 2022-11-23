@@ -1,6 +1,6 @@
 ---
 layout: posts
-title:  "systemd: How can I manage the services in Linux?""
+title:  "systemd: How can I manage the services in Linux?"
 author: Minjong Ha
 published: true
 date:   2022-05-11 19:38:22 +0900
