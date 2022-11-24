@@ -160,6 +160,11 @@ After=dev-mapper-extra.device
 I add a dependency for libvirtd.service using override.conf file.
 With the override.conf, service file in /lib/systemd dynamically add the dependency when the systemd define the order between the services.
 
+Following represents the order of priority that systemd has:
+/lib/systemd/ -> /etc/systemd -> /etc/systemd/${unit_name}.d/override.conf
+
+With override.conf, it is easy to manage the unit files with less dependencies.
+
 
 
 
