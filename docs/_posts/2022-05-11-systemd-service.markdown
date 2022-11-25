@@ -70,29 +70,29 @@ Above codes represent the contents of the service file.
 Unit section defines the relations with other services.
 Suppose there is a service "A":
 
-- Description
-> * Short describes what service it is.
+* Description
+    * Short describes what service it is.
 
-- Requires
-> * The services belong to "Requires" should be active to activate service "A".
+* Requires
+    * The services belong to "Requires" should be active to activate service "A".
 
-- Wants
-> * When the service "A" executes, the services belong to "Wants" also be executed. Unlike "Requires", "A" can be active even if the service in "Wants" fails to run.
+* Wants
+    * When the service "A" executes, the services belong to "Wants" also be executed. Unlike "Requires", "A" can be active even if the service in "Wants" fails to run.
 
 - BindsTo:
-> * If the services in "BindsTo" become inactive, "A" also be inactive.
+    * If the services in "BindsTo" become inactive, "A" also be inactive.
 
 - PartOf:
-> * If the services in "PartOf" try to restart or inactive, "A" follows their action.
+    * If the services in "PartOf" try to restart or inactive, "A" follows their action.
 
 - Before:
-> * Services in "Before" will not be executed until the "A" executed == Service "A" should be executed before the services in "Before".
+    * Services in "Before" will not be executed until the "A" executed == Service "A" should be executed before the services in "Before".
 
 - After:
-> * Services in "After" will be executed first then "A" == Service "A" wait its execution after the services in "After".
+    * Services in "After" will be executed first then "A" == Service "A" wait its execution after the services in "After".
 
 - Conflicts:
-> * Services in "Conflicts" will not executed at the same time with "A". If "A" is active, "Confilicts" will be inactive, and vice versa.
+    * Services in "Conflicts" will not executed at the same time with "A". If "A" is active, "Confilicts" will be inactive, and vice versa.
 
 
 ### 2. Service
@@ -101,21 +101,21 @@ Service section defines the execution related tasks for service "A".
 One thing important is there are multiple types for define the active of service "A".
 
 - Type = simple | forking | oneshot | dbus | notify
-> * "Type" represents the conditions for active. If the service satisfies the condition in "Type", its state changes to active from activating.
->> * simple: Executing the service is considered as active.
->> * forking: When the child process of the service is created, it is considred as active.
->> * oneshot: Executing the service is considered as active, but it is considered that the main process of the service exits.
->> * dbus: When the service acquires the dbus it defined, it is considered as active.
->> * notify: When the service sends message through sd_notify, it is considered as active.
+    * "Type" represents the conditions for active. If the service satisfies the condition in "Type", its state changes to active from activating.
+        * simple: Executing the service is considered as active.
+        * forking: When the child process of the service is created, it is considred as active.
+        * oneshot: Executing the service is considered as active, but it is considered that the main process of the service exits.
+        * dbus: When the service acquires the dbus it defined, it is considered as active.
+        * notify: When the service sends message through sd_notify, it is considered as active.
 
 - Exec
-> * Execution command or file for the service.
+    * Execution command or file for the service.
 
 - ExecStart Post | ExecStart Pre
-> * Execution command or file before or after the service starts.
+     * Execution command or file before or after the service starts.
 
 - ExecStop Post | ExecStop Pre
-> * Execution command or file before or after the service stops.
+     * Execution command or file before or after the service stops.
 
 
 ### 3. Install
@@ -129,13 +129,13 @@ If the service has multi-user.target dependency in Install section, systemd laun
 It is also can be used to manage the services as a group.
 
 - WantedBy | RequiredBy
-> * Define the services that should be enabled when the service "A" is enabled == Enable them with "A".
+     * Define the services that should be enabled when the service "A" is enabled == Enable them with "A".
 
 - Alias
-> * Create symbolic link for the service "A" in the name in "Alias".
+     * Create symbolic link for the service "A" in the name in "Alias".
 
 - Also
-> * Define the services that should be enabled or disabled when the service "A" is enabled or disabled.
+     * Define the services that should be enabled or disabled when the service "A" is enabled or disabled.
 
 
 ## Appendix
