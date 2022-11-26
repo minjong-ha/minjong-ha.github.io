@@ -100,7 +100,7 @@ Suppose there is a service "A":
 Service section defines the execution related tasks for service "A".
 One thing important is there are multiple types for define the active of service "A".
 
-- Type = simple | forking | oneshot | dbus | notify
+- Type = simple, forking, oneshot, dbus, notify
     * "Type" represents the conditions for active. If the service satisfies the condition in "Type", its state changes to active from activating.
         * simple: Executing the service is considered as active.
         * forking: When the child process of the service is created, it is considred as active.
@@ -111,10 +111,10 @@ One thing important is there are multiple types for define the active of service
 - Exec
     * Execution command or file for the service.
 
-- ExecStart Post | ExecStart Pre
+- ExecStart Post and ExecStart Pre
      * Execution command or file before or after the service starts.
 
-- ExecStop Post | ExecStop Pre
+- ExecStop Post and ExecStop Pre
      * Execution command or file before or after the service stops.
 
 
@@ -128,7 +128,7 @@ If the service has multi-user.target dependency in Install section, systemd laun
 
 It is also can be used to manage the services as a group.
 
-- WantedBy | RequiredBy
+- WantedBy and RequiredBy
      * Define the services that should be enabled when the service "A" is enabled == Enable them with "A".
 
 - Alias
