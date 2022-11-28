@@ -1,6 +1,6 @@
 ---
 layout: posts
-title:  "Python 3 unittest - with dbus interface and dbus_next (asyncio)"
+title:  "Python 3 dbus-next: Implement dbus interface with asyncio"
 author: Minjong Ha
 published: true
 date:   2022-04-25 17:13:43 +0900
@@ -23,7 +23,87 @@ I will not talk about asyncio itself in this post.
 If you want to know what is the asyncio and how to use it, reference [it](https://docs.python.org/3/library/asyncio.html)
 
 
+## Why dbus-next?
+
+[pydbus](https://pydbus.readthedocs.io/en/latest/legacydocs/tutorial.html) is more familiar to the python users and has more references.
+However, as far as I know, it does not support asyncio and less flexible to use.
+[dbus-next](https://python-dbus-next.readthedocs.io/en/latest/index.html) supports asyncio and easy to add new methods or properties.
+
+### Implement dbus interface through dbus-next
+
+First, we need to implement a new dbus interface for other applications.
+There are three compositions to deploy the interface: name, path (address), and interface
+
+Name represents the unique connection name for bus daemon.
+Usually, it has form of "org.example.dbustest".
+
+Path (address) represents a connection to the bus daemon for application.
+The application with dbus is a client and the dbus daemon is a server.
+Usually, it has form of "/org/example/dbustest".
+The address "/org/example/dbustest" specifies that the server will listen on a UNIX domain socket at the path "/org/example/dbustest".
+
+Interface is an optional parameter for dbus.
+It is useful if there are a lot of methods and properties for dbus, and they require being categorized.
+Usually, it has form of "org.example.dbustest.Module".
 
 
+Now, we need to implement dbus interface for bus daemon.
+There are two files for register: xml and conf.
+Since the name of dbus in this example is "org.example.dbustest", the name of two files are "org.example.dbustest.conf" and "org.example.dbustest.xml".
+They should be located under the "/usr/share/dbus-1/system.d" directory.
+The conf file represents the dbus information to the dbus daemon, and xml file describes the methods and properties that the dbus can handle.
+
+```
+# org.example.dbustest.conf
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE busconfig PUBLIC
+  "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
+  "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+<busconfig>
+   <policy user="root">
+     <allow own="org.example.dbustest"/>
+   </policy>
+   <policy context="default">
+     <allow send_destination="org.example.dbustest"
+            send_interface="org.example.dbustest.Module" />
+     <allow send_destination="org.example.dbustest"
+            send_interface="*" />
+   </policy>
+</busconfig>
+
+```
+
+Above content represents the .conf.
+We can see that it is a system bus, and its destination and interface.
+
+```
+# org.example.dbustest.xml
+
+ <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+  "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+ <node name="/org/example/dbustest">
+   <interface name="org.example.dbustest.Module">
+     <method name="TestMethod">
+       <arg type="s" direction="in"/>
+       <arg type="a{sas}" direction="in"/>
+       <arg type="b" direction="out"/>
+     </method>
+    <signal name="TestSignal">
+       <arg type="a{ss}"/>
+     </signal>
+     <property name="TestProperty" type="a{ss}" access="readwrite"/>
+   </interface>
+</node>
+```
+
+Above content represents the .xml.
+We can see there are three components: method, signal, and property.
+
+
+
+## Appendix
+<!-- unittest for asyncio -->
 
 
