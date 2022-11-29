@@ -2,8 +2,8 @@
 layout: posts
 title:  "Python 3 dbus-next: Implement dbus interface with asyncio"
 author: Minjong Ha
-published: true
-date:   2022-04-25 17:13:43 +0900
+published: false
+date:   2022-11-29 09:00:00 +0900
 ---
 
 In this post, I will explain how to implement and use dbus through python with asyncio (including unittest example).
@@ -100,6 +100,49 @@ We can see that it is a system bus, and its destination and interface.
 
 Above content represents the .xml.
 We can see there are three components: method, signal, and property.
+
+
+After register default dbus information for dbus daemon, it is time to implement an application who is connected to this dbus.
+Following represents the requirements for python (dbus-next).
+
+```
+import asyncio
+
+from dbus_next.aio import MessageBus
+from dbus_next.service import ServiceInterface, method, dbus_property, signal
+from dbus_next import BusType
+
+class testModule(ServiceInterface):
+    def __init__(self):
+        super().__init__("org.example.dbustest.Module")
+
+    ...
+
+    @method()
+    async def TestMethod(self, _arg: "s", device_list: "a{sas}") -> "s":
+        for vm in self.vmlist.values():
+            if vm.get_type() == _arg:
+                for device in device_list.values():
+                    xml = write_xml(device)
+                    asyncio.create_task(vm.dom_device_detach(xml))
+                return "Success"
+        return "Fail : domain not exist"
+
+    @signal()
+    def TestSignal(self) -> "a{ss}":
+        return self.vmstate
+
+    @dbus_property()
+    def TestProperty(self) -> "a{ss}":
+        return self.vmstate
+
+    ...
+```
+
+"testModule" has inheritance to the "ServiceInterface", which is for dbus implementation.
+And we can see there are @method, @signal, @dbus_property that pre-defined in xml and conf files.
+
+
 
 
 
