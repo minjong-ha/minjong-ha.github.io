@@ -76,7 +76,7 @@ The conf file represents the dbus information to the dbus daemon, and xml file d
 ```
 
 Above content represents the .conf.
-We can see that it is a system bus, and its destination and interface.
+We can see that it is a system bus, and it has a destination with the interface.
 
 ```
 # org.example.dbustest.xml
@@ -112,7 +112,7 @@ from dbus_next.aio import MessageBus
 from dbus_next.service import ServiceInterface, method, dbus_property, signal
 from dbus_next import BusType
 
-class testModule(ServiceInterface):
+class TestModule(ServiceInterface):
     def __init__(self):
         super().__init__("org.example.dbustest.Module")
 
@@ -141,6 +141,28 @@ class testModule(ServiceInterface):
 
 "testModule" has inheritance to the "ServiceInterface", which is for dbus implementation.
 And we can see there are @method, @signal, @dbus_property that pre-defined in xml and conf files.
+
+
+Now, what we have to do is publishing the dbus interface inside the application
+
+
+```
+# Someplace in main...
+
+    dbus_manager = TestModule()
+    
+    try:
+        bus = MessageBus(bus_type=BusType.SYSTEM)
+        await bus.connect()
+        bus.export("/org/example/dbustest", dbus_manager)
+        await bus.request_name("org.example.dbustest")
+        await bus.wait_for_disconnect()
+    except:
+        sys.exit(1)
+```
+
+MessageBus() connects "dbus_manager" object with system message bus.
+If another application requests method or property using designated dbus, "dbus_manager" will answer.
 
 
 
