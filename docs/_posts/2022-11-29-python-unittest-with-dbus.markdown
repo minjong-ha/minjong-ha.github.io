@@ -166,9 +166,39 @@ If another application requests method or property using designated dbus, "dbus_
 
 
 
-
-
 ## Appendix
 <!-- unittest for asyncio -->
 
+'''
+from unittest import IsolatedAsyncioTestCase, main
 
+...
+
+async def _get_dbus_interface():
+    bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
+
+    with open("../../dbus/com.tmaxos.Eevee.xml", "r") as f:
+        introspection = f.read()
+
+    proxy_object = bus.get_proxy_object(
+        "com.tmaxos.Eevee", "/com/tmaxos/Eevee", introspection)
+
+    interface = proxy_object.get_interface("com.tmaxos.Eevee.VM")
+
+    return bus, interface
+
+
+class AsyncTestCase(IsolatedAsyncioTestCase):
+    def setUpClass():
+        # DO SOMETHING
+
+    def tearDownClass():
+        # DO SOMETHING
+
+    async def test_asyncio(self):
+        await async_func_for_unittest()
+    ...
+
+if __name__ == "__main__":
+    main()
+'''
