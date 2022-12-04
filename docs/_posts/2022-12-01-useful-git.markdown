@@ -68,6 +68,18 @@ Rebase supports multiple functions:
 #
 ```
 
+I will explain about the commit-related features that I use frequently: "p", "r", "s"
+
+"p"(pick) represents no changes. 
+Commits have p or pick remain still.
+
+"r"(reword) edits the commit.
+If there is a typos in commit or want to change the sentence in commit, "r" is for you.
+
+"s"(squash) merges multiple commits to a single commit.
+It is the important to manage the commit history organized.
+
+
 Suppose there are some commits with like:
 
 ```
