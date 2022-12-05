@@ -13,7 +13,6 @@ However, working with team requires more systemical managing.
 Followings are useful and essential git commands what I use frequently.
 
 ## Git commands for individual
-<!-- git add / commit / push / pull -->
 
 ```
 git add 
@@ -25,7 +24,6 @@ git pull
 Above commands are basic commands for git.
 It is useful even if there is a single developer to use.
 
-<!-- git branch request --> 
 
 ```
 git branch
@@ -35,7 +33,6 @@ git checkout
 Above commands are required from a small team project.
 Each members in team can work in independent branches, and requests merge.
 
-<!-- git rebase -i ${commit_uuid}  / squash -->
 
 ```
 git rebase -i ${commit_uuid}
@@ -72,15 +69,14 @@ I will explain about the commit-related features that I use frequently: "p", "r"
 
 "p"(pick) represents no changes. 
 Commits have p or pick remain still.
+It is optional if you want to change the order of the commit, it can be done in "p".
 
 "r"(reword) edits the commit.
 If there is a typos in commit or want to change the sentence in commit, "r" is for you.
 
 "s"(squash) merges multiple commits to a single commit.
-It is the important to manage the commit history organized.
-
-
-Suppose there are some commits with like:
+It is the important to manage the organized commit histories.
+Since it is a little hard to understand only with the text, suppose there are some commits with like:
 
 ```
 # git log --pretty=oneline
@@ -91,11 +87,25 @@ d4254896637878e71901eb8f4fd061ca1a5c6063 Fix typos in unittest
 69c6f96cc79bf6cacfaf189d32806cf6871d8fd4 Fix unittest
 096ec8681a62ed81f125b3f620ab4623d4c9fa48 Add unittest
 a30fe31c0609a6ecb9c08f9f4317b1edaa029dcc Add new feature
+${some_base_commit_uuid}                 ${some_commit_text}
 ```
 
 Lower commit represents the past and upper commit represents the recent commit.
 As you can see, there are rebundant and duplicated commits.
 "Add unittest", "Fix unittest", and "Fix typos in unittest" have no reason to be seperated especially there is a little changes between commits.
 "Update changelog" and "fix typos in changelog" also have no reason to be exist independently.
+So you can execute following commands and see the screen like this:
+
+```
+# git rebase -i ${some_base_commit_uuid}
+
+pick d085827 fix typos in changelog
+pick 67c842b Update changelog
+pick f1d3e06 Add new feature
+pick d425489 Fix typos in unittest
+pick 69c6f96 Fix unittest
+pick 096ec86 Add unittest
+pick a30fe31 Add new feature
+```
 
 
