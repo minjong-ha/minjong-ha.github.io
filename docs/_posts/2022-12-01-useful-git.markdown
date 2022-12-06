@@ -22,8 +22,7 @@ git pull
 ```
 
 Above commands are basic commands for git.
-It is useful even if there is a single developer to use.
-
+It is useful even if there is a single developer.
 
 ```
 git branch
@@ -99,13 +98,31 @@ So you can execute following commands and see the screen like this:
 ```
 # git rebase -i ${some_base_commit_uuid}
 
-pick d085827 fix typos in changelog
-pick 67c842b Update changelog
-pick f1d3e06 Add new feature
-pick d425489 Fix typos in unittest
-pick 69c6f96 Fix unittest
-pick 096ec86 Add unittest
 pick a30fe31 Add new feature
+pick 096ec86 Add unittest
+pick 69c6f96 Fix unittest
+pick d425489 Fix typos in unittest
+pick f1d3e06 Add new feature
+pick 67c842b Update changelog
+pick d085827 fix typos in changelog
 ```
+
+Be careful that now the order of commits is vice versa (upper commit represents the past commit)
+Since we want to merge some commits, it should be:
+
+```
+pick a30fe31 Add new feature
+pick 096ec86 Add unittest
+s 69c6f96 Fix unittest
+s d425489 Fix typos in unittest
+pick f1d3e06 Add new feature
+pick 67c842b Update changelog
+s d085827 fix typos in changelog
+```
+
+Following the "pick", there will be four commits remain after the rebase.
+Commits with "s" will be merged with the commits with "pick".
+"fix typos in changlog" commit will be merged with "Update Changelog", and "Fix unittest", "Fix typos in unittest" commits will be merged with "Add unittest".
+
 
 
