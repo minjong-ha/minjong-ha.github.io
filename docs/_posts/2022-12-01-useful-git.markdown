@@ -120,9 +120,18 @@ pick 67c842b Update changelog
 s d085827 fix typos in changelog
 ```
 
-Following the "pick", there will be four commits remain after the rebase.
+Following the "pick"s, there will be four commits remain after the rebase.
 Commits with "s" will be merged with the commits with "pick".
-"fix typos in changlog" commit will be merged with "Update Changelog", and "Fix unittest", "Fix typos in unittest" commits will be merged with "Add unittest".
+"fix typos in changlog" commit will be merged with "Update Changelog".
+And "Fix unittest", "Fix typos in unittest" commits will be merged with "Add unittest".
+After you finish te edit, save and exit from vi.
+
+Now there are two things can be happen.
+One is the completion of rebase.
+There is no conflicts between the commits, and squash succeed.
+Another is the conflict.
+If there are some conflicts between the commits you want to squash, you should solve it like merge request.
+
 
 
 
