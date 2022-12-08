@@ -2,7 +2,7 @@
 layout: posts
 title:  "Python 3 dbus-next: Implement dbus interface with asyncio"
 author: Minjong Ha
-published: false
+published: true
 date:   2022-11-29 09:00:00 +0900
 ---
 
@@ -202,3 +202,7 @@ class AsyncTestCase(IsolatedAsyncioTestCase):
 if __name__ == "__main__":
     main()
 '''
+
+Since the dbus-next supports asyncio dbus interface, unittest requires to support asyncio.
+"unittest" supports asyncio with "IsolatedAsyncioTestCase".
+There is no change between normal unittest and asyncio unittest, but add await for async functions.
