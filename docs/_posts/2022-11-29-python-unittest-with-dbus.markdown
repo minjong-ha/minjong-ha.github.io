@@ -2,7 +2,7 @@
 layout: posts
 title:  "Python 3 dbus-next: Implement dbus interface with asyncio"
 author: Minjong Ha
-published: true
+published: false
 date:   2022-11-29 09:00:00 +0900
 ---
 
@@ -142,6 +142,16 @@ class TestModule(ServiceInterface):
 "testModule" has inheritance to the "ServiceInterface", which is for dbus implementation.
 And we can see there are @method, @signal, @dbus_property that pre-defined in xml and conf files.
 
+"@method" represents the function that the external application can call through the dbus.
+I will explain about it in later section.
+
+"@dbus_property()" represents the property than the external application can call through the dbus.
+Also, I will explain about it in later section.
+
+"@signal()" is the only feature that should be called inside the dbus publishing process.
+If the process calls @signal(), the signal is emitted and spread to the every applications connected with dbus.
+It is possible to assign callback function for signal and I will explain it in later section.
+
 
 Now, what we have to do is publishing the dbus interface inside the application
 
@@ -163,6 +173,11 @@ Now, what we have to do is publishing the dbus interface inside the application
 
 MessageBus() connects "dbus_manager" object with system message bus.
 If another application requests method or property using designated dbus, "dbus_manager" will answer.
+
+
+### Interact with dbus-interface at the external application.
+
+
 
 
 
