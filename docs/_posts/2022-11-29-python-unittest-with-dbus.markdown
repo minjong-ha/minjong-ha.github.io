@@ -177,6 +177,34 @@ If another application requests method or property using designated dbus, "dbus_
 
 ### Interact with dbus-interface at the external application.
 
+In external application, you should acquire the connection to the dbus first.
+
+```
+async def _get_dbus_interface():
+    bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
+
+    with open("../../dbus/org.example.dbustest.xml", "r") as f:
+        introspection = f.read()
+
+    proxy_object = bus.get_proxy_object(
+        "org.example.dbustest", "/org/example/dbustest", introspection
+    )
+
+    interface = proxy_object.get_interface("org.example.dbustest.Module")
+
+    return bus, interface
+
+async def test_dbus_backup_method(self):
+    _bus, _if = await _get_dbus_interface()
+
+    _if.call_test_method()
+    _if.on_test_signal()
+    ret = await _if.call_backup_image(DST_FILE, SRC_FILE, TMP_FILE)
+
+    # For waiting backup result
+    await asyncio.sleep(10)
+```
+
 
 
 
@@ -188,20 +216,19 @@ If another application requests method or property using designated dbus, "dbus_
 from unittest import IsolatedAsyncioTestCase, main
 
 ...
-
 async def _get_dbus_interface():
     bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
 
-    with open("../../dbus/com.tmaxos.Eevee.xml", "r") as f:
+    with open("../../dbus/org.example.dbustest.xml", "r") as f:
         introspection = f.read()
 
     proxy_object = bus.get_proxy_object(
-        "com.tmaxos.Eevee", "/com/tmaxos/Eevee", introspection)
+        "org.example.dbustest", "/org/example/dbustest", introspection
+    )
 
-    interface = proxy_object.get_interface("com.tmaxos.Eevee.VM")
+    interface = proxy_object.get_interface("org.example.dbustest.Module")
 
     return bus, interface
-
 
 class AsyncTestCase(IsolatedAsyncioTestCase):
     def setUpClass():
