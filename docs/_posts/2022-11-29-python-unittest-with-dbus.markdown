@@ -179,6 +179,7 @@ If another application requests method or property using designated dbus, "dbus_
 
 In external application, you should acquire the connection to the dbus first.
 
+
 ```
 async def _get_dbus_interface():
     bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
@@ -194,16 +195,26 @@ async def _get_dbus_interface():
 
     return bus, interface
 
+async def _on_test_signal():
+    logging.info("I got signal from dbustest!")
+
 async def test_dbus_backup_method(self):
     _bus, _if = await _get_dbus_interface()
 
-    _if.call_test_method()
-    _if.on_test_signal()
-    ret = await _if.call_backup_image(DST_FILE, SRC_FILE, TMP_FILE)
+    ret = await _if.call_test_method()
+    _if.on_test_signal(_on_test_signal)
 
     # For waiting backup result
     await asyncio.sleep(10)
 ```
+
+
+Above codes represents the requiring of dbus connection with custom interface in python (dbus-next).
+You can see there is a function of "_if.call_test_method()" and "_if.on_test_signal(self._on_test_signal)
+And you can also realize that the method I defined is TestMethod(), and the signal I defined is TestSignal().
+"dbus-next" automatically convert the upper case to lower case with "_".
+And for method, it assigns "call" as an prefix.
+
 
 
 
