@@ -214,10 +214,15 @@ You can see there is a function of "_if.call_test_method()" and "_if.on_test_sig
 And you can also realize that the method I defined is TestMethod(), and the signal I defined is TestSignal().
 "dbus-next" automatically convert the upper case to lower case with "_".
 And for method, it assigns "call" as an prefix.
+Thus, If you call "call_test_method()" with argument it defined, the TestMethod() fucntion will be called.
+
+You can also see there is a function "_if.on_test_signal()".
+"on" is a prefix for dbus signal for assigning the callback function.
+I defined a simple "_on_test_signal()" function and pass it as an argument with "on_test_signal()".
+If the process emits TestSignal(), application will listen and execute callback funtion it assigned.
 
 
-
-
+<!--- Add property --->
 
 
 ## Appendix
