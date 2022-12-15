@@ -64,18 +64,24 @@ Rebase supports multiple functions:
 #
 ```
 
-I will explain about the commit-related features that I use frequently: "p", "r", "s"
+I will explain about the commit-related features that I use frequently: "p", "r", "s", "e"
 
 "p"(pick) represents no changes. 
 Commits have p or pick remain still.
 It is optional if you want to change the order of the commit, it can be done in "p".
 
-"r"(reword) edits the commit.
+"r"(reword) rewords the commit log.
 If there is a typos in commit or want to change the sentence in commit, "r" is for you.
 
 "s"(squash) merges multiple commits to a single commit.
 It is the important to manage the organized commit histories.
 Since it is a little hard to understand only with the text, suppose there are some commits like:
+
+"e"(edit) edits commit log.
+It looks like very similar to reword, but has wider feature.
+It can amend commit using 'git commit --amend'.
+"git commit --amend" can also modify the date, author not only the log itself.
+
 
 ```
 # git log --pretty=oneline
@@ -137,5 +143,29 @@ If the conflicts remain, you will repeats above processes again.
 If there is no conflict, its rebase will be completed.
 
 
+If you use private and public github accounts, you should config your local config in each directories with
 
+```
+git config --local user.name "name"
+git config --local user.email "email"
+```
+
+However, since we are human, we forget to change name and email and put wrong author in commit.
+In this case, you should change your author info in each commits.
+"git rebase -i" also can be used to change these information with "edit".
+
+```
+# git rebase -i ${some_commit_uuid}
+
+edit d085827 fix typos in changelog
+```
+
+In "edit" mode, you can use only one command: git commit --amend.
+
+```
+git commit --amend --author="your_right_name <your_email@domain.com>"
+git commit --amend --date="Mon Sep 1 44:44:44 2022"
+```
+
+After you update your commit information, you can continue with "git rebase --continue".
 
