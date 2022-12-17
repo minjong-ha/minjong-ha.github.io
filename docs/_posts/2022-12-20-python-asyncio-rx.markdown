@@ -26,6 +26,7 @@ In this post, I will explain about the basic concept and usage of them.
 
 
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-12-20-python-asyncio-rx/async_eventloop.jpg" | relative_url }}' alt='relative'>
+(image from [here](https://hackersandslackers.com/intro-to-asyncio-concurrency/))
 
 Event-loop can execute async tasks and callbacks in python.
 Usually, it requires the command such as asyncio.run()
@@ -34,6 +35,8 @@ Using only one event loop in the entire application.
 asyncio.run(main()) will return one event loop.
 
 
+If there are tasks having long latency for return such as network communication, asyncio is an effective choice.
+It can handle multiple tasks concurrently with a single thread.
 
 
 ## Appendix
