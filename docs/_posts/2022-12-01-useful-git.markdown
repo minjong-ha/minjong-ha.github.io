@@ -2,7 +2,7 @@
 layout: posts
 title:  "Git Guide - Useful and practical commands for teamwork"
 author: Minjong Ha
-published: false
+published: true
 date:   2022-12-01 17:29:02 +0900
 ---
 
@@ -113,7 +113,7 @@ pick 67c842b Update changelog
 pick d085827 fix typos in changelog
 ```
 
-Be careful that now the order of commits is vice versa (upper commit represents the past commit)
+Be careful that now the order of commits is vice versa (upper commit represents the past commit).
 Since we want to merge some commits, it should be:
 
 ```
