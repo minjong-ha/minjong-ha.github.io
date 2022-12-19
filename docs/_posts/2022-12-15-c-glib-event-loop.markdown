@@ -8,6 +8,10 @@ date:   2022-12-15 12:00:00 +0900
 
 <!--- Lets study about g_event_loop() --->
 
+## GLib
+<!--- What is g-lib? --->
+<!--- Example - virtio-win-tools --->
+
 
 ## Appendix
 - [Repository for C glib with event loop study](https://github.com/minjong-ha/c-glib-study)

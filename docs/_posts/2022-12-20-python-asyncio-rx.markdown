@@ -34,6 +34,8 @@ Usually, it requires the command such as asyncio.run()
 Using only one event loop in the entire application.
 asyncio.run(main()) will return one event loop.
 
+You can assign tasks into the event loop.
+A task will be performed as FIFO and concurrent.
 
 If there are tasks having long latency for return such as network communication, asyncio is an effective choice.
 It can handle multiple tasks concurrently with a single thread.
