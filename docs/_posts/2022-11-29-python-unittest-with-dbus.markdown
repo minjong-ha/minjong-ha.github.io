@@ -2,7 +2,7 @@
 layout: posts
 title:  "Python 3 dbus-next: Implement dbus interface with asyncio"
 author: Minjong Ha
-published: false
+published: true
 date:   2022-11-29 09:00:00 +0900
 ---
 
@@ -172,6 +172,7 @@ Now, what we have to do is publishing the dbus interface inside the application
 ```
 
 MessageBus() connects "dbus_manager" object with system message bus.
+"dbus_manager" object will be exported with the interface name "/org/example/dbustest"
 If another application requests method or property using designated dbus, "dbus_manager" will answer.
 
 
