@@ -140,12 +140,12 @@ class TestModule(ServiceInterface):
 ```
 
 "testModule" has inheritance to the "ServiceInterface", which is for dbus implementation.
-And we can see there are @method, @signal, @dbus_property that pre-defined in xml and conf files.
+And we can see there are @method, @signal, @dbus\_property that pre-defined in xml and conf files.
 
 "@method" represents the function that the external application can call through the dbus.
 I will explain about it in later section.
 
-"@dbus_property()" represents the property than the external application can call through the dbus.
+"@dbus\_property()" represents the property than the external application can call through the dbus.
 Also, I will explain about it in later section.
 
 "@signal()" is the only feature that should be called inside the dbus publishing process.
@@ -171,9 +171,9 @@ Now, what we have to do is publishing the dbus interface inside the application
         sys.exit(1)
 ```
 
-MessageBus() connects "dbus_manager" object with system message bus.
-"dbus_manager" object will be exported with the interface name "/org/example/dbustest"
-If another application requests method or property using designated dbus, "dbus_manager" will answer.
+MessageBus() connects "dbus\_manager" object with system message bus.
+"dbus\_manager" object will be exported with the interface name "/org/example/dbustest"
+If another application requests method or property using designated dbus, "dbus\_manager" will answer.
 
 
 ### Interact with dbus-interface at the external application.
@@ -211,15 +211,15 @@ async def test_dbus_backup_method(self):
 
 
 Above codes represents the requiring of dbus connection with custom interface in python (dbus-next).
-You can see there is a function of "_if.call_test_method()" and "_if.on_test_signal(self._on_test_signal)".
+You can see there is a function of "\_if.call\_test\_method()" and "\_if.on\_test\_signal(self.\_on\_test\_signal)".
 And you can also realize that the method I defined is TestMethod(), and the signal I defined is TestSignal().
-"dbus-next" automatically convert the upper case to lower case with "_".
+"dbus-next" automatically convert the upper case to lower case with "\_".
 And for method, it assigns "call" as an prefix.
-Thus, If you call "call_test_method()" with argument it defined, the TestMethod() function will be called.
+Thus, If you call "call\_test\_method()" with argument it defined, the TestMethod() function will be called.
 
-You can also see there is a function "\_if.on_test_signal()".
+You can also see there is a function "\_if.on\_test\_signal()".
 "on" is a prefix for dbus signal for assigning the callback function.
-I defined a simple "\_on_test_signal()" function and pass it as an argument with "on_test_signal()".
+I defined a simple "\_on\_test\_signal()" function and pass it as an argument with "on\_test\_signal()".
 If the process emits TestSignal(), application will listen and execute callback funtion it assigned.
 
 
