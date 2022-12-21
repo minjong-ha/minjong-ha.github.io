@@ -53,7 +53,7 @@ Since the name of dbus in this example is "org.example.dbustest", the name of tw
 They should be located under the "/usr/share/dbus-1/system.d" directory.
 The conf file represents the dbus information to the dbus daemon, and xml file describes the methods and properties that the dbus can handle.
 
-```
+```c
 # org.example.dbustest.conf
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -78,7 +78,7 @@ The conf file represents the dbus information to the dbus daemon, and xml file d
 Above content represents the .conf.
 We can see that it is a system bus, and it has a destination with the interface.
 
-```
+```c
 # org.example.dbustest.xml
 
  <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
@@ -105,7 +105,7 @@ We can see there are three components: method, signal, and property.
 After register default dbus information for dbus daemon, it is time to implement an application who is connected to this dbus.
 Following represents the requirements for python (dbus-next).
 
-```
+```python
 import asyncio
 
 from dbus_next.aio import MessageBus
@@ -156,7 +156,7 @@ It is possible to assign callback function for signal and I will explain it in l
 Now, what we have to do is publishing the dbus interface inside the application
 
 
-```
+```python
 # Someplace in main...
 
     dbus_manager = TestModule()
@@ -181,7 +181,7 @@ If another application requests method or property using designated dbus, "dbus_
 In external application, you should acquire the connection to the dbus first.
 
 
-```
+```python
 async def _get_dbus_interface():
     bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
 
@@ -211,15 +211,15 @@ async def test_dbus_backup_method(self):
 
 
 Above codes represents the requiring of dbus connection with custom interface in python (dbus-next).
-You can see there is a function of "_if.call_test_method()" and "_if.on_test_signal(self._on_test_signal)
+You can see there is a function of "_if.call_test_method()" and "_if.on_test_signal(self._on_test_signal)".
 And you can also realize that the method I defined is TestMethod(), and the signal I defined is TestSignal().
 "dbus-next" automatically convert the upper case to lower case with "_".
 And for method, it assigns "call" as an prefix.
-Thus, If you call "call_test_method()" with argument it defined, the TestMethod() fucntion will be called.
+Thus, If you call "call_test_method()" with argument it defined, the TestMethod() function will be called.
 
-You can also see there is a function "_if.on_test_signal()".
+You can also see there is a function "\_if.on_test_signal()".
 "on" is a prefix for dbus signal for assigning the callback function.
-I defined a simple "_on_test_signal()" function and pass it as an argument with "on_test_signal()".
+I defined a simple "\_on_test_signal()" function and pass it as an argument with "on_test_signal()".
 If the process emits TestSignal(), application will listen and execute callback funtion it assigned.
 
 
@@ -227,12 +227,13 @@ If the process emits TestSignal(), application will listen and execute callback 
 
 
 ## Appendix
+
 <!-- unittest for asyncio -->
 
-'''
+
+```python
 from unittest import IsolatedAsyncioTestCase, main
 
-...
 async def _get_dbus_interface():
     bus = await MessageBus(bus_type=BusType.SYSTEM).connect()
 
@@ -260,7 +261,7 @@ class AsyncTestCase(IsolatedAsyncioTestCase):
 
 if __name__ == "__main__":
     main()
-'''
+```
 
 Since the dbus-next supports asyncio dbus interface, unittest requires to support asyncio.
 "unittest" supports asyncio with "IsolatedAsyncioTestCase".
