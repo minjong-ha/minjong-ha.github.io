@@ -10,10 +10,10 @@ title: About me
   * __2022.01 - Present : Research & Develop / TmaxOS__
      - Research and develop 'TmaxGooroom SD' based on [Gooroom OS](https://gooroom.kr].
 	    - Improve and optimize VM performance with the para-virtualization
-		- Research and implement Host-Guest communication
+<!-- - Research and implement Host-Guest communication -->
 <!--		- Implement VM image management infrastructure -->
 		- Deploy VM image version management infrastructure based on the oVirt
-		- Implement VM image restoration
+<!-- - Implement VM image restoration -->
 <!-- - Articles -->
 <!-- - [TmaxGooroom OS based on the Gooroom platform](https://www.techm.kr/news/articleView.html?idxno=94396) -->
 <!-- - [Network separated work environment](http://www.dt.co.kr/contents.html?article_no=2022022102109931650003&ref=naver) -->
