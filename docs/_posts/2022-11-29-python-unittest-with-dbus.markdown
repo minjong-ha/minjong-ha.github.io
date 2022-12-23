@@ -99,11 +99,14 @@ We can see that it is a system bus, and it has a destination with the interface.
 ```
 
 Above content represents the .xml.
+".xml" file is used in external application who wants to connect to dbus interface.
 We can see there are three components: method, signal, and property.
+External application can figure out the methods, signals, properties that dbus interface provides.
 
 
 After register default dbus information for dbus daemon, it is time to implement an application who is connected to this dbus.
 Following represents the requirements for python (dbus-next).
+
 
 ```python
 import asyncio
@@ -211,6 +214,7 @@ async def test_dbus_backup_method(self):
 
 
 Above codes represents the requiring of dbus connection with custom interface in python (dbus-next).
+Since we define the dbus information in .xml file, we can use it to connect with test dbus interface.
 You can see there is a function of "\_if.call\_test\_method()" and "\_if.on\_test\_signal(self.\_on\_test\_signal)".
 And you can also realize that the method I defined is TestMethod(), and the signal I defined is TestSignal().
 "dbus-next" automatically convert the upper case to lower case with "\_".
