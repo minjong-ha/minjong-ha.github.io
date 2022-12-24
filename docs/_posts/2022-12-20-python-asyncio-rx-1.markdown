@@ -1,6 +1,6 @@
 ---
 layout: posts
-title:  "Python: RxPY with asyncio"
+title:  "Python: RxPY with asyncio - 1"
 author: Minjong Ha
 published: false
 date:   2022-12-15 12:00:00 +0900
