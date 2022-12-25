@@ -14,6 +14,26 @@ RxPy is a python library for reactive programming.
 Rx(Reactive Extensions) provides asynchronous API with "Observable" interface to implement FRP(Functional Reactive Programming).
 It is a stream that creating and emitting a event for state change of "Observable" objects.
 
+Observer subscribes observable objects and discover the events that observable makes.
+Simply, Observable can call a method of Observer.
+
+```python
+class PrintObserver(Observer):
+    def on_next(self, value):
+        print(value)
+    
+    def on_completed(self):
+        print("DONE")
+
+    def on_error(self, error):
+        print(error)
+
+...
+
+source = Observable.from_(["python", "java", "c", "rust"])
+source.subscribe(PrintObserver())
+```
+
 
 ## Appendix
 
