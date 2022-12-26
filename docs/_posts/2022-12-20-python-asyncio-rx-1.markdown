@@ -2,7 +2,7 @@
 layout: posts
 title:  "Python: RxPY with asyncio - 1"
 author: Minjong Ha
-published: false
+published: true
 date:   2022-12-15 12:00:00 +0900
 ---
 
@@ -143,13 +143,6 @@ Above codes create a event loop, and create task.
 However, while "asyncio.create_task" can share the execution with main, await demands waiting the job finished.
 In codes, three awaited jobs will be executed sequentially while three tasks run at the same time.
 It is important to choose proper asyncio function.
-
-
-## RxPY
-
-RxPy is a python library for reactive programming.
-Rx(Reactive Extensions) provides asynchronous API with "Observable" interface to implement FRP(Functional Reactive Programming).
-It is a stream that creating and emitting a event for state change of "Observable" objects.
 
 
 ## Appendix
