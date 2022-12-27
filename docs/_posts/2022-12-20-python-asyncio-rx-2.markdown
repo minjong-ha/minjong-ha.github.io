@@ -34,6 +34,16 @@ source = Observable.from_(["python", "java", "c", "rust"])
 source.subscribe(PrintObserver())
 ```
 
+There are three methods in Observable: on\_next, on\_complete, on\_error.
+"on\_next" method notifies that tere is a data will be used next.
+"on\_error" method notifies that there is an error in observable.
+"on_complete" method notifies that there is no data will be used next.
+
+In the example, I subscribe a list of string and subscribe with PrintObserver I implemented.
+List will be converted to observable by "Observable.from_" function.
+Since I subscribe it, PrintObserver will traverse the list and print the value by "on\_next".
+"rust" will be printed at last, and PrintObserver will call on\_completed() function.
+
 
 ## Appendix
 
