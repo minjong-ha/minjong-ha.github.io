@@ -132,8 +132,8 @@ class TestModule(ServiceInterface):
         return "Fail : domain not exist"
 
     @signal()
-    def TestSignal(self) -> "a{ss}":
-        return self.vmstate
+    def TestSignal(self, _dict) -> "a{ss}":
+        return _dict
 
     @dbus_property()
     def TestProperty(self) -> "a{ss}":
@@ -154,6 +154,13 @@ Also, I will explain about it in later section.
 "@signal()" is the only feature that should be called inside the dbus publishing process.
 If the process calls @signal(), the signal is emitted and spread to the every applications connected with dbus.
 It is possible to assign callback function for signal and I will explain it in later section.
+
+One thing important is TestSignal has difference argument information with xml.
+In xml, TestSignal only has one argument: dictionary for return while methods have same arguments.
+It is because that the xml file is for the external application.
+TestSignal() function itself should be called inside the application and external application only listen about it.
+Thus, xml for external application only knows about the return value itself.
+You don't need to specify the type of argument for signal function such as "s", "b", "n" and etc.
 
 
 Now, what we have to do is publishing the dbus interface inside the application
