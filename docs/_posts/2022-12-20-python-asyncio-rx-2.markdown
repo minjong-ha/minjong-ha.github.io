@@ -10,6 +10,8 @@ date:   2022-12-17 12:00:00 +0900
 
 ## RxPY
 
+### Basic Features
+
 RxPy is a python library for reactive programming.
 Rx(Reactive Extensions) provides asynchronous API with "Observable" interface to implement FRP(Functional Reactive Programming).
 It is a stream that creating and emitting a event for state change of "Observable" objects.
@@ -49,6 +51,27 @@ The features I explained are useful but not a killer.
 The reason that RxPy can be killer is it can implement state based reactive application.
 
 
+### Pipe
+
+You can work with multiple operators with pipe() method.
+It allows the programmer can chaining multiple operators together.
+For example:
+
+```python
+test = of(1, 2, 3) # Observables
+subscriber = test.pipe(
+        op1(),
+        op2(),
+        op3()
+)
+```
+
+In the above example, There is an observable by of() method and it takes the values: 1, 2, and 3.
+For each values, 'op1()', 'op2()', and 'op3()' will perform.
+The execution of perators will go on sequential.
+
+
 ## Appendix
 
 - [Repository for Python asyncio and RxPY study](https://github.com/minjong-ha/python-asyncio-study)
+- [Tutorial for RxPy](https://www.tutorialspoint.com/rxpy/rxpy_operators.htm)
