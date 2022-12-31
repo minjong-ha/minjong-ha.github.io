@@ -67,8 +67,26 @@ subscriber = test.pipe(
 ```
 
 In the above example, There is an observable by of() method and it takes the values: 1, 2, and 3.
-For each values, 'op1()', 'op2()', and 'op3()' will perform.
-The execution of perators will go on sequential.
+For each values, 'op1()', 'op2()', and 'op3()' will perform while 'op' means operators of RxPy.
+The execution of operators will go on sequential.
+
+```python
+from rx import of, operators as op
+
+test = of(1,2,3,4,5,6,7,8,9,10)
+sub1 = test.pipe(
+        op.filter(lambda s: s%2=0),
+        op.reduce(lambda acc, x: acc + x)
+)
+
+sub1.subscribe(lambda x: print("Sum of Even numbers is {0}".format(x)))
+```
+
+There is a list having 1 - 10 integers.
+First, rx traverses the list and filters even numbers with 'filter()'.
+Then, add all even numbers in 'x' with 'reduce()' operator.
+
+Since there are many operators in RxPy, reference [here](https://www.tutorialspoint.com/rxpy/rxpy_operators.htm)
 
 
 ## Appendix
