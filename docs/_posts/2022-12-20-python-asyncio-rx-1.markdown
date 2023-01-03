@@ -145,7 +145,7 @@ In codes, three awaited jobs will be executed sequentially while three tasks run
 It is important to choose proper asyncio function.
 
 
-Many tutors recommend using asyncio with high-level API without loop.
+Many tutors recommend using asyncio with high-level API only without loop.
 However, in my personal experience, using loop with high-level API is more flexible to implement the features.
 
 ## Appendix
