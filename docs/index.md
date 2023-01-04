@@ -7,7 +7,6 @@ title: About me
 ---
 
 ## Experience
-  * __2023.01.02: Grant "Super Rookie" Award__
   * __2022.01 - Present : Research & Develop / TmaxOS__
      - Research and develop 'TmaxGooroom SD' based on [Gooroom OS](https://gooroom.kr].
 	    - Improve and optimize VM performance with the para-virtualization
@@ -19,6 +18,7 @@ title: About me
 <!-- - [TmaxGooroom OS based on the Gooroom platform](https://www.techm.kr/news/articleView.html?idxno=94396) -->
 <!-- - [Network separated work environment](http://www.dt.co.kr/contents.html?article_no=2022022102109931650003&ref=naver) -->
 <!-- - [Opensource OS ](http://it.chosun.com/site/data/html_dir/2022/02/23/2022022301994.html) -->
+        - __2023.01.02 - Grant 'Super Rookie' Award
 
   * __2020.03 - 2022.02 : Graduate Research Assistant / [System Software Lab](https://sslab.ajou.ac.kr/), Ajou University__
 
