@@ -90,63 +90,9 @@ Since there are many operators in RxPy, reference [here](https://www.tutorialspo
 
 
 ### Reactive Application
-```python
-import rx.subject
-import rx.operator
-
-_changes_subject = rx.subject.Subject()
-_changes_observable = _changes_subject.pipe(
-        rx.operator.filter(lambda changes: changes),
-        rx.operator.share(),
-)
-
-response = self._loop.create_future()
-subscription = None
-
-def unsubscribe():
-    subscription.dispose()
-    subscription = None
-
-response.add_done_callback(lambda _future: unsubscribe)
-
-def on_changes(_changes):
-     if response.cancelled() or response.done():
-         return
-
-     completed = self._current.matches(desired)
-
-     if completed:
-         logging.debug("Request completed successfully: %s", desired)
-         response.set_result(True)
-     elif interrupted:
-         logging.debug(
-             "Request cancelled since updated request does not match "
-             "anymore: updated=%s, desired=%s",
-             self._requested,
-             desired,
-         )
-         response.set_result(False)
-
-     if completed or interrupted:
-         unsubscribe()
-     # End of local method `on_changes`
-
-subscription = self._changes_observable.subscribe(on_changes)
-
-...
-
-
-changes = {
-    "requested": something
-    "current": something_else
-}
-
-# Notify the changes
-_change_subject.on_next(changes)
-
-```
 
 <!--- It is too difficult for me to understand. It is better to implement reference code for myself--->
+<!--- rx.Subject, rx.operator --->
 
 
 
