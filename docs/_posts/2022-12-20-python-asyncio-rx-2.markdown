@@ -94,6 +94,40 @@ Since there are many operators in RxPy, reference [here](https://www.tutorialspo
 <!--- It is too difficult for me to understand. It is better to implement reference code for myself--->
 <!--- rx.Subject, rx.operator --->
 
+```
+import rx
+
+class A:
+    def __init__(self):
+        self.current = 0
+        self.observable = rx.subject.BehaviorSubject(self.current)
+
+    def set_current(self, value):
+        self.current = value
+        self.observable.on_next(value)
+
+
+class B:
+    def __init__(self, a):
+        self.requested = 0
+        self.observable = rx.subject.BehaviorSubject(self.requested)
+        self.a = a
+        self.subscription = self.observable.subscribe(self.a.set_current)
+
+    def set_requested(self, value):
+        self.requested = value
+        self.observable.on_next(value)
+
+a = A()
+b = B(a)
+
+b.set_requested(10)  # updates a.current to 10
+a.set_current(20)  # updates b.requested to 20
+```
+
+Above codes represent a simple example that synchronize the integers 'current' and 'requested' using rx.
+
+
 
 
 ## Appendix
