@@ -122,10 +122,12 @@ a = A()
 b = B(a)
 
 b.set_requested(10)  # updates a.current to 10
-a.set_current(20)  # updates b.requested to 20
 ```
 
-Above codes represent a simple example that synchronize the integers 'current' and 'requested' using rx.
+Above codes represent a simple example that synchronize the integers 'current' to 'requested' using rx.
+Class A has observable with rx.subject for 'current'.
+And class B assign a function of class A as a callback to 'requested' in class B.
+By the result, when class B tries to update its "requested" value with set_requested() function, it emits the new value with on_next() and class A perform its action.
 
 
 
