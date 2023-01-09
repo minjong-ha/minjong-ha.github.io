@@ -89,47 +89,82 @@ Then, add all even numbers in 'x' with 'reduce()' operator.
 Since there are many operators in RxPy, reference [here](https://www.tutorialspoint.com/rxpy/rxpy_operators.htm)
 
 
+### Subject
+
+
 ### Reactive Application
 
 <!--- It is too difficult for me to understand. It is better to implement reference code for myself--->
 <!--- rx.Subject, rx.operator --->
 
 ```
-import rx
-
-class A:
-    def __init__(self):
-        self.current = 0
-        self.observable = rx.subject.BehaviorSubject(self.current)
-
-    def set_current(self, value):
-        self.current = value
-        self.observable.on_next(value)
+import rx.subject
+import rx.operators
 
 
-class B:
-    def __init__(self, a):
+class Interface:
+    def __init__(self, _name):
+        self.name = _name
         self.requested = 0
-        self.observable = rx.subject.BehaviorSubject(self.requested)
-        self.a = a
-        self.subscription = self.observable.subscribe(self.a.set_current)
+        self.subject = rx.subject.Subject()
+        self.observable = self.subject.pipe(
+            rx.operators.filter(lambda val: val))
 
-    def set_requested(self, value):
-        self.requested = value
-        self.observable.on_next(value)
+    def initialize(self, observable):
+        self.subscription = observable.subscribe(self.on_changes)
 
-a = A()
-b = B(a)
+    def set_requested(self, requested):
+        self.requested = requested
+        print(f"{self.name} = {self.requested}")
+        self.subject.on_next(self.requested)
 
-b.set_requested(10)  # updates a.current to 10
+    def on_changes(self, requested):
+        if requested is not self.requested:
+            self.set_requested(requested)
+
+    def func_for_interface(self):
+        print("do interface task")
+
+
+class Controller:
+    def __init__(self, _name):
+        self.name = _name
+        self.current = 0
+        self.subject = rx.subject.Subject()
+        self.observable = self.subject.pipe(
+            rx.operators.filter(lambda val: val))
+
+    def initialize(self, observable):
+        self.subscription = observable.subscribe(self.on_changes)
+
+    def set_current(self, current):
+        self.current = current
+        print(f"{self.name} = {self.current}")
+        self.subject.on_next(self.current)
+
+    def on_changes(self, current):
+        if current is not self.current:
+            self.set_current(current)
+
+    def func_for_controller(self):
+        print("do controller task")
+
+
+interface = Interface("interface")
+controller = Controller("controller")
+
+interface.initialize(controller.observable)
+controller.initialize(interface.observable)
+
+controller.set_value(100)
+interface.set_value(10)
+
 ```
 
-Above codes represent a simple example that synchronize the integers 'current' to 'requested' using rx.
-Class A has observable with rx.subject for 'current'.
-And class B assign a function of class A as a callback to 'requested' in class B.
-By the result, when class B tries to update its "requested" value with set_requested() function, it emits the new value with on_next() and class A perform its action.
-
-
+Above codes represent a simple example that synchronize the integers 'current' and 'requested' using rx.
+Class Interface has observable with rx.subject for 'current'.
+And class Controller assign a function of class Interface as a callback to 'requested' in class Controller.
+By the result, when class Controller tries to update its "requested" value with set_requested() function, it emits the new value with on_next() and class Interface perform its action.
 
 
 ## Appendix
