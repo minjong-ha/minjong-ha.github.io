@@ -156,15 +156,16 @@ controller = Controller("controller")
 interface.initialize(controller.observable)
 controller.initialize(interface.observable)
 
-controller.set_value(100)
-interface.set_value(10)
-
+controller.set_value(100) # Controller.current = 100, Interface.requested = 100
+interface.set_value(10) # Interface.requested = 100, Controller.current = 100
 ```
 
 Above codes represent a simple example that synchronize the integers 'current' and 'requested' using rx.
-Class Interface has observable with rx.subject for 'current'.
-And class Controller assign a function of class Interface as a callback to 'requested' in class Controller.
-By the result, when class Controller tries to update its "requested" value with set_requested() function, it emits the new value with on_next() and class Interface perform its action.
+Interface has observable with rx.subject and it notifies using 'on_next()' when 'current' changed.
+In initialize, Interface subscribe other observable and assign its callback function which update its 'current' value.
+Controller has same architecture with interface.
+It also subscribe other observable and assign a callback function to update its 'requested' value.
+#By the result, when Controller tries to update its "requested" value with set_requested() function, it emits the new value with on_next() and Interface perform its action.
 
 
 ## Appendix
