@@ -164,11 +164,11 @@ Controller has same architecture with interface.
 It also subscribe other observable and assign a callback function to update its 'requested' value.
 
 In main function, each controller and interface is initialized with each others observable.
-When controller updates its 'current' value with 'set_current()', it notifies that subject in controller is changed to 'self.current'.
-Since interface subscribe the subject in controller, 'on_next' notification is delivered to interface and it perform its callback function which update its 'requested' value.
+When controller updates its 'current' value with 'set\_current()', it notifies that subject in controller is changed to 'self.current'.
+Since interface subscribe the subject in controller, 'on\_next' notification is delivered to interface and it perform its callback function which update its 'requested' value.
 
 Be careful not to forget add condition in 'on\_changes()'.
-Without proper condition, 'set_current()' will emit 'on_next()" again and again since there is a circular, recursive calling.
+Without proper condition, 'set\_current()' will emit 'on\_next()" again and again since there is a circular, recursive calling.
 
 It is not a best architecture since there are many alternatives to synchronize. 
 However it can be used in many other, complex situations.
