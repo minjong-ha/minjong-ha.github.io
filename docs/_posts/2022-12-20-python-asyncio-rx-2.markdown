@@ -2,7 +2,7 @@
 layout: posts
 title:  "Python: RxPY with asyncio - 2"
 author: Minjong Ha
-published: false
+published: true
 date:   2022-12-17 12:00:00 +0900
 ---
 
@@ -162,6 +162,9 @@ Interface has observable with rx.subject and it notifies using 'on\_next()' when
 In initialize, Interface subscribe other observable and assign its callback function which update its 'current' value.
 Controller has same architecture with interface.
 It also subscribe other observable and assign a callback function to update its 'requested' value.
+
+'rx.subject.Subject()' and 'rx.operators' are used for create observable and subject object for rx.
+Themselves have only a few meaning.
 
 In main function, each controller and interface is initialized with each others observable.
 When controller updates its 'current' value with 'set\_current()', it notifies that subject in controller is changed to 'self.current'.
