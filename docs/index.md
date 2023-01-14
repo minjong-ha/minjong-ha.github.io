@@ -8,17 +8,11 @@ title: About me
 
 ## Experience
   * __2022.01 - Present : Research & Develop / TmaxOS__
-     - Research and develop 'TmaxGooroom SD' based on [Gooroom OS](https://gooroom.kr].
-	    - Improve and optimize VM performance with the para-virtualization
-<!-- - Research and implement Host-Guest communication -->
-<!--		- Implement VM image management infrastructure -->
-		- Deploy VM image version management infrastructure based on the oVirt
-<!-- - Implement VM image restoration -->
-<!-- - Articles -->
-<!-- - [TmaxGooroom OS based on the Gooroom platform](https://www.techm.kr/news/articleView.html?idxno=94396) -->
-<!-- - [Network separated work environment](http://www.dt.co.kr/contents.html?article_no=2022022102109931650003&ref=naver) -->
-<!-- - [Opensource OS ](http://it.chosun.com/site/data/html_dir/2022/02/23/2022022301994.html) -->
-        - __2023.01.02 - Grant 'Super Rookie' Award
+    - Implement VM controller handling the requests from user with libvirt and QEMU.
+    - Research and develop 'TmaxGooroom SD' based on [Gooroom OS](https://gooroom.kr).
+    - Improve and optimize VM performance with the para-virtualization
+    - Deploy VM image version management infrastructure based on the oVirt
+  * __2023.01.02 : Grant 'Super Rookie' Award__
 
   * __2020.03 - 2022.02 : Graduate Research Assistant / [System Software Lab](https://sslab.ajou.ac.kr/), Ajou University__
 
@@ -36,18 +30,18 @@ title: About me
     - C
 	- C++
 	- Python
-	- (Optional) Swift
+	- (Optional) SwiftUI
 <hr/>
 
 
 ## Education
   * __2020.03 - 2022.02: M.S. in Computer Science and Artificial Intelligence / Ajou University, Korea__
-     - Advisor: Professor Sang-Hoon Kim (Ajou University, Korea)
-	 - Thesis: [Research on Operating System-Level Approaches for Large Scale Address Space with Persistent Memory](https://dcoll.ajou.ac.kr/dcollection/srch/srchDetail/000000031395)
-	 - [System Sofware Lab](https://sslab.ajou.ac.kr/)
+    - Advisor: Professor Sang-Hoon Kim (Ajou University, Korea)
+	- Thesis: [Research on Operating System-Level Approaches for Large Scale Address Space with Persistent Memory](https://dcoll.ajou.ac.kr/dcollection/srch/srchDetail/000000031395)
+	- [System Sofware Lab](https://sslab.ajou.ac.kr/)
 
   * __2013.03 - 2020.02: B.S. in Software Engineering and Computer Science / Ajou University, Korea__
-     - Graduation Work: [Fit-Got-U: Smartphone Home-Fitness Application with Pose Estimation](https://github.com/minjong-ha/Fit-Got-U)
+    - Graduation Work: [Fit-Got-U: Smartphone Home-Fitness Application with Pose Estimation](https://github.com/minjong-ha/Fit-Got-U)
 <hr/>
 
 
