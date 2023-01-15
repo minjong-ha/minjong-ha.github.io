@@ -94,7 +94,7 @@ Since there are many operators in RxPy, reference [here](https://www.tutorialspo
 
 ### Reactive Application
 
-```
+```python
 import rx.subject
 import rx.operators
 
