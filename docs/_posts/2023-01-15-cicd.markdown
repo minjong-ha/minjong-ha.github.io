@@ -2,7 +2,7 @@
 layout: posts
 title:  "CI / CD: For better Git management"
 author: Minjong Ha
-published: true
+published: false
 date:   2023-01-15 12:00:00 +0900
 ---
 
@@ -10,9 +10,16 @@ date:   2023-01-15 12:00:00 +0900
 It is convinient not only for the customers but developers.
 In project, source codes are frequently, oftenly updated, roll-backed, merged, and branched.
 More the developers participate the project, it beyonds the limit that human can manage.
-As a result, "CI / CD" can automate the system and presents organized management.
+As a result, "CI/CD" can automate the system and presents organized management.
+
+In this post, I will share my experience and trial about the "CI/CD" with Github Actions.
 
 
+## Github Actions
+
+Github Action presents the automated tasks that triggered by pull request (merge request), push and etc.
+It can build or compile the source codes and test when the repository is pushed by locals.
+It also provide cron jobs that executing certain scripts with schedule.
 
 ## Reference
 
