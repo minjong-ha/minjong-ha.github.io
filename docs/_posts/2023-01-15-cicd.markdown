@@ -21,8 +21,20 @@ Github Action presents the automated tasks that triggered by pull request (merge
 It can build or compile the source codes and test when the repository is pushed by locals.
 It also provide cron jobs that executing certain scripts with schedule.
 
+### Workflow
+
+### Event
+
+### Job
+
+### Step
+
+### Action
+
+### Runner
+
 ## Reference
 
 [What is CI/CD?](https://www.redhat.com/en/topics/devops/what-is-ci-cd)
-
+[GitHub Docs: GitHub Actions](https://docs.github.com/en/actions)
 
