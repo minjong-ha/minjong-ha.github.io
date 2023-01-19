@@ -23,15 +23,35 @@ It also provide cron jobs that executing certain scripts with schedule.
 
 ### Workflow
 
+Workflow is a kind of command group that can be added to the repository.
+
+
 ### Event
+
+Events can trigger the workflow.
+It can be 'Push', 'Pull Request (Merge Request)', 'Commit' and etc.
+
+
+### Runner
+
+Runner is an application that executing jobs in the workflow
+
 
 ### Job
 
+Job is a group of multiple steps that executed by runner.
+
+
 ### Step
+
+Step is an task for command.
+Command can be shell command or action.
+
 
 ### Action
 
-### Runner
+Action is an independent command that creating jobs.
+
 
 ## Reference
 
