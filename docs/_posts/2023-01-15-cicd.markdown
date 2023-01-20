@@ -13,6 +13,7 @@ More the developers participate the project, it beyonds the limit that human can
 As a result, "CI/CD" can automate the system and presents organized management.
 
 In this post, I will share my experience and trial about the "CI/CD" with Github Actions.
+(Gitlab also provides powerful CI/CD feature, but I focused on github since I do not have gitlab projects)
 
 
 ## Github Actions
