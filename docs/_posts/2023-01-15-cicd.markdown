@@ -54,6 +54,11 @@ Command can be shell command or action.
 Action is an independent command that creating jobs.
 
 
+## Appendix
+
+My personal webpage is based on the jekyll with github.io.
+It can be a good example to understand about the CI/CD.
+
 ## Reference
 
 [What is CI/CD?](https://www.redhat.com/en/topics/devops/what-is-ci-cd)
