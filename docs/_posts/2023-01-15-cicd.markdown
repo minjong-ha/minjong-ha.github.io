@@ -26,6 +26,36 @@ It also provide cron jobs that executing certain scripts with schedule.
 
 Workflow is a kind of command group that can be added to the repository.
 
+You can write a new yml file in .github/workflows directory but it is more recommended to use "workflow template" in Repository - Actions.
+Following codes represents the default template that githup provides.
+
+```
+name: CI
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+```
+
 
 ### Event
 
