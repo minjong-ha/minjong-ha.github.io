@@ -29,7 +29,10 @@ Workflow is a kind of command group that can be added to the repository.
 You can write a new yml file in .github/workflows directory but it is more recommended to use "workflow template" in Repository - Actions.
 Following codes represents the default template that githup provides.
 
+
 ```
+# main.yml
+
 name: CI
 
 on:
@@ -56,22 +59,36 @@ jobs:
           echo test, and deploy your project.
 ```
 
+"name" represents the name of workflow.
+It is an optional parameter
+
+Users can manually execute workflow in Repository-Action on github.
+"workflow\_dispatch" is an option for it.
+
 
 ### Event
 
 Events can trigger the workflow.
 It can be 'Push', 'Pull Request (Merge Request)', 'Commit' and etc.
 
+"on:" represents the events that execute the workflow.
+In this example, workflow will be triggered when the branch 'develop' is pushed or pull\_requested.
+
+
 
 ### Runner
 
 Runner is an application that executing jobs in the workflow
+
+"build" in "jobs" represents the environment that runner running.
+In this case, it runs on the ubuntu-latest.
 
 
 ### Job
 
 Job is a group of multiple steps that executed by runner.
 
+"jobs" represents the tasks the workflow performs.
 
 ### Step
 
