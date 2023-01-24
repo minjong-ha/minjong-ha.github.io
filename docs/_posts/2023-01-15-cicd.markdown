@@ -101,6 +101,17 @@ Command can be shell command or action.
 Action is an independent command that creating jobs.
 
 
+## Example
+
+For better understanding, I tried implement simple CI/CD for my personal project.
+[Python-Asyncio-Study](https://github.com/minjong-ha/python-asyncio-study) is a reference for studying python with asyncio and rx libraries.
+Followings my personal goals:
+
+- When the branches are pushed or pull requested, It will tests its test codes automatically
+- When 'master' branch is pushed or pull requested, It will create debian package automatically
+
+
+
 ## Appendix
 
 My personal webpage is based on the jekyll with github.io.
