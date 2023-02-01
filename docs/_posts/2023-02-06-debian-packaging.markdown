@@ -9,9 +9,6 @@ date:   2023-02-06 19:39:00 +0900
 In this posts, I will explain how I can package the source codes to deb.
 It includes the way to use 'dpkg' command and a little tip for re-packaging existing packages.
 
-## dpkg
-<!-- Explain how I can use dpkg -->
-
 ## Package: deb
 
 Debian package represents itself with 'deb': ${PACKAGE_NAME}.deb.
@@ -29,6 +26,13 @@ rw-r--r-- 0/0 751613 Sep 5 15:43 2010 data.tar.gz
 'data.tar.gz' has data files of the package.
 
 
+## dpkg
+<!-- Explain how I can use dpkg -->
+
+Creating deb package does not always require source code.
+However, almost every debian packages opens their sources for the community.
+For better understanding, I create my test project written in C.
+Some programming language such as python can be much easier to build package.
 
 
 
