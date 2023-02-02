@@ -34,6 +34,18 @@ However, almost every debian packages opens their sources for the community.
 For better understanding, I create my test project written in C.
 Some programming language such as python can be much easier to build package.
 
+```c
+#include <stdio.h>
+
+int main() {
+    printf("Hello World!\n");
+
+    return 0;
+}
+```
+
+Above codes represent my simple application that just print some text on the screen.
+
 
 
 ## Re-Packaging
