@@ -51,6 +51,24 @@ Above codes represent my simple application that just print some text on the scr
 ## Re-Packaging
 <!-- Explain repackaging with apt source -->
 
+In case of re-packaging exist application, you can use following way.
+
+First, you should download the components of source package: \*.dsc, \*.org.tar.gz, \*.debian.tar.xz.
+Collect them in the same directory, and run:
+```shell
+gbp import-dsc *.dsc
+```
+
+It will create a local repo with git that not having remote origin.
+
+Since the repository follows 3.0(quild) debian/source/format, modifying the codes in upstream should be proceed as patch.
+```shell
+gbp pq import
+```
+
+Above command will create a new branch.
+If your branch name is 'master', it would be 'patch-queue/master'
+
 
 ## Appendix
 <!-- Appendix -->
