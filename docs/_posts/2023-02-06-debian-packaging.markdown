@@ -67,7 +67,19 @@ gbp pq import
 ```
 
 Above command will create a new branch.
-If your branch name is 'master', it would be 'patch-queue/master'
+If your branch name is 'master', it would be 'patch-queue/master'.
+
+Now you create another branch that based on 'patch-queue/master'; such as 'patch-queue/master/change\_some\_code'.
+Change the code you want to, and commit.
+Then create MR to 'patch-queue/master': 'patch-queue/master/change\_some\_code' -> 'patch-queue/master'.
+
+If the MR is completed, run following command in 'patch-queue/master'
+```shell
+gbp export
+```
+
+Now you can see the patch files in 'patch-queue/master'.
+Push 'patch-queue/master' to remote repository.
 
 
 ## Appendix
