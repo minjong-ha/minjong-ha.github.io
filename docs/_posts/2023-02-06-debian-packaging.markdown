@@ -11,7 +11,7 @@ It includes the way to use 'dpkg' command and a little tip for re-packaging exis
 
 ## Package: deb
 
-Debian package represents itself with 'deb': ${PACKAGE_NAME}.deb.
+Debian package represents itself with 'deb': ${PACKAGE\_NAME}.deb.
 "deb" file has three components: debian-binary, control.tar.gz, and data.tar.gz
 
 ```shell
@@ -32,7 +32,7 @@ rw-r--r-- 0/0 751613 Sep 5 15:43 2010 data.tar.gz
 Creating deb package does not always require source code.
 However, almost every debian packages opens their sources for the community.
 For better understanding, I create my test project written in C.
-Some programming language such as python can be much easier to build package.
+Some programming languages such as python can be much easier to build package since they does not require compile.
 
 ```c
 #include <stdio.h>
