@@ -47,6 +47,25 @@ int main() {
 Above codes represent my simple application that just print some text on the screen.
 
 
+Before you run the following command, change your directory name of source code to format '${PACKAGEi\_NAME}-${VERSION}'.
+For example, 'test-package-0.0.1'.
+Beware you cannot use '\_'.
+
+```shell
+dh-make --createorig
+```
+'dh-make' create a directory for debian pacakaging: 'debian'.
+Under the 'debian/', there are files to build deb package.
+
+
+```shell
+dpkg-buildpackage -us -uc -b
+```
+'-us' allows to build unsigned source.
+'-uc' allows to build unsigned change.
+-'b' allows to build all.
+
+
 
 ## Re-Packaging
 <!-- Explain repackaging with apt source -->
