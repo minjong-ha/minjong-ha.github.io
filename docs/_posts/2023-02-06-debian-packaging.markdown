@@ -56,6 +56,11 @@ dh-make --createorig
 ```
 'dh-make' create a directory for debian pacakaging: 'debian'.
 Under the 'debian/', there are files to build deb package.
+Files having '.ex' suffix, are examples and not essentials.
+Essential files to build deb are 'changelog', 'control', and 'copyright'
+
+It is also possible that building multiple deb packages in a single package.
+In this case, you should distinguish each maintainer scripts like: "package1.postinst", "package2.postinst".
 
 
 ```shell
