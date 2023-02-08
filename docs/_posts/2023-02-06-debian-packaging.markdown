@@ -106,6 +106,24 @@ Now you can see the patch files in 'patch-queue/master'.
 Push 'patch-queue/master' to remote repository.
 
 
+## Example
+
+In 'Example' section, I will share my experience that repackaging 'libopenal-data', which is included in 'openal-soft'.
+
+First, you should download the three package components: dsc, org.tar.ga, and debian.tar.xz.
+Following is a github link for ('openal-soft')[https://github.com/kcat/openal-soft].
+You can download each components using official site, but I personally prefer to use 'apt source'.
+
+```shell
+$ apt source libopenal-data
+
+$ ls
+openal-soft-1.19.1  openal-soft_1.19.1-2.debian.tar.xz  openal-soft_1.19.1-2.dsc  openal-soft_1.19.1.orig.tar.gz
+```
+
+
+
+
 ## Appendix
 <!-- Appendix -->
 
