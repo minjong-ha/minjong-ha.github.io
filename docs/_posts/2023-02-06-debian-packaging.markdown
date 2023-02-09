@@ -121,7 +121,18 @@ $ ls
 openal-soft-1.19.1  openal-soft_1.19.1-2.debian.tar.xz  openal-soft_1.19.1-2.dsc  openal-soft_1.19.1.orig.tar.gz
 ```
 
+'apt source' download three deb components with sources in 'openal-soft-1.19.1'.
+However, 'openal-soft-1.19.1' does not include any git files.
+To acquire the git included sources, you should run 'gpb import-dsc'.
 
+```shell
+$ rm -rf openal-soft-1.19.1/
+$ gbp import-dsc openal-soft_1.19.1-2.dsc
+$ cd openal-soft/
+```
+
+Now you have openal-soft source codes with git.
+Since it does not remote origin, you cat allocate it to your personam repackaging git repository.
 
 
 ## Appendix
