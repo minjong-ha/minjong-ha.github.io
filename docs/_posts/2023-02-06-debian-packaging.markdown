@@ -106,7 +106,7 @@ Now you can see the patch files in 'patch-queue/master'.
 Push 'patch-queue/master' to remote repository.
 
 
-## Example
+### Example
 
 In 'Example' section, I will share my experience that repackaging 'libopenal-data', which is included in 'openal-soft'.
 
@@ -134,6 +134,9 @@ $ cd openal-soft/
 Now you have openal-soft source codes with git.
 Since it does not remote origin, you cat allocate it to your personam repackaging git repository.
 
+Rest of the tasks is same as I wrote in previous section.
+You can update the source codes or configuration and run 'dpkg-buildpackage -us -uc -b' to create repackaged deb.
+Just don't forget to change debian/changelog and debian/control.
 
 ## Appendix
 <!-- Appendix -->
