@@ -35,6 +35,7 @@ For better understanding, I create my test project written in C.
 Some programming languages such as python can be much easier to build package since they does not require compile.
 
 ```c
+// test.c
 #include <stdio.h>
 
 int main() {
@@ -42,6 +43,14 @@ int main() {
 
     return 0;
 }
+```
+
+```shell
+# Makefile
+all: test.c
+    gcc -o test test.c
+clean: 
+    rm test
 ```
 
 Above codes represent my simple application that just print some text on the screen.
@@ -52,15 +61,12 @@ For example, 'test-package-0.0.1'.
 Beware you cannot use '\_'.
 
 ```shell
-dh-make --createorig
+dh_make --createorig
 ```
-'dh-make' create a directory for debian pacakaging: 'debian'.
+'dh\_make' create a directory for debian pacakaging: 'debian'.
 Under the 'debian/', there are files to build deb package.
 Files having '.ex' suffix, are examples and not essentials.
-Essential files to build deb are 'changelog', 'control', and 'copyright'
-
-It is also possible that building multiple deb packages in a single package.
-In this case, you should distinguish each maintainer scripts like: "package1.postinst", "package2.postinst".
+Essential files to build deb are 'changelog', 'control', 'rules', and 'copyright'
 
 
 ```shell
@@ -70,6 +76,11 @@ dpkg-buildpackage -us -uc -b
 '-uc' allows to build unsigned change.
 -'b' allows to build all.
 
+'dpkg-buildpackage' calls make with 'debian/rules' as the Makefile.
+
+
+It is also possible that building multiple deb packages in a single package.
+In this case, you should distinguish each maintainer scripts like: "package1.postinst", "package2.postinst".
 
 
 ## Re-Packaging
