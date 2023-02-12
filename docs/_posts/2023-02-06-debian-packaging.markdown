@@ -77,7 +77,60 @@ dpkg-buildpackage -us -uc -b
 -'b' allows to build all.
 
 'dpkg-buildpackage' calls make with 'debian/rules' as the Makefile.
+As a result, we can configurate 'debian/rules' and automate the tasks for packaging.
+Followings are result of run 'dpkg-buildpackage -us -uc -b'.
+```shell
+$ dpkg-buildpackage -us -uc -b
+pkg-buildpackage: info: source package test-package
+dpkg-buildpackage: info: source version 0.0.1-1
+dpkg-buildpackage: info: source distribution unstable
+dpkg-buildpackage: info: source changed by minjong_ha <minjong_ha@unknown>
+dpkg-buildpackage: info: host architecture amd64
+ dpkg-source --before-build .
+ debian/rules clean
+dh clean
+   dh_auto_clean
+   dh_clean
+ debian/rules binary
+dh binary
+   dh_update_autotools_config
+   dh_autoreconf
+   dh_auto_configure
+   dh_auto_build
+	make -j6 "INSTALL=install --strip-program=true"
+make[1]: Enter '/home/minjong_ha/workspace/tmax/teamwork/test-package-0.0.1' directory
+gcc -o test src/test.c
+make[1]: Leave '/home/minjong_ha/workspace/tmax/teamwork/test-package-0.0.1' directory
+   dh_auto_test
+   create-stamp debian/debhelper-build-stamp
+   dh_prep
+   dh_auto_install
+   dh_installdocs
+   dh_installchangelogs
+   dh_perl
+   dh_link
+   dh_strip_nondeterminism
+   dh_compress
+   dh_fixperms
+   dh_missing
+   dh_dwz -a
+   dh_strip -a
+   dh_makeshlibs -a
+   dh_shlibdeps -a
+   dh_installdeb
+   dh_gencontrol
+dpkg-gencontrol: warning: Depends field of package test-package: substitution variable ${shlibs:Depends} used, but is not defined
+   dh_md5sums
+   dh_builddeb
+dpkg-deb: building package 'test-package' in '../test-package_0.0.1-1_amd64.deb'.
+ dpkg-genbuildinfo --build=binary
+ dpkg-genchanges --build=binary >../test-package_0.0.1-1_amd64.changes
+dpkg-genchanges: info: binary-only upload (no source code included)
+ dpkg-source --after-build .
+dpkg-buildpackage: info: binary-only upload (no source included)
+```
 
+Since I create 'Makefile' that compiling source codes, dpkg-buildpackage automatically compiles it with 'dh\_auto\_build'.
 
 It is also possible that building multiple deb packages in a single package.
 In this case, you should distinguish each maintainer scripts like: "package1.postinst", "package2.postinst".
