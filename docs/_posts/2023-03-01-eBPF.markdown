@@ -9,4 +9,19 @@ date:   2022-03-01 12:00:00 +0900
 I have an interest in 'eBPF'.
 Let's figure it out.
 
+## Introduction
+
+### BPF
+
+'BPF (Berkely Packet Filter)' is an in-kernel virtual machine that analyzing packets with packet fileter.
+BPF has virtual registers and stack and execute codes based on it.
+JIT (Just In-Time) compiler makes BPF commands run directly on the processor.
+
+'eBPF (extended BPF)' takes one more step.
+It has larger register, stack and map.
+
+
+## Reference
+[[Linux Kernel] What is BPF/eBPF?](https://hyeyoo.com/133)
+
 
