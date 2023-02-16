@@ -17,8 +17,26 @@ Let's figure it out.
 BPF has virtual registers and stack and execute codes based on it.
 JIT (Just In-Time) compiler makes BPF commands run directly on the processor.
 
+<img data-action="zoom" src='{{ "../assets/images/posts/2023-03-01-eBPF/how_bpf_vs_ebpf.png" | relative_url }}' alt='relative'>
+
+Above figure represents how BPF works.
+BPF executes the program on the pre-defined hook inside the kernel or kprobe, uprobe, and tracepoint.
+In figure, it runs BPF program every time execve system call is called.
+The point is, you can run such program inside the certain points of kernel.
+
+### eBPF
+
+<img data-action="zoom" src='{{ "../assets/images/posts/2023-03-01-eBPF/bpf_vs_ebpf.png" | relative_url }}' alt='relative'>
+
 'eBPF (extended BPF)' takes one more step.
 It has larger register, stack and map.
+It also does not require additional kernel source code modification and module.
+
+It is possible compile C program to eBPF with Android build system.
+
+
+
+
 
 
 ## Reference
