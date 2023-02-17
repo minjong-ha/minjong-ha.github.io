@@ -31,6 +31,7 @@ The point is, you can run such program inside the certain points of kernel.
 'eBPF (extended BPF)' takes one more step.
 It has larger register, stack and map.
 It also does not require additional kernel source code modification and module.
+It supports multiple map types such as hash table, LRU, ring buffer, stack trace and etc.
 
 It is possible compile C program to eBPF with Android build system.
 
@@ -41,5 +42,6 @@ It is possible compile C program to eBPF with Android build system.
 
 ## Reference
 [[Linux Kernel] What is BPF/eBPF?](https://hyeyoo.com/133)
-
+[ebpf.io](https://ebpf.io/)
+[Learn eBPF Tracing: Tutorial and Examples](https://www.brendangregg.com/blog/2019-01-01/learn-ebpf-tracing.html)
 
