@@ -35,8 +35,57 @@ It supports multiple map types such as hash table, LRU, ring buffer, stack trace
 
 It is possible compile C program to eBPF with Android build system.
 
+```c
+#include <linux/bpf.h>
+#include <linux/if_ether.h>
+#include <linux/if_packet.h>
+#include <linux/ip.h>
+#include <linux/in.h>
 
+int count_packets(struct __sk_buff *skb) {
+    struct ethhdr *eth = NULL;
+    struct iphdr *ip = NULL;
 
+    eth = (struct ethhdr *)(skb->data);
+    if (eth->h_proto != htons(ETH_P_IP)) {
+        return 0;
+    }
+
+    ip = (struct iphdr *)(skb->data + sizeof(struct ethhdr));
+    if (ip->version != 4) {
+        return 0;
+    }
+
+    if (ip->protocol == IPPROTO_TCP || ip->protocol == IPPROTO_UDP) {
+        bpf_trace_printk("Packet received on interface %d\n", skb->ifindex);
+        return 1;
+    }
+
+    return 0;
+}
+
+char _license[] SEC("license") = "GPL";
+unsigned int _version SEC("version") = LINUX_VERSION_CODE;
+struct bpf_map_def SEC("maps") packet_count = {
+    .type = BPF_MAP_TYPE_ARRAY,
+    .key_size = sizeof(int),
+    .value_size = sizeof(long long),
+    .max_entries = 1,
+};
+SEC("socket")
+int packet_counter(struct __sk_buff *skb) {
+    long long *value;
+
+    if (count_packets(skb)) {
+        value = bpf_map_lookup_elem(&packet_count, &skb->ifindex);
+        if (value) {
+            (*value)++;
+        }
+    }
+
+    return 0;
+}
+```
 
 
 
