@@ -87,6 +87,16 @@ int packet_counter(struct __sk_buff *skb) {
 }
 ```
 
+Above codes represent eBPF example program counting the number of TCP and UDP packets received on a network interface. 
+It first checks whether the packet is an IPv4 packet, and if so, it checks whether it is a TCP or UDP packet. 
+If it is, it uses 'bpf\_trace\_printk' to print a message indicating that a packet has been received on the specified interface.
+
+The application also defines an eBPF map, which is a data structure that can be used to store data between eBPF programs and the user space. 
+In this case, the map is an array with a single element that stores a counter for the number of packets received on each interface.
+
+The packet_counter function is registered as an eBPF program that is attached to a network socket, which means that it will be executed whenever a packet is received on the associated network interface. 
+The program first calls count_packets to determine whether the packet should be counted, and if so, it uses bpf_map_lookup_elem to retrieve the counter for the interface and increments it.
+
 
 
 ## Reference
