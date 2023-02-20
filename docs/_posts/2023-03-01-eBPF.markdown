@@ -97,6 +97,31 @@ In this case, the map is an array with a single element that stores a counter fo
 The packet_counter function is registered as an eBPF program that is attached to a network socket, which means that it will be executed whenever a packet is received on the associated network interface. 
 The program first calls count_packets to determine whether the packet should be counted, and if so, it uses bpf_map_lookup_elem to retrieve the counter for the interface and increments it.
 
+To compile above example, following:
+```
+clang -O2 -Wall -target bpf -c example.c -o example.o
+```
+
+If you want to compile it with gcc, following:
+```bash
+# Makefile
+
+CC = gcc
+CFLAGS = -O2 -Wall
+LDFLAGS = -lelf
+
+all: example.o
+
+example.o: example.c
+        $(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+        rm -f *.o
+```
+
+'eBPF' program does not run as executable file.
+Instead, it have to be loaded its object file to kernel.
+
 
 
 ## Reference
