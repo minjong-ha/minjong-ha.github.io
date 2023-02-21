@@ -121,8 +121,15 @@ clean:
 
 'eBPF' program does not run as executable file.
 Instead, it have to be loaded its object file to kernel.
+Since my example is for network kernel, it can be loaded with:
+```bash
+ip link set dev <interface> xdp obj example.o sec socket
+```
 
-
+You can also check the count with:
+```bash
+sudo bpftool map show pinned /sys/fs/bpf/example/packet_count
+```
 
 ## Reference
 [[Linux Kernel] What is BPF/eBPF?](https://hyeyoo.com/133)
