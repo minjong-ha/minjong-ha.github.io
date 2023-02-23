@@ -34,3 +34,12 @@ pylint $files
 # Add the changes to the commit
 git add $files
 ```
+
+If I add above file as executable on the '.git/hooks/pre-commit', hook will be called every time I try to commit files.
+Above hook will do:
+1. It gets the list of files that are being committed using the 'git diff' command.
+2. It checks if there are any Python files being committed, and exits if there are none.
+3. It runs the 'black' formatter and 'pylint' linter on the Python files.
+4. It adds the changes to the commit.
+
+
