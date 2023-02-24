@@ -42,4 +42,33 @@ Above hook will do:
 3. It runs the 'black' formatter and 'pylint' linter on the Python files.
 4. It adds the changes to the commit.
 
+However, If I just check its score with pylint, it has no meaning.
+'pylint' is valuable only when it denies commit that not satisfying the minimum score.
+I use following hook that checking pylint score:
+```bash
+#!/bin/bash
 
+# Get the list of files that are being committed
+files=$(git diff --cached --name-only --diff-filter=ACM "*.py")
+
+# Exit if there are no Python files being committed
+if [[ ! "$files" ]]; then
+  exit 0
+fi
+
+# Run 'black' on the Python files
+black $files
+
+# Run 'pylint' on the Python files and get the score
+pylint_output=$(pylint $files)
+pylint_score=$(echo "$pylint_output" | awk '/Your code has been rated at/ {print $8}')
+
+# Check if the pylint score is below 9.0 and exit with an error message if it is
+if (( $(echo "$pylint_score < 9.0" | bc -l) )); then
+  echo "Pylint score is below 9.0. Aborting commit."
+  exit 1
+fi
+
+# Add the changes to the commit
+git add $files
+```
