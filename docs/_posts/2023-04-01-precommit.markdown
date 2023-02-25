@@ -72,3 +72,39 @@ fi
 # Add the changes to the commit
 git add $files
 ```
+
+Now the pre-commit hook check the pylint score and refuse to commit if it does not satisfy the minimum score.
+In this case, I set the minimum score as 9.0.
+
+'pylint' is useful tool to maintain the code quality.
+However, sometimes it feels too tight for work.
+You can add exceptions for pylint with:
+```bash
+#!/bin/bash
+
+# Get the list of files that are being committed
+files=$(git diff --cached --name-only --diff-filter=ACM "*.py")
+
+# Exit if there are no Python files being committed
+if [[ ! "$files" ]]; then
+  exit 0
+fi
+
+# Run 'black' on the Python files
+black $files
+
+# Run 'pylint' on the Python files and get the score
+pylint_output=$(pylint --disable=C0103 $files)
+pylint_score=$(echo "$pylint_output" | awk '/Your code has been rated at/ {print $8}')
+
+# Check if the pylint score is below 9.0 and exit with an error message if it is
+if (( $(echo "$pylint_score < 9.0" | bc -l) )); then
+  echo "Pylint score is below 9.0. Aborting commit."
+  exit 1
+fi
+
+# Add the changes to the commit
+git add $files
+```
+
+In above case, I set C0103 warning disable.
