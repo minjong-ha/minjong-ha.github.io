@@ -6,8 +6,12 @@ published: false
 date:   2023-04-01 12:00:00 +0900
 ---
 
+## Introduction
+
 Pre-commit hook is a script or command that is executed before a commit is made. 
 It's a way to automatically perform some checks or actions on project before it is committed, which can help you catch errors or prevent mistakes from being committed to your repository.
+
+## Pre-commit Hook
 
 To set up a pre-commit hook in Git, you need to create a script or command and save it in a file named "pre-commit" in your repository's ".git/hooks" directory. 
 This script should exit with a non-zero status code if the commit should be rejected, or with a zero status code if the commit is allowed.
@@ -108,3 +112,17 @@ git add $files
 ```
 
 In above case, I set C0103 warning disable.
+
+
+## Appendix
+
+### Radon
+
+Radon is a Python library that provides tools for analyzing the complexity of Python code. 
+It uses various metrics, such as cyclomatic complexity, to measure the complexity of code and provide insights into its maintainability.
+
+```bash
+radon cc /path/to/python/project
+```
+
+
