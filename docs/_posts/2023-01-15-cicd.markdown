@@ -1,0 +1,124 @@
+---
+layout: posts
+title:  "CI / CD: For better Git management"
+author: Minjong Ha
+published: false
+date:   2023-01-15 12:00:00 +0900
+---
+
+"CI/CD" is method to frequently deliever application to customers with automated, continuous delivery and deployment.
+It is convinient not only for the customers but developers.
+In project, source codes are frequently, oftenly updated, roll-backed, merged, and branched.
+More the developers participate the project, it beyonds the limit that human can manage.
+As a result, "CI/CD" can automate the system and presents organized management.
+
+In this post, I will share my experience and trial about the "CI/CD" with Github Actions.
+(Gitlab also provides powerful CI/CD feature, but I focused on github since I do not have gitlab projects)
+
+
+## Github Actions
+
+Github Action presents the automated tasks that triggered by pull request (merge request), push and etc.
+It can build or compile the source codes and test when the repository is pushed by locals.
+It also provide cron jobs that executing certain scripts with schedule.
+
+### Workflow
+
+Workflow is a kind of command group that can be added to the repository.
+
+You can write a new yml file in .github/workflows directory but it is more recommended to use "workflow template" in Repository - Actions.
+Following codes represents the default template that githup provides.
+
+
+```
+# main.yml
+
+name: CI
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+```
+
+"name" represents the name of workflow.
+It is an optional parameter
+
+Users can manually execute workflow in Repository-Action on github.
+"workflow\_dispatch" is an option for it.
+
+
+### Event
+
+Events can trigger the workflow.
+It can be 'Push', 'Pull Request (Merge Request)', 'Commit' and etc.
+
+"on:" represents the events that execute the workflow.
+In this example, workflow will be triggered when the branch 'develop' is pushed or pull\_requested.
+
+
+
+### Runner
+
+Runner is an application that executing jobs in the workflow
+
+"build" in "jobs" represents the environment that runner running.
+In this case, it runs on the ubuntu-latest.
+
+
+### Job
+
+Job is a group of multiple steps that executed by runner.
+
+"jobs" represents the tasks the workflow performs.
+
+### Step
+
+Step is an task for command.
+Command can be shell command or action.
+
+
+### Action
+
+Action is an independent command that creating jobs.
+
+
+## Example
+
+For better understanding, I tried implement simple CI/CD for my personal project.
+[Python-Asyncio-Study](https://github.com/minjong-ha/python-asyncio-study) is a reference for studying python with asyncio and rx libraries.
+Followings my personal goals:
+
+- When the branches are pushed or pull requested, It will tests its test codes automatically
+- When 'master' branch is pushed or pull requested, It will create debian package automatically
+
+
+
+## Appendix
+
+My personal webpage is based on the jekyll with github.io.
+It can be a good example to understand about the CI/CD.
+
+## Reference
+
+[What is CI/CD?](https://www.redhat.com/en/topics/devops/what-is-ci-cd)
+[GitHub Docs: GitHub Actions](https://docs.github.com/en/actions)
+

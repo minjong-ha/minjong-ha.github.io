@@ -1,0 +1,143 @@
+---
+layout: posts
+title:  "Open vSwitch(OvS) Usage in Multi-VM Computer"
+author: Minjong Ha
+published: false
+date:   2022-08-31 09:14:00 +0900
+---
+
+<!--- I think this post requires overall re-write for company security and my safe... --->
+
+
+## Abstract
+
+In this post, I will explain What the OvS is and how can we utilize it on the multi-VM machine.
+
+Suppose that there is a computer that should be connected with seperated, independent network for each VMs.
+Host can manage the networks with OvS and seperates them logically.
+Since the target networks are located in the private network, host should consider the VPN handling from VMs.
+
+
+## Introduction
+
+### Open vSwitch (OvS)
+
+Open vSwitch implements virtual, software based switch instead of physical switch.
+OvS can support multiple virtual NICs(vNIC) with single physical NIC cable
+
+<!---OvS example image --->
+<img data-action="zoom" src='{{ "../assets/images/posts/2022-08-31-ovs-vpn/ovs_example_1.png" | relative_url }}' alt='relative'>
+<img data-action="zoom" src='{{ "../assets/images/posts/2022-08-31-ovs-vpn/ovs_example_2.png" | relative_url }}' alt='relative'>
+
+Above image represents the overall architecture of OvS applied system.
+There are two VMs with different purposes (internal / external), and OvS supports them by providing virtual NICs.
+
+### Target Design
+
+The goal is implementing logically seperated multi-VM environment.
+For example, suppose there are two VMs: one for private network (intranet), and another for public network (internet).
+Many enterprises and organizations deploy their private network for privacy.
+They manage their sensitive informations which not supposed to be leak.
+However, they also need to connect to the internet to use e-mail and etc.
+In this case, their network are usually having following shape.
+
+<!---VPN Environment image--->
+<img data-action="zoom" src='{{ "../assets/images/posts/2022-08-31-ovs-vpn/vpn_topology.png" | relative_url }}' alt='relative'>
+
+It is reasonable network topology if their computers are located in private network.
+Usually, there are two computers in these environments: one for the private, and another for the public.
+However, since the increase of the remote work, it is required that accessing to the private network from the public network.
+It is possible to access to the private or managed public network using VPN.
+Commercial and free VPN products support VPN client for the computer and it connects each computers to the target network.
+
+The problem is that carrying two independent computers (usually laptops) is almost impossible.
+Since the risk of leakage, it is not recommended to use a single computer for both networks.
+
+Virtual machines(VM) could be a solution for it.
+Advances of hardware performance and VM optimization make it possible to run VMs on the laptop.
+
+
+Since the internal networks (public, private) are not open for everyone, using VPN is one of the access point.
+There are two types of VPN: Guest-centric VPN and Host-centric VPN.
+Guest-centric VPN simply means there is a VPN client on the VM itself.
+It is easy to deploy and use.
+User just installs the VPN client for each VMs and execute them seperately.
+However, if the system requires high security network policy, guest-centric VPN client could not enough.
+Suppose that using multi-VM installed computer on the wireless, remote, external network.
+Under the high security demand, switching between the wireless network could be a vulnerability.
+System should disconnect VPN when the network switching is detected.
+However, VPN client on the VM cannot detect network changing.
+It is still possible that pushing network information to the guest from host, but it requires additional customization for VPN client which leads cost up.
+
+Host-centric VPN can solve the problem.
+It means that there are VPN clients on the host side.
+Since the network and VPN modules are on same layer, it is possible to configurate VPN depending on the network state.
+
+<!--- vm-vm model network topology --->
+<img data-action="zoom" src='{{ "../assets/images/posts/2022-08-31-ovs-vpn/vm_topology.png" | relative_url }}' alt='relative'>
+
+Above image represents the vm topology.
+Each VMs should looks like located in the private network.
+Open vSwitch can be used to seperate the networks for each VMs.
+By generating ovs-bridges and let the VM corresponds each bridges, we can process the packets for each VMs independently.
+
+Each network tap devices for VMs is connected with ovs-bridge.
+And each bridges communicates with the corresponding VPN module.
+For example, packets from public VM are delivered to the public VPN module through the ovs-bridge.
+Packtes from private VM are also delivered to the public VPN since the private network is located inside the public network.
+However, before they pass over to the public VPN, they should be handled by private VPN first.
+They are delivered to the private ovs-bridge and private VPN.
+Then, following the routing rules, they are handled over to public ovs-bridge.
+Remains are same with the public packtes.
+
+<img data-action="zoom" src='{{ "../assets/images/posts/2022-08-31-ovs-vpn/overall_topology.png" | relative_url }}' alt='relative'>
+
+Above image represents overall architecture combined with VPN and VM topologies.
+The packtes from private VM follow following sequences.
+Private VM -> Encapsulated by Private VPN -> Encapsulated by Public VPN -> Delievered to ISP -> Arrive and decapsulated by public VPN server -> Delievered and decapsulated by private VPN server -> Delievered to the original destination
+
+To implement above figure, VMs should pass their packets to the ovs-bridge.
+Fortunately, libvirt supports ovs network bridge for KVM.
+
+```
+<network>
+  <name>test</name>
+  <forward mode='bridge'/>
+  <bridge name='internal-br'/>
+  <virtualport type='openvswitch'/>
+  <portgroup name='vlan-01' default='yes'>
+  </portgroup>
+</network>
+```
+
+Following xml represents the libvirt network supporting ovs bridge.
+Unlike the original network xml has information about the network itself, ovs network xml only contains the name of bridge and virtual port type.
+Since it only indicates the name of ovs bridge, the policy about the network name is required.
+If the ovs-bridge were created and activated, network packets coming from the VM go to it through the VM tap.
+
+Each ovs-bridges has a tap device for VPN module.
+The packets from VMs are delievered to the ovs-bridge through VM tap, and also delivered to the VPN tap.
+Following the routing rules, packets will be sended to NIC (in case of public network VM) or ovs-bridge for public network (in case of private network VM).
+
+
+### Packet Path
+
+Using the networks of VMs requires the logically seperated networks.
+Each VMs is connected to the OvS bridge, and the bridges are also connected with VPN modules or other OvS bridge or NIC.
+Ovs bridges send the packet following the routing rule that host configurated.
+
+Followings represent the packet flow of each VMs.
+
+Public Network VM: VM -> tap for VM -> ovs bridge for VM (Public) -> VPN Module (1st) -> NIC
+
+Private Network VM: VM -> tap for VM -> ovs bridge for VM (Private) -> VPN Module (2nd) -> ovs bridge for VM (Public) -> VPN Module (1st) -> NIC
+
+
+
+
+## Reference
+
+* https://opennetworking.org/news-and-events/blog/p4-and-open-vswitch/
+* https://docs.openvswitch.org/en/latest/howto/vlan/
+* https://commons.wikimedia.org/wiki/File:Distributed_Open_vSwitch_instance.svg
+

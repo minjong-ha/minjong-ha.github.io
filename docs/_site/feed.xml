@@ -1,23 +1,580 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-05-21T07:08:40+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Home</title><subtitle>This is description section. If you find this texts, update it more appropriate contents.</subtitle><entry><title type="html">Lightweight Persistence Centric System</title><link href="http://localhost:4000/2022/04/27/Lightweight_Persistence_Centric_System.html" rel="alternate" type="text/html" title="Lightweight Persistence Centric System" /><published>2022-04-27T09:00:00+09:00</published><updated>2022-04-27T09:00:00+09:00</updated><id>http://localhost:4000/2022/04/27/Lightweight_Persistence_Centric_System</id><content type="html" xml:base="http://localhost:4000/2022/04/27/Lightweight_Persistence_Centric_System.html">&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=HzYe_xooOKk&amp;amp;feature=emb_title&quot;&gt;Non-volatile computing demo (LightPC) English version&lt;/a&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-10-13T14:12:07+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Home</title><subtitle>This is description section. If you find this texts, update it more appropriate contents.</subtitle><entry><title type="html">VM Management: Implement Recovery and Checkpoint for Image</title><link href="http://localhost:4000/2022/08/08/vm-image-versioning.html" rel="alternate" type="text/html" title="VM Management: Implement Recovery and Checkpoint for Image" /><published>2022-08-08T14:37:00+09:00</published><updated>2022-08-08T14:37:00+09:00</updated><id>http://localhost:4000/2022/08/08/vm-image-versioning</id><content type="html" xml:base="http://localhost:4000/2022/08/08/vm-image-versioning.html">&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://news.kaist.ac.kr/newsen/html/news/?GotoPage=1&amp;amp;list_e_date=&amp;amp;list_s_date=&amp;amp;mng_no=20111&amp;amp;mode=V&amp;amp;skey=&amp;amp;sval=&quot;&gt;LightPC Presents a Resilient System Using Only Non-Volatile Memory&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Qemu hypervisor presents qcow2 format for disk image.
+Guest considers the qcow2 image as a physical disk, and qemu hypervisor handles the I/O requests from the VM.
+It is efficient since the disk size increases depending on the usage of the disk.
+For example, assume that there is a qcow2 image having 100 GB virtual size.
+Guest OS can see the 100 GB storage device through the qemu hypervisor.
+If the VM only uses 10 GB on the storage, qcow2 image only grows up to 10 GB (+ a).
+If the VM uses more than 10 GB on the storage, qcow2 image also expands to 20 GB (+ a)&lt;/p&gt;
 
-&lt;p&gt;“A KAIST research team has developed hardware and software technology that ensures both data and execution persistence.”&lt;/p&gt;
+&lt;p&gt;qcow2 format image also supports snapshot feature.
+There are two snapshot methods: internal and external.
+Internal snapshot contains its snapshot data in the original base image file.
+On the other hand, external snapshot creates seperate so called overlay image.
+In this post, I will explain about external snapshot.&lt;/p&gt;
 
-&lt;p&gt;This is very interesting research!
-At the time I graduated from the University with the research about the non-volatile memory, also called persistent memory, it was not a major trend in academia as far as I know.
-Compared to the costs and efforts of applying non-volatile memory from the volatile-memory, the performance improvement did not look attractive.
-Thus, the companies preferred to increase the memory physically, and the researchers start to study about the “CXL memory” instead.&lt;/p&gt;
+&lt;h2 id=&quot;qcow2-architecture&quot;&gt;Qcow2 Architecture&lt;/h2&gt;
 
-&lt;p&gt;However, the researchers in CAMEL lab (KAIST) implement a integrated persistence centric system with the Intel OptaneDC Persistent Memory!&lt;/p&gt;
+&lt;p&gt;&lt;img data-action=&quot;zoom&quot; src=&quot;/assets/images/posts/2022-08-08-vm-image-versioning/qcow_struct.png&quot; alt=&quot;relative&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;The paper, “LightPC: Hardware and Software Co-Design for Energy-Efficient Full System Persistence)”, will be presented in ISCA’22 (International Symposium on Computer Architecture).
-As soon as the paper is announced, I will read and analyze the LightPC! and update this posts!&lt;/p&gt;
+&lt;p&gt;Above image represents the header (metadata) of qcow2 file.
+“qcow2” image can be divided to seven sectors: Header, L1 Table, Refcount Table, More Refcount Blocks, Snapshot Headers, L2 Tables and Data Reserved (data cluster).&lt;/p&gt;
 
-&lt;p&gt;ISCA’22 will be opened at June 18-22, 2022.&lt;/p&gt;</content><author><name>Minjong Ha</name></author><summary type="html">Non-volatile computing demo (LightPC) English version LightPC Presents a Resilient System Using Only Non-Volatile Memory “A KAIST research team has developed hardware and software technology that ensures both data and execution persistence.” This is very interesting research! At the time I graduated from the University with the research about the non-volatile memory, also called persistent memory, it was not a major trend in academia as far as I know. Compared to the costs and efforts of applying non-volatile memory from the volatile-memory, the performance improvement did not look attractive. Thus, the companies preferred to increase the memory physically, and the researchers start to study about the “CXL memory” instead. However, the researchers in CAMEL lab (KAIST) implement a integrated persistence centric system with the Intel OptaneDC Persistent Memory! The paper, “LightPC: Hardware and Software Co-Design for Energy-Efficient Full System Persistence)”, will be presented in ISCA’22 (International Symposium on Computer Architecture). As soon as the paper is announced, I will read and analyze the LightPC! and update this posts! ISCA’22 will be opened at June 18-22, 2022.</summary></entry><entry><title type="html">Host-Guest Communication: Full vs Para Virtualization - 1</title><link href="http://localhost:4000/2022/04/25/host-guest-communication-1.html" rel="alternate" type="text/html" title="Host-Guest Communication: Full vs Para Virtualization - 1" /><published>2022-04-25T17:13:43+09:00</published><updated>2022-04-25T17:13:43+09:00</updated><id>http://localhost:4000/2022/04/25/host-guest-communication-1</id><content type="html" xml:base="http://localhost:4000/2022/04/25/host-guest-communication-1.html">&lt;p&gt;About Host-Guest communication!
-Currently writing content….&lt;/p&gt;
+&lt;p&gt;Header includes metadata of qcow2 image such as number of snapshot it has, actual(current) size, virtual(maximum) size, and etc.
+Snapshot header also represents the information of snapshot that the image has.&lt;/p&gt;
 
-&lt;p&gt;In this post, I share my research and analysis about the data communication between the host and guest in case of the device request and focus on the differences in the full and para virtualized machine.
+&lt;p&gt;L1 Table, L2 Table and Refcount Table, More Refcount Blocks are two-level tables for managing data allocation with Copy-on-Write (CoW).
+L1, L2 Tables are corresponding to multi-level page tables.
+It indicates the data cluster, where the data are actually allocated.
+On the other hand, refcount are corresponding to represent the attribute of each data clusters.
+There are three types of refcount: 0, 1, and more than 2.
+It represents the number of referenced of data cluster.
+For example, when the refcount is 0, it represents it is free, non-allocated data cluster (no L2 table indicates it).
+Refcount 1 means it is allocated, used data cluster (there is a L2 table exists indicating the data cluster).
+Application can overwrite the data cluster having refcount 1.
+Refcount more than 2 is similar to 1.
+It means that the data cluster is used, allocated.
+However, the difference is that the data clusters having refcount more than 2 should be allocated to new data cluster, just like Copy-on-Write.
+I will explain more details about it in later section.&lt;/p&gt;
+
+&lt;h2 id=&quot;qcow2-data-allocation&quot;&gt;Qcow2 Data Allocation&lt;/h2&gt;
+
+&lt;p&gt;&lt;img data-action=&quot;zoom&quot; src=&quot;/assets/images/posts/2022-08-08-vm-image-versioning/qcow_image_achitecture.png&quot; alt=&quot;relative&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Above image represents the architecture of qcow2 file when it writes the data.
+qcow2 image manages the data with L1,L2 tables and Refcount tables like page table.
+Each table entries are corresponding to the data clusters and each data clusters having 64KB default size (512B - 2MB).&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;qemu-img create &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; qcow &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; original_image_name new_overlay_image
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;qcow2 image supports “overlay” image which is CoW based data allocation.
+If the user execute above command, new_overlay_image is created and indicates the original_image as a backing file.
+When the application tries to read data from new_overlay_image, it returns the value referencing its data cluster or the backing file.
+If the application tries to write new data or overwrite data cluster, overlay_image allocates new data clusters and writes the data.
+new_overlay_image copies L1,L2 tables and refcount tables from the original_image when generated.
+However, unlike it copies L1,L2 tables, it copies refcount tables with increment.
+If the original refcount table has the values 0,1,1,0,1, then new_overlay_image has the values 1,2,2,1,2 (overlay image only has 1 or more than 2 refcount).
+When the application tries to write data, it checks the refcount of the data cluster.
+If the refcount is 1, it means the original data cluster is free, non-allocated state.
+Since the original_image does not have allocated data cluster, it generates new data cluster and write the data.
+If the refcount is more than 2, it means the original data cluster is exist.
+Hence, overlay_image allocates new data cluster and update the L1,L2 table.
+The difference between refcount 1 and more than 2 is the prior does not change refcount.
+However, the later updates L1,L2 table and refcount at the same time, since the CoW happened.
+With the CoW based data cluster management, qcow2 image can hold the original data and overlap the new data at the same time.&lt;/p&gt;
+
+&lt;h2 id=&quot;image-overlay&quot;&gt;Image Overlay&lt;/h2&gt;
+
+&lt;!-- Overlay Image --&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;.--------------.    .-------------.    .-------------.    .-------------.
+|              |    |             |    |             |    |             |
+| RootBase     |&amp;lt;---| Overlay-1   |&amp;lt;---| Overlay-1A  &amp;lt;--- | Overlay-1B  |
+| (raw/qcow2)  |    | (qcow2)     |    | (qcow2)     |    | (qcow2)     |
+'--------------'    '-------------'    '-------------'    '-------------'
+
+-------------------------------------------------------------------------------------
+
+.-----------.   .-----------.   .------------.  .------------.  .------------.
+|           |   |           |   |            |  |            |  |            |
+| RootBase  |&amp;lt;--- Overlay-1 |&amp;lt;--- Overlay-1A &amp;lt;--- Overlay-1B &amp;lt;--- Overlay-1C |
+|           |   |           |   |            |  |            |  | (Active)   |
+'-----------'   '-----------'   '------------'  '------------'  '------------'
+   ^    ^
+   |    |
+   |    |       .-----------.    .------------.
+   |    |       |           |    |            |
+   |    '-------| Overlay-2 |&amp;lt;---| Overlay-2A |
+   |            |           |    | (Active)   |
+   |            '-----------'    '------------'
+   |
+   |
+   |            .-----------.    .------------.
+   |            |           |    |            |
+   '------------| Overlay-3 |&amp;lt;---| Overlay-3A |
+                |           |    | (Active)   |
+                '-----------'    '------------'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Above image represents the overview of the overlays.
+Since the changes are only updated to the overlay images, it is possible to create two different images based on the same original image.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;qemu-img commit &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;overlay_image&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Qcow2 image also presents commit feature.
+For example, if I commit Overlay-1A in the first figure, every data clusters and L1/L2 tables, and refcounts are merged to the Overlay-1.
+After the merging completed, Overlay-1A now has a clear, vanila overlay image.
+Since it merging the data from 1A to 1, additional storage is required (maximum Overlay-1A size).&lt;/p&gt;
+
+&lt;p&gt;As you can see, qcow2 overlay is very similar to git.
+We can change the disk image of VM with libvirt, and create new branch, commit.
+The only difference is qcow2 is not available for recovering old history.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion?&lt;/h2&gt;
+
+&lt;p&gt;qcow2 presents useful snapshot features and backing logic motivated by CoW.
+It makes managing the versions of VMs convinient.
+However, it is still the problem that write amplification.
+Even if the OS looks like idle, it continuously performs its tasks.
+One of the task is executed with file system.
+Since it updates or writes its system files, thin-provisioned qcow2 file grows up more than 1 GB only with the booting.
+For this reason, managing VM versions requires amount of storage.&lt;/p&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://kashyapc.fedorapeople.org/virt/lc-2012/snapshots-handout.html&quot;&gt;Qcow2 Overlay Images&lt;/a&gt;&lt;/p&gt;</content><author><name>Minjong Ha</name></author><summary type="html">Introduction</summary></entry><entry><title type="html">Deploy oVirt as a VM Image Management Platform</title><link href="http://localhost:4000/2022/06/16/oVirt-as-a-management-platform.html" rel="alternate" type="text/html" title="Deploy oVirt as a VM Image Management Platform" /><published>2022-06-16T10:48:00+09:00</published><updated>2022-06-16T10:48:00+09:00</updated><id>http://localhost:4000/2022/06/16/oVirt-as-a-management-platform</id><content type="html" xml:base="http://localhost:4000/2022/06/16/oVirt-as-a-management-platform.html">&lt;h2 id=&quot;abstract&quot;&gt;Abstract&lt;/h2&gt;
+&lt;p&gt;oVirt is an open-source distributed virtualization solution, designed to manage your entire enterprise infrastructure. oVirt uses the trusted KVM hypervisor and is built upon several other community projects, including libvirt, Gluster, PatternFly, and Ansible. &lt;a href=&quot;https://www.ovirt.org/&quot;&gt;oVirt Official Site&lt;/a&gt;
+Usually, oVirt presents a distributed system for the VMs and helps to deploy the cloud infrastructure.
+In this post, I will explain how to deploy the oVirt and describe the architecture.
+Then I will talk about why I tried to deploy oVirt as an effective VM image footpring management.&lt;/p&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Managing VM images is important since the users requires various image shape.
+Differences in images may appear in the OS, in versions within the same OS, or in applications depending on usage within the same version.
+VM service manager performs numerous major and minor updates and it causes fragmentation of images.
+For this reason, We need to use an infrastructure to manage and update the images effectively.&lt;/p&gt;
+
+&lt;p&gt;I choosed oVirt as an infrastructure for image management for some reasons.
+First, it is open-source software.
+There is no additional cost for running after I prepare the machines to deploy.
+Second, it presents web-console GUI.
+Through the web-console, I can easily create VMs and templates and run the VM itself using web-presented vnc.
+It makes VM image update easy and helps the manager in convinient.
+Third, it is easy to add hosts and storage.
+It is also possible via web-console to add hosts and storage domains.
+I can add NFS or glusterFS based storage domain when I need more storage.&lt;/p&gt;
+
+&lt;p&gt;There are many VM supports in oVirt as an DaaS, however, I focused on the features for VM image management and describe the reason in the above paragraph.
+Especially, what caught my eye in particular is the templated image.
+It looks attractive to managing the image versions as a template.&lt;/p&gt;
+
+&lt;h2 id=&quot;ovirt-architecture&quot;&gt;oVirt: Architecture&lt;/h2&gt;
+&lt;p&gt;I deployed a CentOS 7 as a hosted engine, and three oVirt-nodes (4.3) as host and storage domains.
+Also, to manage FQDNs for each nodes, I implemented docker-dnsmasq on the another machine as an internal DNS server.
+It could be replaced manual /etc/hosts editting, which is more annoying to manage.&lt;/p&gt;
+
+&lt;p&gt;Followings represent the overall architecture of ovirt-engine I deployed.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;5 nodes
+    &lt;blockquote&gt;
+      &lt;ul&gt;
+        &lt;li&gt;ovirt-engine: CentOS 7 + oVirt 4.3 installed&lt;/li&gt;
+        &lt;li&gt;ovirt-node 0 - 3: oVirt-node 4.3 installed
+          &lt;blockquote&gt;
+            &lt;ul&gt;
+              &lt;li&gt;ovirt-node 0 - 2: host and glusterFS storage&lt;/li&gt;
+              &lt;li&gt;ovirt-node 3: host and NFS storage&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/blockquote&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Each engine and nodes has same hardware specification: 128 GB SSD + 1 TB HDD with Intel CPU.
+They are simple and domestic PC, not the servers.&lt;/p&gt;
+
+&lt;h2 id=&quot;deployment&quot;&gt;Deployment&lt;/h2&gt;
+&lt;!--- need image to describe the architecture ---&gt;
+&lt;!--- describe install sequences ---&gt;
+
+&lt;h3 id=&quot;ovirt-engine&quot;&gt;oVirt-Engine&lt;/h3&gt;
+&lt;p&gt;First, I deployed the oVirt-engine on CentOS 7.
+Following codes represent the commands that I use to install the engine.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;yum update
+
+reboot
+
+yum &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;http://resoureces.ovirt.org/pub/yum-repo/ovirt-release43.rpm
+
+yum &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;ovirt-engine
+
+engine-setup
+&lt;span class=&quot;c&quot;&gt;# install ovirt-engine based on default configuration&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# FQDN: ovirt-node-*.ovirt.net (same as hostname, FQDN in DNS)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Organazation name for certificate: ovirt.net&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# (FQDN and Organazation name coule be changed)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After the installation, You can access the oVirt-engine web console through the “https://engine.ovirt.net”.
+ID and PW is defined during the engine-setup. 
+Usually, ID is “admin”.&lt;/p&gt;
+
+&lt;h3 id=&quot;ovirt-nodes&quot;&gt;oVirt-Nodes&lt;/h3&gt;
+&lt;p&gt;I installed oVirt-node 4.3 on the computers using ISO installed USB.
+After I installed the oVirt-node OS, I set the ssh authorization for each nodes.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;open oVirt-engine web console&lt;/li&gt;
+  &lt;li&gt;select “add host” in Computing section.&lt;/li&gt;
+  &lt;li&gt;copy the public ssh key from web console.&lt;/li&gt;
+  &lt;li&gt;Inside the each nodes…(root)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; .ssh
+&lt;span class=&quot;nb&quot;&gt;chmod &lt;/span&gt;700 .ssh
+vi .ssh/authorized_key
+&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;paste_public_ssh_key_from_hosted_engine&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After I finished above sequences, I add the oVirt-nodes as hosts for oVirt-engine.&lt;/p&gt;
+
+&lt;h3 id=&quot;storage-glusterfs&quot;&gt;Storage: glusterFS&lt;/h3&gt;
+&lt;p&gt;(192.168.103.82: oVirt-engine, 192.168.103.83-85: oVirt-node-0~2)&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Configure Firewall&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Run following commands in node 83&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;iptables &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; INPUT &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; all &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; 192.168.103.82 &lt;span class=&quot;nt&quot;&gt;-j&lt;/span&gt; ACCEPT
+iptables &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; INPUT &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; all &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; 192.168.103.84 &lt;span class=&quot;nt&quot;&gt;-j&lt;/span&gt; ACCEPT
+iptables &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; INPUT &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; all &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; 192.168.103.85 &lt;span class=&quot;nt&quot;&gt;-j&lt;/span&gt; ACCEPT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Run following commands in node 84&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;iptables &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; INPUT &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; all &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; 192.168.103.82 &lt;span class=&quot;nt&quot;&gt;-j&lt;/span&gt; ACCEPT
+iptables &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; INPUT &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; all &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; 192.168.103.83 &lt;span class=&quot;nt&quot;&gt;-j&lt;/span&gt; ACCEPT
+iptables &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; INPUT &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; all &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; 192.168.103.85 &lt;span class=&quot;nt&quot;&gt;-j&lt;/span&gt; ACCEPT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Run following commands in node 85&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;iptables &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; INPUT &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; all &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; 192.168.103.82 &lt;span class=&quot;nt&quot;&gt;-j&lt;/span&gt; ACCEPT
+iptables &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; INPUT &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; all &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; 192.168.103.83 &lt;span class=&quot;nt&quot;&gt;-j&lt;/span&gt; ACCEPT
+iptables &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; INPUT &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; all &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; 192.168.103.84 &lt;span class=&quot;nt&quot;&gt;-j&lt;/span&gt; ACCEPT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Configurate in 83, which is the main glusterfs server&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh-keygen
+ssh-copy-id root@ovirt-node-&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.ovirt.net
+ssh-keyscan &lt;span class=&quot;nt&quot;&gt;-H&lt;/span&gt; ovirt-node&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.ovirt.net
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Cofigurate in 83, 84, 85&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;service glusterd start
+gluster peer probe ovirt-node&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.ovirt.net
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;gluster requires dedicated storage to deploy.
+I formatted the 1TB HDD (/dev/sdb)&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;fdisk /dev/sdb
+n
+w
+mkfs.xfs &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;512 /dev/sd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Setup the gluster volume on the https://ovirt-node-0.ovirt.net&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Virtualization - Hosted Engine - Hyperconverged
+/dev/sdb1&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;storage-nfs&quot;&gt;Storage: NFS&lt;/h3&gt;
+
+&lt;p&gt;Create NFS directory and configuration&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; /exports/data
+&lt;span class=&quot;nb&quot;&gt;chown &lt;/span&gt;36:36 /exports/data
+&lt;span class=&quot;nb&quot;&gt;chmod &lt;/span&gt;g+s /exports/data
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Automount NFS storage device&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkfs.xfs &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;512 /dev/sdb1 /exports
+
+vi /etc/fstab
+&lt;span class=&quot;c&quot;&gt;#/dev/sdb1 /exports/data xfs defaults 0 0 &lt;/span&gt;
+
+mount &lt;span class=&quot;nt&quot;&gt;-a&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Configurate NFS accessible&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vi /etc/exports
+exports/data &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;rw&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+exportfs &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Configurate NFS service accessible from external network&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;firewall-cmd &lt;span class=&quot;nt&quot;&gt;--permanent&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--add-service&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;nfs
+firewall-cmd &lt;span class=&quot;nt&quot;&gt;--permanent&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--add-service&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;rpc-bind
+firewall-cmd &lt;span class=&quot;nt&quot;&gt;--permanent&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--add-service&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;mountd
+firewall-cmd &lt;span class=&quot;nt&quot;&gt;--reload&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Add storage domain (ovirt-node-3.ovirt.net:/exports/data) in ovirt-engine web console&lt;/p&gt;
+
+&lt;h1 id=&quot;result&quot;&gt;Result&lt;/h1&gt;
+&lt;p&gt;If you followed above guides and deploy the oVirt-engine success, it presents 4 hosts (ovirt-node-0 ~ 3) and 2 storage (glusterFS, NFS).
+You can upload the image and make that image a VM.
+Then, you can template the VM.&lt;/p&gt;
+
+&lt;p&gt;Each templates has their own name, description, comments.
+It is also possible to manage the templates with versions using sub-template feature.&lt;/p&gt;
+
+&lt;h1 id=&quot;appendix&quot;&gt;Appendix&lt;/h1&gt;
+&lt;h2 id=&quot;ovirt-template-image-download-in-the-cli-with-rest-api&quot;&gt;oVirt template image download in the CLI with REST API&lt;/h2&gt;
+
+&lt;p&gt;I also implement a CLI template downloader using Python 3. 
+I used oVirt-engine REST API.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;a href=&quot;https://github.com/minjong-ha/ovirt-template-manager&quot;&gt;ovirt-template-manager&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;“oVirt-engine” issues certification to the client, and client requests multiple features including download template, create VM and etc.&lt;/p&gt;
+
+&lt;h2 id=&quot;ovirt-engine-rest-api&quot;&gt;oVirt-engine REST API&lt;/h2&gt;
+&lt;p&gt;oVirt-engine presents REST API.
+Above ovirt template downloader using Python uses the REST API.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;a href=&quot;http://ovirt.github.io/ovirt-engine-api-model/&quot;&gt;ovirt-engine REST API&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://seen-fact-e72.notion.site/VM-oVirt-92ca20a41c1741f4ac4b39f0c97f56a2&quot;&gt;oVirt-engine Deployment Notion Document (korean)&lt;/a&gt;&lt;/p&gt;</content><author><name>Minjong Ha</name></author><summary type="html">Abstract oVirt is an open-source distributed virtualization solution, designed to manage your entire enterprise infrastructure. oVirt uses the trusted KVM hypervisor and is built upon several other community projects, including libvirt, Gluster, PatternFly, and Ansible. oVirt Official Site Usually, oVirt presents a distributed system for the VMs and helps to deploy the cloud infrastructure. In this post, I will explain how to deploy the oVirt and describe the architecture. Then I will talk about why I tried to deploy oVirt as an effective VM image footpring management.</summary></entry><entry><title type="html">Virtio-serial Communication: Linux Host - Windows Guest</title><link href="http://localhost:4000/2022/06/03/virtio_serial_example.html" rel="alternate" type="text/html" title="Virtio-serial Communication: Linux Host - Windows Guest" /><published>2022-06-03T16:13:43+09:00</published><updated>2022-06-03T16:13:43+09:00</updated><id>http://localhost:4000/2022/06/03/virtio_serial_example</id><content type="html" xml:base="http://localhost:4000/2022/06/03/virtio_serial_example.html">&lt;h2 id=&quot;virtio-serial-appeareance-in-linux-host-and-windows-guest&quot;&gt;Virtio-Serial Appeareance in Linux Host and Windows Guest&lt;/h2&gt;
+&lt;!-- What is the virtio-serial?--&gt;
+&lt;p&gt;Virtio presents the communication channels between the Host and Guest.
+Host and Guest share the memory space and send notification to each others to notify that there are the data that the Host or Guest should read.
+For example, if the Host tries to send some data to the Guest, it writes the data it want to send in the virtqueue (v-ring) located in the shared memory and gives a notification to the Guest through the KVM.
+The Guest’s virtio driver now knows that there are data it should read.
+In this operations, virtio provides the communication API using the virtqueue.
+Since the Host and Guest both require communication handler, they should install the virtio-aware driver based on the virtio APIs.&lt;/p&gt;
+
+&lt;p&gt;Implementing drivers for both Host and Guest is the time consuming works.
+Fortunately, Virtio also presents the ready-to-use drivers for the various purposes: virtio-blk, virtio-pci, virtio-serial, and etcs.
+In this post, I will explain about the virtio-serial drivers.&lt;/p&gt;
+
+&lt;p&gt;&lt;img data-action=&quot;zoom&quot; src=&quot;/assets/images/posts/2022-06-03-virtio_serial_example/Guest-VM-Agent.png&quot; alt=&quot;relative&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Above image represents the overall architecture of communication with virtio-serial.
+Virtio serial front-end driver and back-end driver perform the communication between the Host and Guest.
+Host (Linux) communicates the QEMU with socket and it uses Linux socket API.
+Guest (Windows) communicates the QEMU with serial-port and it uses the WIN32 API.&lt;/p&gt;
+
+&lt;h2 id=&quot;preparation&quot;&gt;Preparation&lt;/h2&gt;
+
+&lt;div class=&quot;language-xml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;channel&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'unix'&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;source&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;mode=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'bind'&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;path=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'/var/lib/libvirt/qemu/f16x86_64.agent'&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;target&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'virtio'&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'org.qemu.guest_agent.0'&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/channel&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;There are two steps for using virtio-serial: Install virtio-serial driver, and specify virtio-serial channel in the libvirt domain xml.
+Unlike the virtio-serial driver is already installed in the Linux as a kernel configuration, Windows does not support virtio frontend drivers in the initial state.
+The user should install the virtio drivers in manually at &lt;a href=&quot;https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md&quot;&gt;here&lt;/a&gt;
+Also, the user should notifies that the vm has virtio devices to the hypervisor.
+Since I manage the VMs in my machine through libvirt, I explain how to add the virtio device on the hypervisor based on it.
+Above xml codes represents the example of qemu-guest-agent specification, which is the one of the virtio-serial based guest agent.
+(oVirt guest agent also uses virtio-serial channel for communication)&lt;/p&gt;
+
+&lt;p&gt;In the xml codes, we can see the two components: source and target.
+‘source’ represents the socket information on the Linux Host.
+Application in the Host can connect to the socket in the ‘source’ and works as a client.
+‘target’ represents the name of port in the Windows Guest.
+I will explain details about it through the last sections.&lt;/p&gt;
+
+&lt;h2 id=&quot;linux-host-socket-connection-with-qemu&quot;&gt;Linux Host socket connection with QEMU&lt;/h2&gt;
+&lt;p&gt;In the Linux Host, QEMU presents a socket for a channel to communicate with the Guest.
+QEMU hypervisor performs a role as a server, and a process which tries to connect to the socket is a client.
+Since the QEMU only accept one client, it is impossible connecting multiple processes to the socket unless modifies the source codes of QEMU (It is not sure because I did not try it).
+You can use the socket through the Linux socket API (open, connect, listen , receive, send, and etcs).&lt;/p&gt;
+
+&lt;h2 id=&quot;windows-guest-port-connection-with-win32-api&quot;&gt;Windows Guest port connection with WIN32 API&lt;/h2&gt;
+&lt;p&gt;In the Windows Guest, QEMU presents a port for a channel to communicate with the Guest.
+In fact, QEMU also provides a port for a channel in the Linux Guest either.
+However, in this post, I only explain about the Windows Guest since there are many references for the Linux Guest.&lt;/p&gt;
+
+&lt;p&gt;You can use the virtio-serial port in Windows Guest through the WIN32 API such as CreateFile, ReadFile, WriteFile and etcs.
+However, there are unique characteristics (or restrictions) for virtio-serial port.
+In my experience, it is impossible to use SetCommMask(), WaitForEvent().
+It means that I can’t implement event-driven port communication with virtio-serial and configurate timeout.
+I do not know why it is not enable (there is no official document or reference for it).
+However, since there are some mentions about these problems in different situation, I assume that the driver does not support full WIN32 API.&lt;/p&gt;
+
+&lt;!-- with characteristics compare with orninary port in WIN32 API --&gt;
+
+&lt;h2 id=&quot;example&quot;&gt;Example&lt;/h2&gt;
+&lt;p&gt;Below codes and images represent a simple example using virtio-serial port in the Windows Guest.
+Unlike the qemu-guest-agent or oVirt-guest-agent work as host-driven services, I implemented it as a guest-driven agent, which means the Guest requests or sends commands to the Host.&lt;/p&gt;
+
+&lt;!-- add example codes and explanation--&gt;
+&lt;h3 id=&quot;open-the-socket-and-serial-port&quot;&gt;Open the Socket and Serial-Port&lt;/h3&gt;
+
+&lt;!-- host --&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;open_all_sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;g2h_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Xml&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_sock_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__dom&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g2h_sock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g2h_sock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__open_sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;g2h_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;In the host, as I mentioned in previous section, the third-party process can connect to the bind socket as a client.
+The path of the socket is defined in the libvirt xml (at least in my working environment).
+You can use ordinary socket API: open, close, read, write.
+However, it is impossible to connect multiple clients at the same time.
+In my analysis, QEMU only presents a single connection bind.&lt;/p&gt;
+
+&lt;!-- guest --&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__open_port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;port&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;win32file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CreateFile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;win32con&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GENERIC_READ&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;win32con&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GENERIC_WRITE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                        &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;#win32con.FILE_SHARE_READ | win32con.FILE_SHARE_WRITE,
+&lt;/span&gt;                                        &lt;span class=&quot;n&quot;&gt;win32security&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SECURITY_ATTRIBUTES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
+                                        &lt;span class=&quot;n&quot;&gt;win32con&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OPEN_EXISTING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                        &lt;span class=&quot;n&quot;&gt;win32con&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FILE_FLAG_OVERLAPPED&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                                        &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;except&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;windll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kernel32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetLastError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;_logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;fail to open port. GetLastError: %d&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In the guest, the communication channel is presented as a form of serial-port.
+Unlike the normal serial-port is in the serial-port section as a COM in the device manager, virtio-serial port is in the hidden device - other device section.
+In the above xml, Preparation section, I explained that the name in the target represents the name of the port inside the guest.
+However, that name never appears inside the guest on the UI.
+It only appears as a vport0n format no matter how many virtio-serial channel exists.&lt;/p&gt;
+
+&lt;p&gt;To connect the serial-port, you have to use the WIN32 API.&lt;/p&gt;
+
+&lt;h3 id=&quot;sendrecv-and-writeread&quot;&gt;send/recv and write/read&lt;/h3&gt;
+&lt;!-- host --&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__send_to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;encode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'utf-8'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__recv_from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;recv_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;recv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BUF_LEN&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;decode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'utf-8'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;recv_data&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you want to send the data in the Host (Linux), it is much easier than Guest (Windows).
+you can simply send the data using standard socket API in Linux: send and recv.&lt;/p&gt;
+
+&lt;!-- guest --&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__send_to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ovrlpd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nr_written&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;win32file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WriteFile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ovrlpd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;997&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#ERROR_IO_PENDING
+&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;_logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I/O Pending ERROR in __send_to() is normal return. Continue&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;_logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Fail to WriteFile() with Error: %d&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;_logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;WriteFile() can return 0 and ERROR_IO_PENDING&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;win32event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WaitForSingleObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ovrlpd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hEvent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TIMEOUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#(hHANDLE, milliseconds)
+&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;win32file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetOverlappedResult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ovrlpd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;except&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+
+
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__recv_from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ovrlpd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;win32file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ReadFile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;win32file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AllocateReadBuffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BUF_LEN&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ovrlpd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;997&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#ERROR_IO_PENDING
+&lt;/span&gt;            &lt;span class=&quot;n&quot;&gt;_logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I/O Pending ERROR in __recv_from() is normal return. continue&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;_logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Fail to ReadFile() Error: %d&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;_logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ReadFile() can return 0, ERROR_MORE_DATA or ERROR_IO_PENDING&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;win32event&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WaitForSingleObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ovrlpd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hEvent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TIMEOUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#(hHANDLE, milliseconds)
+&lt;/span&gt;        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;nr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;win32file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;GetOverlappedResult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ovrlpd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;except&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;_logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Timeout for the __recv_from(). Timeout: %d msec&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TIMEOUT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tobytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;decode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'utf-8'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;buf&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Unlike the Linux, WIN32 API is a little more tricky to use.
+First, since the data came from the host are bytes, it requires to decode.
+Second, since the virtio-serial port does not support WIN32 API perfectly, implementing timeout read and write operations requires additional steps.
+For some unknown reason, setting up the timeout configuration for synchronous ReadFile() and WriteFile() always fails with ERR 1 (reason: invalid function).
+So I used asynchronous (overlapped) WriteFile() and ReadFile() to configurate the timeout.
+It immediately wait for ReadFile() or WriteFile() is in complete and proceed the remaining tasks.
+I am not sure why the virtio does not support WIN32 API perfectly, however, there are some hints that the reason ERR 1 happen is usually the problem of the device itself.
+In this case, virtio-serial device itself seems like not support the functions.
+(It is not because I use Python intead C. Even in C, it shows same results)&lt;/p&gt;</content><author><name>Minjong Ha</name></author><summary type="html">Virtio-Serial Appeareance in Linux Host and Windows Guest Virtio presents the communication channels between the Host and Guest. Host and Guest share the memory space and send notification to each others to notify that there are the data that the Host or Guest should read. For example, if the Host tries to send some data to the Guest, it writes the data it want to send in the virtqueue (v-ring) located in the shared memory and gives a notification to the Guest through the KVM. The Guest’s virtio driver now knows that there are data it should read. In this operations, virtio provides the communication API using the virtqueue. Since the Host and Guest both require communication handler, they should install the virtio-aware driver based on the virtio APIs.</summary></entry><entry><title type="html">Host-Guest Communication: Full vs Para Virtualization - 2</title><link href="http://localhost:4000/2022/04/25/host-guest-communication-2.html" rel="alternate" type="text/html" title="Host-Guest Communication: Full vs Para Virtualization - 2" /><published>2022-04-25T19:13:43+09:00</published><updated>2022-04-25T19:13:43+09:00</updated><id>http://localhost:4000/2022/04/25/host-guest-communication-2</id><content type="html" xml:base="http://localhost:4000/2022/04/25/host-guest-communication-2.html">&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;In previous post, we analyzed how the vCPU thread working and understoodd the concept of the vCPU in the GUEST_MODE under the QEMU-KVM hypervisor.
+Now, lets look around how Para-Virtualization (virtio) works and compare it to the Full-Virtualization.
+Since we already understand the detail operations, comparison between the Full and Para Virtualization is much easier.&lt;/p&gt;
+
+&lt;h2 id=&quot;full-virtualization&quot;&gt;Full-Virtualization&lt;/h2&gt;
+
+&lt;!-- require proper image--&gt;
+&lt;p&gt;&lt;img data-action=&quot;zoom&quot; src=&quot;/assets/images/posts/2022-04-25-host-guest-communication/QEMU-KVM.png&quot; alt=&quot;relative&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Assume that we try to send network packet inside the Guest.
+In the Guest, the application requests to the Guest’s Kernel and hands over the data to make it as a packet and send.
+However, in Full-Virtualization, Guest does not know that the network device is a emulated, virtual device.
+The GUEST’s kernel will behave as if the device were a real physical device, which means it will write the data to the MMIO area of the device.
+Since the device is not a real, The host’s help is required to transfer the guest’s data to the actual, physical device.
+It requires work on a host that can access the physical device.&lt;/p&gt;
+
+&lt;!-- It is not sure--&gt;
+&lt;p&gt;To handle it, QEMU-KVM implements a BIOS to trigger the &lt;strong&gt;vmexit&lt;/strong&gt; when the write is made to the memory area allocated to the virtual device.
+As I already mentioned in the previous post, the KVM returned from the GUEST_MODE through the vmexit tries to figure out the reason of it.
+Soon, it discovers that a device working for the Guest has a data to handle.
+KVM &lt;strong&gt;copies&lt;/strong&gt; the data inside the device’s memory area to the kernel space (1st user-kernel data copy).
+However, since the device itself is a thread in the user area, KVM (kernel) could not handle it over to the device.
+KVM should return the result of the ioctl() that the QEMU had called and let the QEMU handles it.
+Now, QEMU looks up the reason of vmexit.
+It figures out the vmexit is triggered since the device request, and &lt;strong&gt;copies&lt;/strong&gt; the data from the kernel area (2nd user-kernel data copy).
+Finally, QEMU &lt;strong&gt;passes over (copies)&lt;/strong&gt; the data to the native kernel drive and it causes 3rd user-kernel data copy.&lt;/p&gt;
+
+&lt;p&gt;If we look at the result, data about the device in the guest area is only moved to the host, but actually, it can be seen that unnecessary data copy (overhead) happens because the guest does not know that it is on the virtualization.&lt;/p&gt;
+
+&lt;h2 id=&quot;para-vitualization&quot;&gt;Para-Vitualization&lt;/h2&gt;
+
+&lt;!-- require proper image--&gt;
+&lt;p&gt;&lt;img data-action=&quot;zoom&quot; src=&quot;/assets/images/posts/2022-04-25-host-guest-communication/VIRTIO.png&quot; alt=&quot;relative&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Not only the vmexits, user-kernel data copy is the huge overheads.
+It is because that the Guest does not know the device is a virtual, emulated device.
+Para-Virtualization (Virtio) presents virtualization-aware devices and dedicated drivers based on the virtio based communication.&lt;/p&gt;
+
+&lt;p&gt;Virtio has a shared memory area between the Host and Guest since the device awares it is on the virtualization.
+Frontend virtio device driver in the Guest, and the backend virtio device driver in the Host share the memory area and implement data structure called virtqueues (v-rings).
+They communicate each other through the virtqueues.
+Unlike the Full-Virtualization copies data from user to kernel and kernel to user, virtio only kicks a notification.
+The data itself is located in the virtqueue.
+The notification notices there is a data that Host or Guest should read, and it takes the data from the virtqueue.&lt;/p&gt;
+
+&lt;p&gt;Still, virtio causes vmexit to context switch to the Host from the Guest.
+However, it could reduces the copy overheads compared to the Full-Virtualization.&lt;/p&gt;
+
+&lt;!---
+## Experiment
+---&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Virtio reduces the overhead from the user-kernel data copying through the virtqueue (v-ring) based communication.
+Virtio presents various drivers for developer’s convinience and efficiency using virtqueue, such as virtio-blk, virtio-serial, virtio-pci.
+For instancde, QEMU-Guest-Agent (qga) is implemented based on the virtio-serial.&lt;/p&gt;
+
+&lt;p&gt;There are more interesting technologies and implementations based on vhost, vhost-user which are the more recent Para-Virtualization techniques.
+For example, vSock (Virtual Socket) connects the Host and Guest’s sockets and supports the application communication.
+I hope there will be a chance to analyze about it.&lt;/p&gt;</content><author><name>Minjong Ha</name></author><summary type="html">Introduction In previous post, we analyzed how the vCPU thread working and understoodd the concept of the vCPU in the GUEST_MODE under the QEMU-KVM hypervisor. Now, lets look around how Para-Virtualization (virtio) works and compare it to the Full-Virtualization. Since we already understand the detail operations, comparison between the Full and Para Virtualization is much easier.</summary></entry><entry><title type="html">Host-Guest Communication: Full vs Para Virtualization - 1</title><link href="http://localhost:4000/2022/04/25/host-guest-communication-1.html" rel="alternate" type="text/html" title="Host-Guest Communication: Full vs Para Virtualization - 1" /><published>2022-04-25T17:13:43+09:00</published><updated>2022-04-25T17:13:43+09:00</updated><id>http://localhost:4000/2022/04/25/host-guest-communication-1</id><content type="html" xml:base="http://localhost:4000/2022/04/25/host-guest-communication-1.html">&lt;p&gt;In this post, I share my research and analysis about the data communication between the host and guest in case of the device request and focus on the differences in the full and para virtualized machine.
 I also explain about the vCPU as a background; what is the vCPU and how it works.&lt;/p&gt;
 
 &lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
@@ -55,7 +612,8 @@ If there were no KVM support, which means in the QEMU only hypervisor, every gue
 QEMU translates the guest code to the suitable instructions for the physical CPUs in the host and the cost is tremendous.
 However ,thanks to vCPU, the QEMU-KVM hypervisor leaverages the overall performance of the VM.&lt;/p&gt;
 
-&lt;p&gt;Then how the VM requests and initializes vCPU from the host(KVM)?
+&lt;p&gt;Now lets discuss about how the VM requests and initialize vCPU from the KVM.
+
 When the hypervisor starts to emulate virtual devices, it also emulates the virtual CPUs for the VM.&lt;/p&gt;
 
 &lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TypeInfo&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kvm_accel_ops_type&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -212,7 +770,9 @@ But for now, lets focus on the part after the ioctl().&lt;/p&gt;
 The VM_EXIT makes the CPU to escape from the GUEST_MODE and returns it to the so called HOST_MODE; If the CPU is in the Intel architecture, they are called non-root mode (GUEST_MODE), and root mode (HOST_MODE).
 Usually, there are two reasons what trigger the VM_EXIT: to handle the request that cannot be done in the GUEST_MODE, and the timer expire.
 For better understanding, assumes that there is a machine having only one physical CPU, and it tries to run the VM with QEMU-KVM hypervisor.
-First I will explain is the timer reason VM_EXIT.
+
+First I will explain about the timer reasoned VM_EXIT.
+
 Since the machine has only one physical CPU, it cannot proceed any host’s task if the CPU is in the GUEST_MODE.
 The CPU in the GUEST_MODE is only for the virtualized system. 
 Thus, without the periodical VM_EXIT, the machine could not comeback from the GUEST_MODE and every host’s tasks wait over and over.
@@ -271,7 +831,9 @@ And after the QEMU finishes the operations, it calls kvm_cpu_exec() again since 
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;As we already check above, kvm_vcpu_ioctl() calls ioctl() with KVM_RUN flag.&lt;/p&gt;
+
+&lt;p&gt;As we already checked above, kvm_vcpu_ioctl() calls ioctl() with KVM_RUN flag.&lt;/p&gt;
+
 
 &lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;kvm_vcpu_ioctl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;filp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ioctl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kvm_vcpu&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vcpu&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;filp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;private_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
@@ -311,7 +873,9 @@ And after the QEMU finishes the operations, it calls kvm_cpu_exec() again since 
   &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(;;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exit_fastpath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;static_call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kvm_x86_run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vcpu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//call __vmx_vcpu_run eventually&lt;/span&gt;
+
+    &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exit_fastpath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;static_call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kvm_x86_run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vcpu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; 
+
     &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;likely&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exit_fastpath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EXIT_FASTPATH_REENTER_GUEST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
       &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
@@ -327,12 +891,29 @@ And after the QEMU finishes the operations, it calls kvm_cpu_exec() again since 
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;The KVM already has assigned functions for the input flag in ioctl().
-With the KVM_RUN, KVM eventually calls vcpu_enter_guest().
-And it is the most important part to understand the QEMU-KVM and vCPU.
-We can see the static_call(kvm_x86_run)(vcpu) in the for() loop.&lt;/p&gt;
+
+&lt;p&gt;Above codes are represent the flow of the KVM ioctl handling.
+KVM handles ioctl() for the KVM with the KVM_RUN through &lt;strong&gt;kvm_arch_vcpu_ioctl_run()&lt;/strong&gt;.
+It leads the KVM to the &lt;strong&gt;vcpu_enter_guest()&lt;/strong&gt;, which is the most important code I think.
+In the for loop in it,  &lt;strong&gt;static_call(kvm_x86_run)(vcpu)&lt;/strong&gt; is the point where the CPU switches itself into the GUEST_MODE.&lt;/p&gt;
 
 &lt;!-- need screenshots --&gt;
+&lt;p&gt;&lt;img data-action=&quot;zoom&quot; src=&quot;/assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-1.png&quot; alt=&quot;relative&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It calls an assembly function in the image.
+Since my machine has Intel CPU, vmx_vcpu_run() is called (It is called smx under the AMD CPU).
+In this function, we can see that the cpu tries to load and save the cpu’s state data.
+I estimate this is the part where the VMCS (Virtual Machine Control Structure) switch happens, but it is not sure.
+If my assume is right, this is the part where the machine prepare the HOST-GUEST mode switch.&lt;/p&gt;
+
+&lt;p&gt;&lt;img data-action=&quot;zoom&quot; src=&quot;/assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-2.png&quot; alt=&quot;relative&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After it saves all HOST’s state data and load GUEST’s state data on the CPU, it calls vmenter() function&lt;/p&gt;
+
+&lt;p&gt;&lt;img data-action=&quot;zoom&quot; src=&quot;/assets/images/posts/2022-04-25-host-guest-communication/vmx_vmenter.png&quot; alt=&quot;relative&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is the instruction that makes CPU mode into the GUEST_MODE in the vmenter() function through vm_resume, and vm_launch.&lt;/p&gt;
+
 
 &lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;handle_io&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kvm_vcpu&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vcpu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
@@ -373,25 +954,39 @@ We can see the static_call(kvm_x86_run)(vcpu) in the for() loop.&lt;/p&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Above codes are the one of the exit handling by KVM: the device MMIO request.&lt;/p&gt;
 
-&lt;p&gt;&lt;img data-action=&quot;zoom&quot; src=&quot;/assets/images/2022-04-25-host-guest-communication/overall_flow.png&quot; alt=&quot;relative&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Above codes are the one of the exit handling by KVM: the device MMIO request.
+After the KVM completes the works it should do, it returns the control to the QEMU.&lt;/p&gt;
 
-&lt;h2 id=&quot;full-virtualization&quot;&gt;Full-Virtualization&lt;/h2&gt;
+&lt;p&gt;&lt;img data-action=&quot;zoom&quot; src=&quot;/assets/images/posts/2022-04-25-host-guest-communication/overall_flow.png&quot; alt=&quot;relative&quot; /&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;para-vitualization&quot;&gt;Para-Vitualization&lt;/h2&gt;
+&lt;p&gt;The image represents the overall code flow of the vCPU execution.
+We saw that the vCPU enters to the GUEST_MODE and exits periodically with the detail codes.
+The vCPU posix threads on the HOST exist only to secure the running time of the GUEST_MODE through the scheduling.&lt;/p&gt;
 
-&lt;h2 id=&quot;experiment&quot;&gt;Experiment&lt;/h2&gt;
+&lt;p&gt;Now we understand how the vCPU works in QEMU-KVM hypervisor and ready to compare the difference between the Full-Virtualization and Para-Virtualization.
+I will explain about it in the next post.&lt;/p&gt;
 
-&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;!---
 
-&lt;p&gt;&lt;a href=&quot;https://seen-fact-e72.notion.site/Full-Virtualization-vs-Para-Virtualization-cd4933792f6a4a2b871a385f58592955&quot;&gt;Notion Document: Full-Virtualization(QEMU-KVM) vs Para-Virtualization(Virtio)&lt;/a&gt;&lt;/p&gt;</content><author><name>Minjong Ha</name></author><summary type="html">About Host-Guest communication! Currently writing content…. In this post, I share my research and analysis about the data communication between the host and guest in case of the device request and focus on the differences in the full and para virtualized machine. I also explain about the vCPU as a background; what is the vCPU and how it works. Introduction A virtual machine in “Full-Virtualization” does not know that it is operating in a virtualized environment. On the other hand, a VM in “Para-Virtualization” knows that it is since the hypervisor who emulates the device notifies it. Since the VM already knows that the device is for the virtualization, it has different device request logic. The para virtualization reduces the data copy between the user and the kernel compared to full virtualization which is one of the most largest overhead in the Host-Guest communication One of the most famous para-virtualization is “Virtio”. “Virtio” presents the devices and drivers specially dedicated for the virtualization. If the user specifies the virtio device to the hypervisor, VM tries to connect to the device with virtio driver. Since the virtio driver is installed in Linux as default, it can be activated through kernel config. However, in Windows, it is not included in the Windows kernel and the user should install virtio driver manually in the VM. For example, you can configurate your disk device to the normal SATA emulation or the virtio device disk. In my personal experiments, virtio outperforms the SATA emulation approximately 30-50% in the sysbench - FIO test. Background ioctl() The ioctl() system call manipulates the underlying device parameters of special files(reference). Usually, it is used to configurate and send requests to the device. For instance, user could configurate the printer device via ioctl(); such as what is the font it using and what is the size of the paper in the device. We can see the information about the ioctl()s that KVM supports in qemu/linux-headers/linux/kVM.h vCPU() QEMU-KVM hypervisor supports vCPU, executing the code in the guest directly on the physical CPU. When the QEMU-KVM hypervisor emulates the CPU for the VM, the emulated CPU is supported by vCPU in the KVM. When the vCPU enters to the GUEST_MODE, the guest can use it exclusively. If there were no KVM support, which means in the QEMU only hypervisor, every guest code should be handled by the QEMU. QEMU translates the guest code to the suitable instructions for the physical CPUs in the host and the cost is tremendous. However ,thanks to vCPU, the QEMU-KVM hypervisor leaverages the overall performance of the VM. Then how the VM requests and initializes vCPU from the host(KVM)? When the hypervisor starts to emulate virtual devices, it also emulates the virtual CPUs for the VM. static const TypeInfo kvm_accel_ops_type = { ... .class_init = kvm_accel_ops_class_init, ... } static void kvm_accel_ops_class_init(ObjectClass *oc, void *data) { AccelOpsClass *ops = ACCEL_OPS_CLASS(oc); **ops-&amp;gt;create_vcpu_thread = kvm_start_vcpu_thread** ... } The above codes are in qemu/accel/kvm/kvm-accel-ops.c. The QEMU defines the kvm_accel_ops_type, and allocates the callback functions for the vCPU. Thus, when the QEMU tries to allocate vCPU, the kvm_start_vcpu_thread() funcion will be called. static void x86_cpu_realizefn(DeviceState *dev, Error **errp) { ... CPUState *cs = CPU(dev); x86CPU *cpu = X86_CPU(dev); x86CPUClass *xcc = X86_CPU_GET_CLASS(Dev); CPUX86State *env = &amp;amp;cpu-&amp;gt;env; ... **qemu_init_vcpu(cs);** } void qemu_init_vcpu(CPUState *cpu) { ... **cpus_accel-&amp;gt;create_vcpu_thread(cpu);** ... } The above codes are in qemu/target/i386/cpu.c and qemu/softmmu/cpus.c. The hypervisor realize the virtual CPUs via x86_cpu_realizefn() and it calls qemu_init_vcpu(). In this function, it starts to create the threads for the vCPU. static void kvm_start_vcpu_thread(CPUState *cpu) { char thread_name[VCPU_THREAD_NAME_SIZE]; //#define VCPU_THREAD_NAME_SIZE 16 cpu-&amp;gt;thread = g_malloc0(sizeof(QemuThread)); //alloc cpu thread memory cpu-&amp;gt;halt_cond = g_malloc0(sizeof(QemuCond)); ... **qemu_thread_create(cpu-&amp;gt;thread, thread_name, kvm_vcpu_thread_fn, cpu, QEMU_THREAD_JOINABLE);** } void qemu_thread_create(QemuThread *thread, const char *name, void *(*start_routine)(void *), void *arg, int mode) { ... QemuThreadArgs *qemu_thread_args; ... qemu_thread_args = g_new0(QemuThreadsArgs, 1); qemu_thread_args-&amp;gt;name = g_strdup(name); qemu_thread_args-&amp;gt;start_routine = start_routine; //start_routine == kvm_vcpu_thread_fn qemu_trehad_args-&amp;gt;arg = arg **err = pthread_create(&amp;amp;thread-&amp;gt;thread, &amp;amp;attr, qemu_thread_start, qemu_thread_args);** ... } static void *qemu_thread_start(void *args) { ... void *(*start_routine)(void *) = qemu_thread_args-&amp;gt;start_routine; //start_routine == kvm_vcpu_thread_fn ... pthread_cleanup_push(qemu_thread_atexit_notify, NULL); **r = start_routine(arg);** //start_routine == **kvm_vcpu_thread_fn** pthread_cleanup_pop(1); ... } The above codes are in qemu/accel/kvm/kvm_accel-ops.c and qemu/util/qemu-thread-posix.c Now, we can understand that the vCPU is the posix thread actually, and this thread runs kvm_vcpu_thread_fn() function. static void *kvm_vcpu_thread_fn(void *arg) { CPUState *cpu = arg; ... qemu_thread_get_self(cpu-&amp;gt;thread); cpu-&amp;gt;thread_id = qemu_get_thread_id(); ... current_cpu = cpu; **r = kvm_init_vcpu(cpu, &amp;amp;error_fatal);** kvm_init_cpu_signals(cpu); cpu_thread_signal_created(cpu); // cpu-&amp;gt;created = true; ... do { if (cpu_can_run(cpu)) { **r = kvm_cpu_exec(cpu);** ... } } while (!cpu-&amp;gt;unplug || cpu_can_run(cpu)); ... } In vCPU thread, kvm_vcpu_thread_fn(), QEMU requests to allocate the vCPUs to the KVM via ioctl. qemu_geut_thread_id() calls ioctl() and the KVM returns the vCPU fd. After the QEMU receives the vCPU, now it executes it with kvm_cpu_exec(). Since we are in focusing on how the vCPU actually works, I will explain how the vCPUs are created by KVM in ohter posts later. int kvm_cpu_exec(CPUState *cpu) { struct kvm_run *run = cpu-&amp;gt;kvm_run; ... do { ... kvm_arch_put_registers(cpu, KVM_PUT_RUNTIME_STATE); ...z **run_ret = kvm_vcpu_ioctl(cpu, KVM_RUN, 0);** ... switch (**run-&amp;gt;exit_reason**) { ... case KVM_EXIT_MMIO: DPRINTF(&quot;handle_mmio\n&quot;); address_space_rw(&amp;amp;address_space_memory, run-&amp;gt;mmio.phys_addr, attrs, run-&amp;gt;mmio.data, run-&amp;gt;mmio.len, run-&amp;gt;mmio.is_write); ret = 0; break; ... default: DPRINTF(&quot;kvm_arch_handle_exit\n&quot;); ret = kvm_arch_handle_exit(cpu, run); break; } while (ret == 0); cpu_exec_end(cpu); ... } int kvm_vcpu_ioctl(CPUState *cpu, int type, ...) { ... ret = ioctl(cpu-&amp;gt;kvm_fd, type, arg); //type == KVM_RUN ... } In kvm_cpu_exec(), we can check that it consists of the two parts: one is the ‘kvm_vcpu_ioctl()’ and another is the ‘switch(run-&amp;gt;exit_reason)’. ‘kvm_vcpu_ioctl()’ is the point makes vCPU switching to the GUEST_MODE. QEMU notifies that the vCPU is in ready to run in GUEST_MODE via ioctl(). KVM_RUN flag represents how the KVM handles the ioctl() requests. In the contents below, I will explain how the KVM makes the vCPU, the physical CPU that runs the vCPU thread, into the GUEST_MODE. But for now, lets focus on the part after the ioctl(). The KVM returns the result of the kvm_vcpu_ioctl() when the VM_EXIT happens. The VM_EXIT makes the CPU to escape from the GUEST_MODE and returns it to the so called HOST_MODE; If the CPU is in the Intel architecture, they are called non-root mode (GUEST_MODE), and root mode (HOST_MODE). Usually, there are two reasons what trigger the VM_EXIT: to handle the request that cannot be done in the GUEST_MODE, and the timer expire. For better understanding, assumes that there is a machine having only one physical CPU, and it tries to run the VM with QEMU-KVM hypervisor. First I will explain is the timer reason VM_EXIT. Since the machine has only one physical CPU, it cannot proceed any host’s task if the CPU is in the GUEST_MODE. The CPU in the GUEST_MODE is only for the virtualized system. Thus, without the periodical VM_EXIT, the machine could not comeback from the GUEST_MODE and every host’s tasks wait over and over. To prevent this disaster, every CPUs wake up from the GUEST_MODE in every configurated timeslices. It also means if we want to give more execution time to the VM, we could achieve it via extending the timeslices for the GUEST_MODE. Another reason is the operations that cannot be done in the GUEST_MODE. For example, the requests for the emulated devices usually trigger the VM_EXIT to complete actions. The QEMU hypervisor emulates the virtual devices for the VM. With the support of the BIOS for the VM, It could interact these virtual, logical devices. The Guest inside the VM hands over the requests that executed inside the GUEST to the virtual devices. However, they are not the real, physical devices. If the VM tries to send network packet to the other, the data should pass the physical network device. Since the emulated devices is not a real device, it cannot be done in the GUEST_MODE. Only the host can complete the action by passing over the data from the emulated device to the real device. If there is a writes(requests) on the memory area that controlled by the emulated devices, it triggers the VM_EXIT and the CPU wakes up from the GUEST_MODE. Now, the CPU can proceed the host tasks. The KVM that wakes up from the GUEST_MODE, tries to figure out the reason of the VM_EXIT and returns the reason to the QEMU. And this is the point where the ‘switch(run-&amp;gt;exit_reason)’ works. QEMU completes the requests depending on the ‘exit_reason’. And after the QEMU finishes the operations, it calls kvm_cpu_exec() again since it is performed in do while loop. Now lets move on to the most important part, where the KVM actually runs vCPU. int kvm_cpu_exec(CPUState *cpu) { struct kvm_run *run = cpu-&amp;gt;kvm_run; ... do { **run_ret = kvm_vcpu_ioctl(cpu, KVM_RUN, 0);** ... switch (**run-&amp;gt;exit_reason**) { ... case KVM_EXIT_MMIO: DPRINTF(&quot;handle_mmio\n&quot;); address_space_rw(&amp;amp;address_space_memory, run-&amp;gt;mmio.phys_addr, attrs, run-&amp;gt;mmio.data, run-&amp;gt;mmio.len, run-&amp;gt;mmio.is_write); ret = 0; break; ... default: DPRINTF(&quot;kvm_arch_handle_exit\n&quot;); ret = kvm_arch_handle_exit(cpu, run); break; } while (ret == 0); cpu_exec_end(cpu); ... } int kvm_vcpu_ioctl(CPUState *cpu, int type, ...) { ... ret = ioctl(cpu-&amp;gt;kvm_fd, type, arg); //type == KVM_RUN ... } As we already check above, kvm_vcpu_ioctl() calls ioctl() with KVM_RUN flag. static long kvm_vcpu_ioctl(struct file, *filp, unsigned int ioctl, unsigned long arg) { struct kvm_vcpu *vcpu = filp-&amp;gt;private_data; ... switch (ioctl) { case KVM_RUN: ... **r = kvm_arch_vcpu_ioctl_run(vcpu);** } ... } int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu) { struct kvm_run *kvm_run = vcpu-&amp;gt;run; ... r = vcpu_run(vcpu); ... } static int vcpu_run(struct kvm_vcpu *vcpu) { struct kvm *kvm = vcpu-&amp;gt;kvm; .. for(;;) { if (kvm_vcpu_running(vcpu) **r = vcpu_enter_guest(vcpu);** ... } ... } static int vcpu_enter_guest(struct kvm_vcp *vcpu) { ... vcpu-&amp;gt;mode = IN_GUEST_MODE; ... exit_fastpath = static_call(kvm_x86_run)(vcpu); ... for (;;) { ... **exit_fastpath = static_call(kvm_x86_run)(vcpu); //call __vmx_vcpu_run eventually if(likely(exit_fastpath != EXIT_FASTPATH_REENTER_GUEST)) break; ... if(unlikely(kvm_vcpu_exit_request(vcpu))) { exit_fasthpath = EXIT_FASTPATH_EXIT_HANDLED; break; }** } ... **vcpu-&amp;gt;mode = OUTSIDE_GUEST_MODE;** ... **r = static_call(kvm_x86_handle_exit)(vcpu, exit_fastpath);** } The KVM already has assigned functions for the input flag in ioctl(). With the KVM_RUN, KVM eventually calls vcpu_enter_guest(). And it is the most important part to understand the QEMU-KVM and vCPU. We can see the static_call(kvm_x86_run)(vcpu) in the for() loop. static int handle_io(struct kvm_vcpu *vcpu) { ... if (string) **return kvm_emulate_instruction(vcpu, 0);** ... return kvm_fast_pio(vcpu, size, port, in); } int kvm_emulate_instruction(struct kvm_vcpu *vcpu, int emulation_type) { return x86_emulate_instruction(vcpu, 0, emulation_type, NULL, 0); } int x86_emulate_instruction(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa, int emulation_type, void *insn, int insn_len) { ... else if(vcpu-&amp;gt;mmio_needed) { ... **vcpu-&amp;gt;arch.complete_userspace_io = complete_emulated_mmio;** } ... } static int complete_emulated_mmio(struct kvm_vcpu *vcpu) { struct kvm_run *run = vcpu-&amp;gt;run; struct kvm_mmio_fragment *frag; ... frag = &amp;amp;vcpu-&amp;gt;mmio_fragments[vcpu-&amp;gt;mmio_cur_fragment]; ... if(!vcpu-&amp;gt;mmio_is_write) memcpy(frag-&amp;gt;data, run-&amp;gt;mmio.data, len); ... run-&amp;gt;exit_reason = KVM_EXIT_MMIO; run-&amp;gt;mmio.phys_addr = frag-&amp;gt;gpa; if (vcpu-&amp;gt;mmio_is_write) memcpy(run-&amp;gt;mmio.data, frag-&amp;gt;data, min(8u, frag-&amp;gt;len)); ... } Above codes are the one of the exit handling by KVM: the device MMIO request. Full-Virtualization Para-Vitualization Experiment Conclusion Notion Document: Full-Virtualization(QEMU-KVM) vs Para-Virtualization(Virtio)</summary></entry><entry><title type="html">Welcome to my personal blog with Jekyll!</title><link href="http://localhost:4000/2022/01/14/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to my personal blog with Jekyll!" /><published>2022-01-14T17:13:43+09:00</published><updated>2022-01-14T17:13:43+09:00</updated><id>http://localhost:4000/2022/01/14/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2022/01/14/welcome-to-jekyll.html">&lt;p&gt;I published my first personal blog with Jekyll and github.io.
+## Full-Virtualization
+
+
+## Para-Vitualization
+
+## Experiment
+
+## Conclusion
+---&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://seen-fact-e72.notion.site/Full-Virtualization-vs-Para-Virtualization-cd4933792f6a4a2b871a385f58592955&quot;&gt;Notion Document: Full-Virtualization(QEMU-KVM) vs Para-Virtualization(Virtio) (written in Korean)&lt;/a&gt;&lt;/p&gt;</content><author><name>Minjong Ha</name></author><summary type="html">In this post, I share my research and analysis about the data communication between the host and guest in case of the device request and focus on the differences in the full and para virtualized machine. I also explain about the vCPU as a background; what is the vCPU and how it works. Introduction A virtual machine in “Full-Virtualization” does not know that it is operating in a virtualized environment. On the other hand, a VM in “Para-Virtualization” knows that it is since the hypervisor who emulates the device notifies it. Since the VM already knows that the device is for the virtualization, it has different device request logic. The para virtualization reduces the data copy between the user and the kernel compared to full virtualization which is one of the most largest overhead in the Host-Guest communication One of the most famous para-virtualization is “Virtio”. “Virtio” presents the devices and drivers specially dedicated for the virtualization. If the user specifies the virtio device to the hypervisor, VM tries to connect to the device with virtio driver. Since the virtio driver is installed in Linux as default, it can be activated through kernel config. However, in Windows, it is not included in the Windows kernel and the user should install virtio driver manually in the VM. For example, you can configurate your disk device to the normal SATA emulation or the virtio device disk. In my personal experiments, virtio outperforms the SATA emulation approximately 30-50% in the sysbench - FIO test. Background ioctl() The ioctl() system call manipulates the underlying device parameters of special files(reference). Usually, it is used to configurate and send requests to the device. For instance, user could configurate the printer device via ioctl(); such as what is the font it using and what is the size of the paper in the device. We can see the information about the ioctl()s that KVM supports in qemu/linux-headers/linux/kVM.h vCPU() QEMU-KVM hypervisor supports vCPU, executing the code in the guest directly on the physical CPU. When the QEMU-KVM hypervisor emulates the CPU for the VM, the emulated CPU is supported by vCPU in the KVM. When the vCPU enters to the GUEST_MODE, the guest can use it exclusively. If there were no KVM support, which means in the QEMU only hypervisor, every guest code should be handled by the QEMU. QEMU translates the guest code to the suitable instructions for the physical CPUs in the host and the cost is tremendous. However ,thanks to vCPU, the QEMU-KVM hypervisor leaverages the overall performance of the VM. Now lets discuss about how the VM requests and initialize vCPU from the KVM. When the hypervisor starts to emulate virtual devices, it also emulates the virtual CPUs for the VM. static const TypeInfo kvm_accel_ops_type = { ... .class_init = kvm_accel_ops_class_init, ... } static void kvm_accel_ops_class_init(ObjectClass *oc, void *data) { AccelOpsClass *ops = ACCEL_OPS_CLASS(oc); **ops-&amp;gt;create_vcpu_thread = kvm_start_vcpu_thread** ... } The above codes are in qemu/accel/kvm/kvm-accel-ops.c. The QEMU defines the kvm_accel_ops_type, and allocates the callback functions for the vCPU. Thus, when the QEMU tries to allocate vCPU, the kvm_start_vcpu_thread() funcion will be called. static void x86_cpu_realizefn(DeviceState *dev, Error **errp) { ... CPUState *cs = CPU(dev); x86CPU *cpu = X86_CPU(dev); x86CPUClass *xcc = X86_CPU_GET_CLASS(Dev); CPUX86State *env = &amp;amp;cpu-&amp;gt;env; ... **qemu_init_vcpu(cs);** } void qemu_init_vcpu(CPUState *cpu) { ... **cpus_accel-&amp;gt;create_vcpu_thread(cpu);** ... } The above codes are in qemu/target/i386/cpu.c and qemu/softmmu/cpus.c. The hypervisor realize the virtual CPUs via x86_cpu_realizefn() and it calls qemu_init_vcpu(). In this function, it starts to create the threads for the vCPU. static void kvm_start_vcpu_thread(CPUState *cpu) { char thread_name[VCPU_THREAD_NAME_SIZE]; //#define VCPU_THREAD_NAME_SIZE 16 cpu-&amp;gt;thread = g_malloc0(sizeof(QemuThread)); //alloc cpu thread memory cpu-&amp;gt;halt_cond = g_malloc0(sizeof(QemuCond)); ... **qemu_thread_create(cpu-&amp;gt;thread, thread_name, kvm_vcpu_thread_fn, cpu, QEMU_THREAD_JOINABLE);** } void qemu_thread_create(QemuThread *thread, const char *name, void *(*start_routine)(void *), void *arg, int mode) { ... QemuThreadArgs *qemu_thread_args; ... qemu_thread_args = g_new0(QemuThreadsArgs, 1); qemu_thread_args-&amp;gt;name = g_strdup(name); qemu_thread_args-&amp;gt;start_routine = start_routine; //start_routine == kvm_vcpu_thread_fn qemu_trehad_args-&amp;gt;arg = arg **err = pthread_create(&amp;amp;thread-&amp;gt;thread, &amp;amp;attr, qemu_thread_start, qemu_thread_args);** ... } static void *qemu_thread_start(void *args) { ... void *(*start_routine)(void *) = qemu_thread_args-&amp;gt;start_routine; //start_routine == kvm_vcpu_thread_fn ... pthread_cleanup_push(qemu_thread_atexit_notify, NULL); **r = start_routine(arg);** //start_routine == **kvm_vcpu_thread_fn** pthread_cleanup_pop(1); ... } The above codes are in qemu/accel/kvm/kvm_accel-ops.c and qemu/util/qemu-thread-posix.c Now, we can understand that the vCPU is the posix thread actually, and this thread runs kvm_vcpu_thread_fn() function. static void *kvm_vcpu_thread_fn(void *arg) { CPUState *cpu = arg; ... qemu_thread_get_self(cpu-&amp;gt;thread); cpu-&amp;gt;thread_id = qemu_get_thread_id(); ... current_cpu = cpu; **r = kvm_init_vcpu(cpu, &amp;amp;error_fatal);** kvm_init_cpu_signals(cpu); cpu_thread_signal_created(cpu); // cpu-&amp;gt;created = true; ... do { if (cpu_can_run(cpu)) { **r = kvm_cpu_exec(cpu);** ... } } while (!cpu-&amp;gt;unplug || cpu_can_run(cpu)); ... } In vCPU thread, kvm_vcpu_thread_fn(), QEMU requests to allocate the vCPUs to the KVM via ioctl. qemu_geut_thread_id() calls ioctl() and the KVM returns the vCPU fd. After the QEMU receives the vCPU, now it executes it with kvm_cpu_exec(). Since we are in focusing on how the vCPU actually works, I will explain how the vCPUs are created by KVM in ohter posts later. int kvm_cpu_exec(CPUState *cpu) { struct kvm_run *run = cpu-&amp;gt;kvm_run; ... do { ... kvm_arch_put_registers(cpu, KVM_PUT_RUNTIME_STATE); ...z **run_ret = kvm_vcpu_ioctl(cpu, KVM_RUN, 0);** ... switch (**run-&amp;gt;exit_reason**) { ... case KVM_EXIT_MMIO: DPRINTF(&quot;handle_mmio\n&quot;); address_space_rw(&amp;amp;address_space_memory, run-&amp;gt;mmio.phys_addr, attrs, run-&amp;gt;mmio.data, run-&amp;gt;mmio.len, run-&amp;gt;mmio.is_write); ret = 0; break; ... default: DPRINTF(&quot;kvm_arch_handle_exit\n&quot;); ret = kvm_arch_handle_exit(cpu, run); break; } while (ret == 0); cpu_exec_end(cpu); ... } int kvm_vcpu_ioctl(CPUState *cpu, int type, ...) { ... ret = ioctl(cpu-&amp;gt;kvm_fd, type, arg); //type == KVM_RUN ... } In kvm_cpu_exec(), we can check that it consists of the two parts: one is the ‘kvm_vcpu_ioctl()’ and another is the ‘switch(run-&amp;gt;exit_reason)’. ‘kvm_vcpu_ioctl()’ is the point makes vCPU switching to the GUEST_MODE. QEMU notifies that the vCPU is in ready to run in GUEST_MODE via ioctl(). KVM_RUN flag represents how the KVM handles the ioctl() requests. In the contents below, I will explain how the KVM makes the vCPU, the physical CPU that runs the vCPU thread, into the GUEST_MODE. But for now, lets focus on the part after the ioctl(). The KVM returns the result of the kvm_vcpu_ioctl() when the VM_EXIT happens. The VM_EXIT makes the CPU to escape from the GUEST_MODE and returns it to the so called HOST_MODE; If the CPU is in the Intel architecture, they are called non-root mode (GUEST_MODE), and root mode (HOST_MODE). Usually, there are two reasons what trigger the VM_EXIT: to handle the request that cannot be done in the GUEST_MODE, and the timer expire. For better understanding, assumes that there is a machine having only one physical CPU, and it tries to run the VM with QEMU-KVM hypervisor. First I will explain about the timer reasoned VM_EXIT. Since the machine has only one physical CPU, it cannot proceed any host’s task if the CPU is in the GUEST_MODE. The CPU in the GUEST_MODE is only for the virtualized system. Thus, without the periodical VM_EXIT, the machine could not comeback from the GUEST_MODE and every host’s tasks wait over and over. To prevent this disaster, every CPUs wake up from the GUEST_MODE in every configurated timeslices. It also means if we want to give more execution time to the VM, we could achieve it via extending the timeslices for the GUEST_MODE. Another reason is the operations that cannot be done in the GUEST_MODE. For example, the requests for the emulated devices usually trigger the VM_EXIT to complete actions. The QEMU hypervisor emulates the virtual devices for the VM. With the support of the BIOS for the VM, It could interact these virtual, logical devices. The Guest inside the VM hands over the requests that executed inside the GUEST to the virtual devices. However, they are not the real, physical devices. If the VM tries to send network packet to the other, the data should pass the physical network device. Since the emulated devices is not a real device, it cannot be done in the GUEST_MODE. Only the host can complete the action by passing over the data from the emulated device to the real device. If there is a writes(requests) on the memory area that controlled by the emulated devices, it triggers the VM_EXIT and the CPU wakes up from the GUEST_MODE. Now, the CPU can proceed the host tasks. The KVM that wakes up from the GUEST_MODE, tries to figure out the reason of the VM_EXIT and returns the reason to the QEMU. And this is the point where the ‘switch(run-&amp;gt;exit_reason)’ works. QEMU completes the requests depending on the ‘exit_reason’. And after the QEMU finishes the operations, it calls kvm_cpu_exec() again since it is performed in do while loop. Now lets move on to the most important part, where the KVM actually runs vCPU. int kvm_cpu_exec(CPUState *cpu) { struct kvm_run *run = cpu-&amp;gt;kvm_run; ... do { **run_ret = kvm_vcpu_ioctl(cpu, KVM_RUN, 0);** ... switch (**run-&amp;gt;exit_reason**) { ... case KVM_EXIT_MMIO: DPRINTF(&quot;handle_mmio\n&quot;); address_space_rw(&amp;amp;address_space_memory, run-&amp;gt;mmio.phys_addr, attrs, run-&amp;gt;mmio.data, run-&amp;gt;mmio.len, run-&amp;gt;mmio.is_write); ret = 0; break; ... default: DPRINTF(&quot;kvm_arch_handle_exit\n&quot;); ret = kvm_arch_handle_exit(cpu, run); break; } while (ret == 0); cpu_exec_end(cpu); ... } int kvm_vcpu_ioctl(CPUState *cpu, int type, ...) { ... ret = ioctl(cpu-&amp;gt;kvm_fd, type, arg); //type == KVM_RUN ... } As we already checked above, kvm_vcpu_ioctl() calls ioctl() with KVM_RUN flag. static long kvm_vcpu_ioctl(struct file, *filp, unsigned int ioctl, unsigned long arg) { struct kvm_vcpu *vcpu = filp-&amp;gt;private_data; ... switch (ioctl) { case KVM_RUN: ... **r = kvm_arch_vcpu_ioctl_run(vcpu);** } ... } int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu) { struct kvm_run *kvm_run = vcpu-&amp;gt;run; ... r = vcpu_run(vcpu); ... } static int vcpu_run(struct kvm_vcpu *vcpu) { struct kvm *kvm = vcpu-&amp;gt;kvm; .. for(;;) { if (kvm_vcpu_running(vcpu) **r = vcpu_enter_guest(vcpu);** ... } ... } static int vcpu_enter_guest(struct kvm_vcp *vcpu) { ... vcpu-&amp;gt;mode = IN_GUEST_MODE; ... exit_fastpath = static_call(kvm_x86_run)(vcpu); ... for (;;) { ... **exit_fastpath = static_call(kvm_x86_run)(vcpu); if(likely(exit_fastpath != EXIT_FASTPATH_REENTER_GUEST)) break; ... if(unlikely(kvm_vcpu_exit_request(vcpu))) { exit_fasthpath = EXIT_FASTPATH_EXIT_HANDLED; break; }** } ... **vcpu-&amp;gt;mode = OUTSIDE_GUEST_MODE;** ... **r = static_call(kvm_x86_handle_exit)(vcpu, exit_fastpath);** } Above codes are represent the flow of the KVM ioctl handling. KVM handles ioctl() for the KVM with the KVM_RUN through kvm_arch_vcpu_ioctl_run(). It leads the KVM to the vcpu_enter_guest(), which is the most important code I think. In the for loop in it, static_call(kvm_x86_run)(vcpu) is the point where the CPU switches itself into the GUEST_MODE. It calls an assembly function in the image. Since my machine has Intel CPU, vmx_vcpu_run() is called (It is called smx under the AMD CPU). In this function, we can see that the cpu tries to load and save the cpu’s state data. I estimate this is the part where the VMCS (Virtual Machine Control Structure) switch happens, but it is not sure. If my assume is right, this is the part where the machine prepare the HOST-GUEST mode switch. After it saves all HOST’s state data and load GUEST’s state data on the CPU, it calls vmenter() function This is the instruction that makes CPU mode into the GUEST_MODE in the vmenter() function through vm_resume, and vm_launch. static int handle_io(struct kvm_vcpu *vcpu) { ... if (string) **return kvm_emulate_instruction(vcpu, 0);** ... return kvm_fast_pio(vcpu, size, port, in); } int kvm_emulate_instruction(struct kvm_vcpu *vcpu, int emulation_type) { return x86_emulate_instruction(vcpu, 0, emulation_type, NULL, 0); } int x86_emulate_instruction(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa, int emulation_type, void *insn, int insn_len) { ... else if(vcpu-&amp;gt;mmio_needed) { ... **vcpu-&amp;gt;arch.complete_userspace_io = complete_emulated_mmio;** } ... } static int complete_emulated_mmio(struct kvm_vcpu *vcpu) { struct kvm_run *run = vcpu-&amp;gt;run; struct kvm_mmio_fragment *frag; ... frag = &amp;amp;vcpu-&amp;gt;mmio_fragments[vcpu-&amp;gt;mmio_cur_fragment]; ... if(!vcpu-&amp;gt;mmio_is_write) memcpy(frag-&amp;gt;data, run-&amp;gt;mmio.data, len); ... run-&amp;gt;exit_reason = KVM_EXIT_MMIO; run-&amp;gt;mmio.phys_addr = frag-&amp;gt;gpa; if (vcpu-&amp;gt;mmio_is_write) memcpy(run-&amp;gt;mmio.data, frag-&amp;gt;data, min(8u, frag-&amp;gt;len)); ... } Above codes are the one of the exit handling by KVM: the device MMIO request. After the KVM completes the works it should do, it returns the control to the QEMU. The image represents the overall code flow of the vCPU execution. We saw that the vCPU enters to the GUEST_MODE and exits periodically with the detail codes. The vCPU posix threads on the HOST exist only to secure the running time of the GUEST_MODE through the scheduling. Now we understand how the vCPU works in QEMU-KVM hypervisor and ready to compare the difference between the Full-Virtualization and Para-Virtualization. I will explain about it in the next post. Notion Document: Full-Virtualization(QEMU-KVM) vs Para-Virtualization(Virtio) (written in Korean)</summary></entry><entry><title type="html">Welcome to my personal blog with Jekyll!</title><link href="http://localhost:4000/2022/01/14/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to my personal blog with Jekyll!" /><published>2022-01-14T17:13:43+09:00</published><updated>2022-01-14T17:13:43+09:00</updated><id>http://localhost:4000/2022/01/14/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2022/01/14/welcome-to-jekyll.html">&lt;p&gt;I published my first personal blog with Jekyll and github.io.
+
 I want to share my research topics and personal interestings as many as possible.&lt;/p&gt;
 
 &lt;p&gt;In the case of a post containing deep-dive analysis, content in Korean may be attached together.&lt;/p&gt;
 
 &lt;!--
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
+You’ll find this post in your `posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
 Jekyll requires blog post files to be named according to the following format:
 

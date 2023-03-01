@@ -70,3 +70,4 @@ include:
 #   - vendor/gems/
 #   - vendor/ruby/
 
+encoding: "UTF-8"

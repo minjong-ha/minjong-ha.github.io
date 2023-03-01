@@ -1,12 +1,13 @@
 ---
 layout: posts
-title:  "virtio-serial Linux Host - Windows Guest"
+title:  "Virtio-serial Communication:  Linux Host - Windows Guest"
 author: Minjong Ha
-published: false
+published: true
 date:   2022-06-03 16:13:43 +0900
 ---
 
-# Virtio-Serial Appeareance in Linux Host and Windows Guest
+## Virtio-Serial Appeareance in Linux Host and Windows Guest
+
 <!-- What is the virtio-serial?-->
 Virtio presents the communication channels between the Host and Guest.
 Host and Guest share the memory space and send notification to each others to notify that there are the data that the Host or Guest should read.
@@ -19,7 +20,14 @@ Implementing drivers for both Host and Guest is the time consuming works.
 Fortunately, Virtio also presents the ready-to-use drivers for the various purposes: virtio-blk, virtio-pci, virtio-serial, and etcs.
 In this post, I will explain about the virtio-serial drivers.
 
-# Preparation
+<img data-action="zoom" src='{{ "../assets/images/posts/2022-06-03-virtio_serial_example/Guest-VM-Agent.png" | relative_url }}' alt='relative'>
+
+Above image represents the overall architecture of communication with virtio-serial.
+Virtio serial front-end driver and back-end driver perform the communication between the Host and Guest.
+Host (Linux) communicates the QEMU with socket and it uses Linux socket API.
+Guest (Windows) communicates the QEMU with serial-port and it uses the WIN32 API.
+
+## Preparation
 
 ```xml
 <channel type='unix'>
@@ -43,14 +51,17 @@ Application in the Host can connect to the socket in the 'source' and works as a
 I will explain details about it through the last sections.
 
 
-# Linux Host socket connection with QEMU
+
+## Linux Host socket connection with QEMU
+
 In the Linux Host, QEMU presents a socket for a channel to communicate with the Guest.
 QEMU hypervisor performs a role as a server, and a process which tries to connect to the socket is a client.
 Since the QEMU only accept one client, it is impossible connecting multiple processes to the socket unless modifies the source codes of QEMU (It is not sure because I did not try it).
 You can use the socket through the Linux socket API (open, connect, listen , receive, send, and etcs).
 
 
-# Windows Guest port connection with WIN32 API
+## Windows Guest port connection with WIN32 API
+
 In the Windows Guest, QEMU presents a port for a channel to communicate with the Guest.
 In fact, QEMU also provides a port for a channel in the Linux Guest either.
 However, in this post, I only explain about the Windows Guest since there are many references for the Linux Guest.
@@ -65,20 +76,122 @@ However, since there are some mentions about these problems in different situati
 <!-- with characteristics compare with orninary port in WIN32 API -->
 
 
-# Example
+## Example
+
 Below codes and images represent a simple example using virtio-serial port in the Windows Guest.
 Unlike the qemu-guest-agent or oVirt-guest-agent work as host-driven services, I implemented it as a guest-driven agent, which means the Guest requests or sends commands to the Host.
 
 <!-- add example codes and explanation-->
-In the host, as I mentioned in previous section, the 3rd party process can connect to the bind socket as a client.
+
+### Open the Socket and Serial-Port
+
+<!-- host -->
+```python
+    def open_all_sock(self):
+        g2h_path = Xml().get_sock_path(self.__dom)
+
+        if self.g2h_sock == None:
+            self.g2h_sock = self.__open_sock(g2h_path)
+
+```
+In the host, as I mentioned in previous section, the third-party process can connect to the bind socket as a client.
+
 The path of the socket is defined in the libvirt xml (at least in my working environment).
 You can use ordinary socket API: open, close, read, write.
 However, it is impossible to connect multiple clients at the same time.
 In my analysis, QEMU only presents a single connection bind.
+
+<!-- guest -->
+```python
+    def __open_port(self, path):
+        try:
+            port = win32file.CreateFile(path, win32con.GENERIC_READ | win32con.GENERIC_WRITE,
+                                        0,#win32con.FILE_SHARE_READ | win32con.FILE_SHARE_WRITE,
+                                        win32security.SECURITY_ATTRIBUTES(),
+                                        win32con.OPEN_EXISTING,
+                                        win32con.FILE_FLAG_OVERLAPPED,
+                                        0)
+            return port
+
+        except:
+            error = windll.kernel32.GetLastError()
+            _logger.debug("fail to open port. GetLastError: %d" % error)
+            return None
+```
+
 
 In the guest, the communication channel is presented as a form of serial-port.
 Unlike the normal serial-port is in the serial-port section as a COM in the device manager, virtio-serial port is in the hidden device - other device section.
 In the above xml, Preparation section, I explained that the name in the target represents the name of the port inside the guest.
 However, that name never appears inside the guest on the UI.
 It only appears as a vport0n format no matter how many virtio-serial channel exists.
+
+To connect the serial-port, you have to use the WIN32 API.
+
+### send/recv and write/read
+<!-- host -->
+```python
+    def __send_to(self, sock, msg):
+        sock.send(msg.encode('utf-8'))
+
+    def __recv_from(self, sock):
+        recv_data = sock.recv(BUF_LEN).decode('utf-8')
+        return recv_data
+```
+
+If you want to send the data in the Host (Linux), it is much easier than Guest (Windows).
+you can simply send the data using standard socket API in Linux: send and recv.
+
+<!-- guest -->
+```python
+    def __send_to(self, port, ovrlpd, msg):
+        ret, nr_written = win32file.WriteFile(port, msg, ovrlpd)
+        if ret == 997: #ERROR_IO_PENDING
+            _logger.debug("I/O Pending ERROR in __send_to() is normal return. Continue")
+        else:
+            _logger.debug("Fail to WriteFile() with Error: %d" % ret)
+            _logger.debug("WriteFile() can return 0 and ERROR_IO_PENDING")
+            return False
+
+        win32event.WaitForSingleObject(ovrlpd.hEvent, TIMEOUT) #(hHANDLE, milliseconds)
+
+        try:
+            win32file.GetOverlappedResult(port, ovrlpd, False)
+        except:
+            return False
+
+        return True
+
+
+    def __recv_from(self, port, ovrlpd):
+        ret, buf = win32file.ReadFile(port, win32file.AllocateReadBuffer(BUF_LEN), ovrlpd)
+        if ret == 997: #ERROR_IO_PENDING
+            _logger.debug("I/O Pending ERROR in __recv_from() is normal return. continue")
+        else:
+            _logger.debug("Fail to ReadFile() Error: %d" % ret)
+            _logger.debug("ReadFile() can return 0, ERROR_MORE_DATA or ERROR_IO_PENDING")
+
+        win32event.WaitForSingleObject(ovrlpd.hEvent, TIMEOUT) #(hHANDLE, milliseconds)
+        try:
+            nr = win32file.GetOverlappedResult(port, ovrlpd, False)
+        except:
+            _logger.debug("Timeout for the __recv_from(). Timeout: %d msec" % TIMEOUT)
+            return False
+
+        buf = buf.tobytes()
+        buf = buf[:nr]
+        buf = buf.decode('utf-8')
+
+        return buf
+```
+
+Unlike the Linux, WIN32 API is a little more tricky to use.
+First, since the data came from the host are bytes, it requires to decode.
+Second, since the virtio-serial port does not support WIN32 API perfectly, implementing timeout read and write operations requires additional steps.
+For some unknown reason, setting up the timeout configuration for synchronous ReadFile() and WriteFile() always fails with ERR 1 (reason: invalid function).
+So I used asynchronous (overlapped) WriteFile() and ReadFile() to configurate the timeout.
+It immediately wait for ReadFile() or WriteFile() is in complete and proceed the remaining tasks.
+I am not sure why the virtio does not support WIN32 API perfectly, however, there are some hints that the reason ERR 1 happen is usually the problem of the device itself.
+In this case, virtio-serial device itself seems like not support the functions.
+(It is not because I use Python intead C. Even in C, it shows same results)
 

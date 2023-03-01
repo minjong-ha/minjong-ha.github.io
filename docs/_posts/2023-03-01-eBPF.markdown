@@ -1,0 +1,144 @@
+---
+layout: posts
+title:  "eBPF"
+author: Minjong Ha
+published: false
+date:   2022-03-01 12:00:00 +0900
+---
+
+I have an interest in 'eBPF'.
+Let's figure it out.
+
+## Introduction
+
+### BPF
+
+'BPF (Berkely Packet Filter)' is an in-kernel virtual machine that analyzing packets with packet fileter.
+BPF has virtual registers and stack and execute codes based on it.
+JIT (Just In-Time) compiler makes BPF commands run directly on the processor.
+
+<img data-action="zoom" src='{{ "../assets/images/posts/2023-03-01-eBPF/how_bpf_vs_ebpf.png" | relative_url }}' alt='relative'>
+
+Above figure represents how BPF works.
+BPF executes the program on the pre-defined hook inside the kernel or kprobe, uprobe, and tracepoint.
+In figure, it runs BPF program every time execve system call is called.
+The point is, you can run such program inside the certain points of kernel.
+
+### eBPF
+
+<img data-action="zoom" src='{{ "../assets/images/posts/2023-03-01-eBPF/bpf_vs_ebpf.png" | relative_url }}' alt='relative'>
+
+'eBPF (extended BPF)' takes one more step.
+It has larger register, stack and map.
+It also does not require additional kernel source code modification and module.
+It supports multiple map types such as hash table, LRU, ring buffer, stack trace and etc.
+
+It is possible compile C program to eBPF with Android build system.
+
+```c
+#include <linux/bpf.h>
+#include <linux/if_ether.h>
+#include <linux/if_packet.h>
+#include <linux/ip.h>
+#include <linux/in.h>
+
+int count_packets(struct __sk_buff *skb) {
+    struct ethhdr *eth = NULL;
+    struct iphdr *ip = NULL;
+
+    eth = (struct ethhdr *)(skb->data);
+    if (eth->h_proto != htons(ETH_P_IP)) {
+        return 0;
+    }
+
+    ip = (struct iphdr *)(skb->data + sizeof(struct ethhdr));
+    if (ip->version != 4) {
+        return 0;
+    }
+
+    if (ip->protocol == IPPROTO_TCP || ip->protocol == IPPROTO_UDP) {
+        bpf_trace_printk("Packet received on interface %d\n", skb->ifindex);
+        return 1;
+    }
+
+    return 0;
+}
+
+char _license[] SEC("license") = "GPL";
+unsigned int _version SEC("version") = LINUX_VERSION_CODE;
+struct bpf_map_def SEC("maps") packet_count = {
+    .type = BPF_MAP_TYPE_ARRAY,
+    .key_size = sizeof(int),
+    .value_size = sizeof(long long),
+    .max_entries = 1,
+};
+SEC("socket")
+int packet_counter(struct __sk_buff *skb) {
+    long long *value;
+
+    if (count_packets(skb)) {
+        value = bpf_map_lookup_elem(&packet_count, &skb->ifindex);
+        if (value) {
+            (*value)++;
+        }
+    }
+
+    return 0;
+}
+```
+
+Above codes represent eBPF example program counting the number of TCP and UDP packets received on a network interface. 
+It first checks whether the packet is an IPv4 packet, and if so, it checks whether it is a TCP or UDP packet. 
+If it is, it uses 'bpf\_trace\_printk' to print a message indicating that a packet has been received on the specified interface.
+
+The application also defines an eBPF map, which is a data structure that can be used to store data between eBPF programs and the user space. 
+In this case, the map is an array with a single element that stores a counter for the number of packets received on each interface.
+
+The 'packet_counter' function is registered as an eBPF program that is attached to a network socket, which means that it will be executed whenever a packet is received on the associated network interface. 
+The program first calls count_packets to determine whether the packet should be counted.
+It uses 'bpf\_map\_lookup\_elem' to retrieve the counter for the interface and increments it.
+
+To compile above example, follow:
+```
+clang -O2 -Wall -target bpf -c example.c -o example.o
+```
+
+If you want to compile it with gcc, follow:
+```bash
+# Makefile
+
+CC = gcc
+CFLAGS = -O2 -Wall
+LDFLAGS = -lelf
+
+all: example.o
+
+example.o: example.c
+        $(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+        rm -f *.o
+```
+(clang eventually uses gcc. So technically, there is no difference between them)
+
+'eBPF' program does not run as executable file.
+Instead, it have to be loaded its object file to kernel.
+Since my example is for network kernel, it can be loaded with:
+```bash
+ip link set dev <interface> xdp obj example.o sec socket
+```
+
+<!--- How object file is loaded on the kernel?--->
+
+You can also check the count with:
+```bash
+sudo bpftool map show pinned /sys/fs/bpf/example/packet_count
+```
+
+<!--- Can I apply eBPF on the virtual machine?--->
+
+## Reference
+[[Linux Kernel] What is BPF/eBPF?](https://hyeyoo.com/133)
+[ebpf.io](https://ebpf.io/)
+[Learn eBPF Tracing: Tutorial and Examples](https://www.brendangregg.com/blog/2019-01-01/learn-ebpf-tracing.html)
+
