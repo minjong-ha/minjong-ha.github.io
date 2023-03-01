@@ -7,6 +7,7 @@ title: About me
 ---
 
 ## Experience
+
   * __2022.01 - Present : Research & Develop / TmaxOS__
     - Implement VM controller handling the requests from user with libvirt and QEMU.
     - Research and develop 'TmaxGooroom SD' based on [Gooroom OS](https://gooroom.kr).
@@ -15,6 +16,7 @@ title: About me
     - Develop SuperOS: Support cross-platform application based on Electron.
 
   * __2023.01.02 : Grant 'Super Rookie' Award__
+
 
   * __2020.03 - 2022.02 : Graduate Research Assistant / [System Software Lab](https://sslab.ajou.ac.kr/), Ajou University__
 

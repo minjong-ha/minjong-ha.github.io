@@ -7,6 +7,7 @@ date:   2022-06-03 16:13:43 +0900
 ---
 
 ## Virtio-Serial Appeareance in Linux Host and Windows Guest
+
 <!-- What is the virtio-serial?-->
 Virtio presents the communication channels between the Host and Guest.
 Host and Guest share the memory space and send notification to each others to notify that there are the data that the Host or Guest should read.
@@ -50,7 +51,9 @@ Application in the Host can connect to the socket in the 'source' and works as a
 I will explain details about it through the last sections.
 
 
+
 ## Linux Host socket connection with QEMU
+
 In the Linux Host, QEMU presents a socket for a channel to communicate with the Guest.
 QEMU hypervisor performs a role as a server, and a process which tries to connect to the socket is a client.
 Since the QEMU only accept one client, it is impossible connecting multiple processes to the socket unless modifies the source codes of QEMU (It is not sure because I did not try it).
@@ -58,6 +61,7 @@ You can use the socket through the Linux socket API (open, connect, listen , rec
 
 
 ## Windows Guest port connection with WIN32 API
+
 In the Windows Guest, QEMU presents a port for a channel to communicate with the Guest.
 In fact, QEMU also provides a port for a channel in the Linux Guest either.
 However, in this post, I only explain about the Windows Guest since there are many references for the Linux Guest.
@@ -73,10 +77,12 @@ However, since there are some mentions about these problems in different situati
 
 
 ## Example
+
 Below codes and images represent a simple example using virtio-serial port in the Windows Guest.
 Unlike the qemu-guest-agent or oVirt-guest-agent work as host-driven services, I implemented it as a guest-driven agent, which means the Guest requests or sends commands to the Host.
 
 <!-- add example codes and explanation-->
+
 ### Open the Socket and Serial-Port
 
 <!-- host -->
@@ -89,6 +95,7 @@ Unlike the qemu-guest-agent or oVirt-guest-agent work as host-driven services, I
 
 ```
 In the host, as I mentioned in previous section, the third-party process can connect to the bind socket as a client.
+
 The path of the socket is defined in the libvirt xml (at least in my working environment).
 You can use ordinary socket API: open, close, read, write.
 However, it is impossible to connect multiple clients at the same time.
@@ -111,6 +118,7 @@ In my analysis, QEMU only presents a single connection bind.
             _logger.debug("fail to open port. GetLastError: %d" % error)
             return None
 ```
+
 
 In the guest, the communication channel is presented as a form of serial-port.
 Unlike the normal serial-port is in the serial-port section as a COM in the device manager, virtio-serial port is in the hidden device - other device section.

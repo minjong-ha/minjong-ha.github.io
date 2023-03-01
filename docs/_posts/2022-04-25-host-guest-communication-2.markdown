@@ -16,6 +16,7 @@ Since we already understand the detail operations, comparison between the Full a
 <!-- require proper image-->
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-04-25-host-guest-communication/QEMU-KVM.png" | relative_url }}' alt='relative'>
 
+
 Assume that we try to send network packet inside the Guest.
 In the Guest, the application requests to the Guest's Kernel and hands over the data to make it as a packet and send.
 However, in Full-Virtualization, Guest does not know that the network device is a emulated, virtual device.
@@ -40,7 +41,9 @@ If we look at the result, data about the device in the guest area is only moved 
 ## Para-Vitualization
 
 <!-- require proper image-->
+
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-04-25-host-guest-communication/VIRTIO.png" | relative_url }}' alt='relative'>
+
 
 Not only the vmexits, user-kernel data copy is the huge overheads.
 It is because that the Guest does not know the device is a virtual, emulated device.

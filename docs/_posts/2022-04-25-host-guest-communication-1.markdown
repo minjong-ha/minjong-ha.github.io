@@ -337,7 +337,7 @@ It leads the KVM to the __vcpu_enter_guest()__, which is the most important code
 In the for loop in it,  __static_call(kvm_x86_run)(vcpu)__ is the point where the CPU switches itself into the GUEST_MODE.
 
 
-<!-- need screenshots -->
+
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-1.png" | relative_url }}' alt='relative'>
 
 It calls an assembly function in the image.
@@ -345,6 +345,7 @@ Since my machine has Intel CPU, vmx_vcpu_run() is called (It is called smx under
 In this function, we can see that the cpu tries to load and save the cpu's state data.
 I estimate this is the part where the VMCS (Virtual Machine Control Structure) switch happens, but it is not sure.
 If my assume is right, this is the part where the machine prepare the HOST-GUEST mode switch.
+
 
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-2.png" | relative_url }}' alt='relative'>
 
@@ -400,6 +401,7 @@ Above codes are the one of the exit handling by KVM: the device MMIO request.
 After the KVM completes the works it should do, it returns the control to the QEMU.
 
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-04-25-host-guest-communication/overall_flow.png" | relative_url }}' alt='relative'>
+
 
 The image represents the overall code flow of the vCPU execution.
 We saw that the vCPU enters to the GUEST_MODE and exits periodically with the detail codes.
