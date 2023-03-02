@@ -113,6 +113,48 @@ git add $files
 
 In above case, I disable 'C0103' warning.
 
+### .yaml file
+
+Since the pre-commit hook script is in .git/ directory, it is not allowed to add the script as a file for git project.
+Instead, pre-commit presents sharable configuration with yaml.
+You can specificate the modules you want to use during the pre-commit step, and add it to git project.
+Then anyone can install and run the script based on yaml.
+
+For example, following codes is the contents of yaml:
+```bash
+repos:
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+      - id: black
+        language_version: python3.9
+        exclude: ^tests/
+
+  - repo: https://github.com/PyCQA/pylint
+    rev: v2.16.4
+    hooks:
+      - id: pylint
+        args:
+            - --disable=C0103,E0401,W1514,R1732,W0702,I1101,R0913,E0611,R0903
+        exclude: ^tests/
+
+  - repo: local
+    hooks:
+      - id: check-pylint-score
+        name: Check Pylint Score
+        entry: bash -c 'pylint --disable=C0103,E0401,W1514,R1732,W0702,I1101,R0913,E0611,R0903 $GIT_PARAMS | awk "/Your code has been rated at/ {if (\$8 < 8.0) {exit 1}}"'
+        language: system
+        files: '\.py$'
+        verbose: true
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+    - id: trailing-whitespace
+    - id: end-of-file-fixer
+    - id: check-added-large-files
+```
+
 
 ## Appendix
 
