@@ -11,6 +11,13 @@ date:   2023-04-01 12:00:00 +0900
 Pre-commit hook is a script or command that is executed before commit. 
 It is a method that automatically performing some checks or actions on project before it is committed, which can help to catch errors or prevent mistakes.
 
+You can install pre-commit with:
+```bash
+pip install pre-commit
+
+apt install pre-commit
+```
+
 ## Pre-commit Hook
 
 To set up a pre-commit hook in git, you need to create a script or command and save it in a file named "pre-commit" in your repository: ".git/hooks". 
@@ -122,6 +129,8 @@ Then anyone can install and run the script based on yaml.
 
 For example, following codes is the contents of yaml:
 ```bash
+# .pre-commit-hook.yaml
+
 repos:
   - repo: https://github.com/psf/black
     rev: 23.1.0
@@ -153,6 +162,11 @@ repos:
     - id: trailing-whitespace
     - id: end-of-file-fixer
     - id: check-added-large-files
+```
+
+You can install the pre-commit hook with:
+```bash
+pre-commit install
 ```
 
 
