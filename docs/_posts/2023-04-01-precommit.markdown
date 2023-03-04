@@ -144,14 +144,14 @@ repos:
     hooks:
       - id: pylint
         args:
-            - --disable=C0103,E0401,W1514,R1732,W0702,I1101,R0913,E0611,R0903
+            - --disable=C0103,E0401
         exclude: ^tests/
 
   - repo: local
     hooks:
       - id: check-pylint-score
         name: Check Pylint Score
-        entry: bash -c 'pylint --disable=C0103,E0401,W1514,R1732,W0702,I1101,R0913,E0611,R0903 $GIT_PARAMS | awk "/Your code has been rated at/ {if (\$8 < 8.0) {exit 1}}"'
+        entry: bash -c 'pylint --disable=C0103,E0401 $GIT_PARAMS | awk "/Your code has been rated at/ {if (\$8 < 8.0) {exit 1}}"'
         language: system
         files: '\.py$'
         verbose: true
@@ -168,6 +168,18 @@ You can install the pre-commit hook with:
 ```bash
 pre-commit install
 ```
+
+You can run pre-commit hook only with:
+```bash
+pre-commit run $(file_names)
+pre-commit run --all-files
+```
+
+If you want to commit regardless the result of pre-commit, run with:
+```bash
+git commit -a -m "COMMIT_LOG" --no-verify
+```
+
 
 
 ## Appendix
