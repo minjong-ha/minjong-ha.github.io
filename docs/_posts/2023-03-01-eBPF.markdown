@@ -127,6 +127,7 @@ Since my example is for network kernel, it can be loaded with:
 ```bash
 ip link set dev <interface> xdp obj example.o sec socket
 ```
+Example 'eBPF' source codes have `SEC("socket")` to specify the attach point.
 
 <!--- How object file is loaded on the kernel?--->
 
@@ -136,6 +137,7 @@ sudo bpftool map show pinned /sys/fs/bpf/example/packet_count
 ```
 
 <!--- Can I apply eBPF on the virtual machine?--->
+<!--- How Can I figure out the function name that eBPF will be loaded? --->
 
 ## Reference
 [[Linux Kernel] What is BPF/eBPF?](https://hyeyoo.com/133)
