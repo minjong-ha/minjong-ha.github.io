@@ -181,6 +181,50 @@ git commit -a -m "COMMIT_LOG" --no-verify
 ```
 
 
+### pyproject.toml
+
+Configurations such as `--disable` in pylint should be applied on entire project.
+For this reason, managing common options with pyproject.toml is a great choice.
+Following is a `pyproject.toml` file for `--disable`:
+```bash
+[tool.pylint.messages_control]
+confidence = []
+disable = [
+    'invalid-name',
+    'import-error',
+    'unspecified-encoding',
+    'consider-using-with',
+    'bare-except',
+    'c-extension-no-member',
+    'too-many-arguments',
+    'no-name-in-module',
+    'too-few-public-methods',
+    'unused-import',
+    'logging-too-many-args',
+    'too-many-public-methods',
+    'duplicate-code',
+]
+
+# https://pylint.readthedocs.io/en/latest/user_guide/messages/messages_overview.html
+```
+
+Since `pyproject.toml` already specifies the `--disable` options, there is no need to mention it on `.pre-commit-config.yaml`:
+```bash
+repos:
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+      - id: black
+        language_version: python3.9
+        exclude: ^tests/
+
+  - repo: https://github.com/PyCQA/pylint
+    rev: v2.16.4
+    hooks:
+      - id: pylint
+```
+
+
 
 ## Appendix
 
