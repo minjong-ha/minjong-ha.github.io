@@ -237,4 +237,52 @@ It uses various metrics, such as cyclomatic complexity, to measure the complexit
 radon cc /path/to/python/project
 ```
 
+### C
+
+'C' also has a formatting tool: `clang-format`.
+Following is a `.pre-commit-config.yaml` for `clang-format`:
+```bash
+repos:
+  - repo: https://github.com/llvm/llvm-project
+    rev: main
+    hooks:
+      - id: clang-format
+        args: [--style=file]
+```
+
+
+### JavaScript
+
+'JavaScript' also has a formatting tool: `mirrors-eslint`.
+Following is a `.pre-commit-config.yaml` and `.eslintrc.json`:
+```bash
+repos:
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v7.25.0
+    hooks:
+      - id: eslint
+        args: [--config, .eslintrc.json, --cache]
+        exclude: ^node_modules/
+```
+
+```bash
+# .eslintrc.json
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"]
+  }
+}
+```
 
