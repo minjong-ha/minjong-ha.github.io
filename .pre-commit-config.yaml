@@ -1,0 +1,16 @@
+- repo: https://github.com/hugomd/prettier-md.git
+  rev: v0.3.0
+  hooks:
+    - id: prettier-md
+
+- repo: https://github.com/igorshubovych/markdownlint-cli.git
+  rev: v0.27.1
+  hooks:
+    - id: markdownlint
+      args: [--fix]
+
+- repo: https://github.com/remarkjs/remark-lint.git
+  rev: 11.0.0
+  hooks:
+    - id: remark
+      args: [--use, remark-preset-lint-markdown-styleguide]
