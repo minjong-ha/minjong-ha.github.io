@@ -2,7 +2,7 @@
 layout: posts
 title:  "CI / CD: For better Git management"
 author: Minjong Ha
-published: false
+published: true
 date:   2023-01-15 12:00:00 +0900
 ---
 
@@ -75,7 +75,6 @@ It can be 'Push', 'Pull Request (Merge Request)', 'Commit' and etc.
 In this example, workflow will be triggered when the branch 'develop' is pushed or pull\_requested.
 
 
-
 ### Runner
 
 Runner is an application that executing jobs in the workflow
@@ -111,11 +110,11 @@ Followings my personal goals:
 - When 'master' branch is pushed or pull requested, It will create debian package automatically
 
 
-
 ## Appendix
 
 My personal webpage is based on the jekyll with github.io.
 It can be a good example to understand about the CI/CD.
+
 
 ## Reference
 

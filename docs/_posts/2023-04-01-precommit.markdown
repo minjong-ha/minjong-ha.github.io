@@ -2,7 +2,7 @@
 layout: posts
 title:  "Pre-commit: For better project management"
 author: Minjong Ha
-published: false
+published: true
 date:   2023-04-01 12:00:00 +0900
 ---
 
