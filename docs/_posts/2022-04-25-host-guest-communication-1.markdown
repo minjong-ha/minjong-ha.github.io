@@ -9,7 +9,6 @@ date:   2022-04-25 17:13:43 +0900
 In this post, I share my research and analysis about the data communication between the host and guest in case of the device request and focus on the differences in the full and para virtualized machine.
 I also explain about the vCPU as a background; what is the vCPU and how it works.
 
-
 ## Introduction
 
 A virtual machine in "Full-Virtualization" does not know that it is operating in a virtualized environment.
@@ -26,7 +25,6 @@ However, in Windows, it is not included in the Windows kernel and the user shoul
 For example, you can configurate your disk device to the normal SATA emulation or the virtio device disk.
 In my personal experiments, virtio outperforms the SATA emulation approximately 30-50% in the sysbench - FIO test.
 
-
 ## Background
 
 ### ioctl()
@@ -35,7 +33,6 @@ The ioctl() system call manipulates the underlying device parameters of special 
 Usually, it is used to configurate and send requests to the device.
 For instance, user could configurate the printer device via ioctl(); such as what is the font it using and what is the size of the paper in the device.
 We can see the information about the ioctl()s that KVM supports in __qemu/linux-headers/linux/kVM.h__
-
 
 ### vCPU()
 
@@ -92,7 +89,6 @@ void qemu_init_vcpu(CPUState *cpu) {
 The above codes are in qemu/target/i386/cpu.c and qemu/softmmu/cpus.c.
 The hypervisor realize the virtual CPUs via x86_cpu_realizefn() and it calls qemu_init_vcpu().
 In this function, it starts to create the threads for the vCPU.
-
 
 ```c
 static void kvm_start_vcpu_thread(CPUState *cpu) {
@@ -214,7 +210,7 @@ Usually, there are two reasons what trigger the VM_EXIT: to handle the request t
 For better understanding, assumes that there is a machine having only one physical CPU, and it tries to run the VM with QEMU-KVM hypervisor.
 First I will explain about the timer reasoned VM_EXIT.
 Since the machine has only one physical CPU, it cannot proceed any host's task if the CPU is in the GUEST_MODE.
-The CPU in the GUEST_MODE is only for the virtualized system. 
+The CPU in the GUEST_MODE is only for the virtualized system.
 Thus, without the periodical VM_EXIT, the machine could not comeback from the GUEST_MODE and every host's tasks wait over and over.
 To prevent this disaster, every CPUs wake up from the GUEST_MODE in every configurated timeslices.
 It also means if we want to give more execution time to the VM, we could achieve it via extending the timeslices for the GUEST_MODE.
@@ -273,7 +269,6 @@ int kvm_vcpu_ioctl(CPUState *cpu, int type, ...) {
 ```
 
 As we already checked above, kvm_vcpu_ioctl() calls ioctl() with KVM_RUN flag.
-
 
 ```c
 static long kvm_vcpu_ioctl(struct file, *filp, unsigned int ioctl, unsigned long arg) {
@@ -336,8 +331,6 @@ KVM handles ioctl() for the KVM with the KVM_RUN through __kvm_arch_vcpu_ioctl_r
 It leads the KVM to the __vcpu_enter_guest()__, which is the most important code I think.
 In the for loop in it,  __static_call(kvm_x86_run)(vcpu)__ is the point where the CPU switches itself into the GUEST_MODE.
 
-
-
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-1.png" | relative_url }}' alt='relative'>
 
 It calls an assembly function in the image.
@@ -346,7 +339,6 @@ In this function, we can see that the cpu tries to load and save the cpu's state
 I estimate this is the part where the VMCS (Virtual Machine Control Structure) switch happens, but it is not sure.
 If my assume is right, this is the part where the machine prepare the HOST-GUEST mode switch.
 
-
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-2.png" | relative_url }}' alt='relative'>
 
 After it saves all HOST's state data and load GUEST's state data on the CPU, it calls vmenter() function
@@ -354,7 +346,6 @@ After it saves all HOST's state data and load GUEST's state data on the CPU, it 
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-04-25-host-guest-communication/vmx_vmenter.png" | relative_url }}' alt='relative'>
 
 This is the instruction that makes CPU mode into the GUEST_MODE in the vmenter() function through vm_resume, and vm_launch.
-
 
 ```c
 static int handle_io(struct kvm_vcpu *vcpu) {
@@ -402,7 +393,6 @@ After the KVM completes the works it should do, it returns the control to the QE
 
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-04-25-host-guest-communication/overall_flow.png" | relative_url }}' alt='relative'>
 
-
 The image represents the overall code flow of the vCPU execution.
 We saw that the vCPU enters to the GUEST_MODE and exits periodically with the detail codes.
 The vCPU posix threads on the HOST exist only to secure the running time of the GUEST_MODE through the scheduling.
@@ -410,12 +400,9 @@ The vCPU posix threads on the HOST exist only to secure the running time of the 
 Now we understand how the vCPU works in QEMU-KVM hypervisor and ready to compare the difference between the Full-Virtualization and Para-Virtualization.
 I will explain about it in the next post.
 
-
-
 <!---
 
 ## Full-Virtualization
-
 
 ## Para-Vitualization
 
@@ -423,6 +410,5 @@ I will explain about it in the next post.
 
 ## Conclusion
 --->
-
 
 [Notion Document: Full-Virtualization(QEMU-KVM) vs Para-Virtualization(Virtio) (written in Korean)](https://seen-fact-e72.notion.site/Full-Virtualization-vs-Para-Virtualization-cd4933792f6a4a2b871a385f58592955)

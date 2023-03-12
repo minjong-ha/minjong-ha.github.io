@@ -8,12 +8,11 @@ date:   2022-11-29 09:00:00 +0900
 
 In this post, I will explain how to implement and use dbus through python with asyncio (including unittest example).
 
-
 ## Introduction
 
 DBUS is a message bus system, a simple way for applications to talk to one another[DBUS](https://www.freedesktop.org/wiki/Software/dbus/).
 It provides IPC for user and system application (per-user-login-session daemon and system daemon).
-Developer could register its own dbus interface and implement callback functions. 
+Developer could register its own dbus interface and implement callback functions.
 
 Since I can check various C examples for dbus, I decide to write it for python.
 There is a few references of dbus for python especially with asyncio.
@@ -21,7 +20,6 @@ I hope that this post can be help for fragmented dbus references in python.
 
 I will not talk about asyncio itself in this post.
 If you want to know what is the asyncio and how to use it, reference [it](https://docs.python.org/3/library/asyncio.html)
-
 
 ## Why dbus-next?
 
@@ -45,7 +43,6 @@ The address "/org/example/dbustest" specifies that the server will listen on a U
 Interface is an optional parameter for dbus.
 It is useful if there are a lot of methods and properties for dbus, and they require being categorized.
 Usually, it has form of "org.example.dbustest.Module".
-
 
 Now, we need to implement dbus interface for bus daemon.
 There are two files for register: xml and conf.
@@ -103,10 +100,8 @@ Above content represents the .xml.
 We can see there are three components: method, signal, and property.
 External application can figure out the methods, signals, properties that dbus interface provides.
 
-
 After register default dbus information for dbus daemon, it is time to implement an application who is connected to this dbus.
 Following represents the requirements for python (dbus-next).
-
 
 ```python
 import asyncio
@@ -162,9 +157,7 @@ TestSignal() function itself should be called inside the application and externa
 Thus, xml for external application only knows about the return value itself.
 You don't need to specify the type of argument for signal function such as "s", "b", "n" and etc.
 
-
 Now, what we have to do is publishing the dbus interface inside the application
-
 
 ```python
 # Someplace in main...
@@ -185,11 +178,9 @@ MessageBus() connects "dbus\_manager" object with system message bus.
 "dbus\_manager" object will be exported with the interface name "/org/example/dbustest"
 If another application requests method or property using designated dbus, "dbus\_manager" will answer.
 
-
-### Interact with dbus-interface at the external application.
+### Interact with dbus-interface at the external application
 
 In external application, you should acquire the connection to the dbus first.
-
 
 ```python
 async def _get_dbus_interface():
@@ -219,7 +210,6 @@ async def test_dbus_backup_method(self):
     await asyncio.sleep(10)
 ```
 
-
 Above codes represents the requiring of dbus connection with custom interface in python (dbus-next).
 Since we define the dbus information in .xml file, we can use it to connect with test dbus interface.
 You can see there is a function of "\_if.call\_test\_method()" and "\_if.on\_test\_signal(self.\_on\_test\_signal)".
@@ -233,14 +223,11 @@ You can also see there is a function "\_if.on\_test\_signal()".
 I defined a simple "\_on\_test\_signal()" function and pass it as an argument with "on\_test\_signal()".
 If the process emits TestSignal(), application will listen and execute callback funtion it assigned.
 
-
 <!--- Add property --->
-
 
 ## Appendix
 
 <!-- unittest for asyncio -->
-
 
 ```python
 from unittest import IsolatedAsyncioTestCase, main

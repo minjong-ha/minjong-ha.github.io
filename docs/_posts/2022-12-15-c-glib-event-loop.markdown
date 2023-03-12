@@ -14,7 +14,7 @@ In this post, I will explain about the basic GLib features and focus on the even
 <!--- What is g-lib? --->
 <!--- Example - virtio-win-tools --->
 
-GLib or glibc (GNU C Library), presents the core libraries for GNU and GNU/Linux systems. 
+GLib or glibc (GNU C Library), presents the core libraries for GNU and GNU/Linux systems.
 Since GTK provides glibc for Windows and macOS, it is transportable.
 Although the C is not for the objective programming, glibc provides GObjects for OOP and developers can implement codes efficiently.
 It also provides basic data structures.
@@ -92,4 +92,5 @@ stop_my_thread (void)
 ```
 
 ## Appendix
+
 - [Repository for C glib with event loop study](https://github.com/minjong-ha/c-glib-study)

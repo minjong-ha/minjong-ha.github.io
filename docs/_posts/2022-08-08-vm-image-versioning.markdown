@@ -14,15 +14,13 @@ It is efficient since the disk size increases depending on the usage of the disk
 For example, assume that there is a qcow2 image having 100 GB virtual size.
 Guest OS can see the 100 GB storage device through the qemu hypervisor.
 If the VM only uses 10 GB on the storage, qcow2 image only grows up to 10 GB (+ a).
-If the VM uses more than 10 GB on the storage, qcow2 image also expands to 20 GB (+ a) 
+If the VM uses more than 10 GB on the storage, qcow2 image also expands to 20 GB (+ a)
 
 qcow2 format image also supports snapshot feature.
 There are two snapshot methods: internal and external.
 Internal snapshot contains its snapshot data in the original base image file.
 On the other hand, external snapshot creates seperate so called overlay image.
 In this post, I will explain about external snapshot.
-
-
 
 ## Qcow2 Architecture
 
@@ -48,7 +46,6 @@ It means that the data cluster is used, allocated.
 However, the difference is that the data clusters having refcount more than 2 should be allocated to new data cluster, just like Copy-on-Write.
 I will explain more details about it in later section.
 
-
 ## Qcow2 Data Allocation
 
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-08-08-vm-image-versioning/qcow_image_achitecture.png" | relative_url }}' alt='relative'>
@@ -56,7 +53,6 @@ I will explain more details about it in later section.
 Above image represents the architecture of qcow2 file when it writes the data.
 qcow2 image manages the data with L1,L2 tables and Refcount tables like page table.
 Each table entries are corresponding to the data clusters and each data clusters having 64KB default size (512B - 2MB).
-
 
 ```bash
 qemu-img create -f qcow -b original_image_name new_overlay_image
@@ -77,7 +73,6 @@ Hence, overlay_image allocates new data cluster and update the L1,L2 table.
 The difference between refcount 1 and more than 2 is the prior does not change refcount.
 However, the later updates L1,L2 table and refcount at the same time, since the CoW happened.
 With the CoW based data cluster management, qcow2 image can hold the original data and overlap the new data at the same time.
-
 
 ## Image Overlay
 
@@ -113,7 +108,6 @@ With the CoW based data cluster management, qcow2 image can hold the original da
                 '-----------'    '------------'
 ```
 
-
 Above image represents the overview of the overlays.
 Since the changes are only updated to the overlay images, it is possible to create two different images based on the same original image.
 
@@ -129,7 +123,6 @@ Since it merging the data from 1A to 1, additional storage is required (maximum 
 As you can see, qcow2 overlay is very similar to git.
 We can change the disk image of VM with libvirt, and create new branch, commit.
 The only difference is qcow2 is not available for recovering old history.
-
 
 ## Conclusion?
 
@@ -151,7 +144,6 @@ Since there is only one L1 table for qcow2 image, the maximum number of L2 entri
 In the case when the data cluster is 512 bytes, qcow2 image can handle maximum 2^36 x 2^9 = 2^45 bytes (32 TB).
 In the case when the data cluster is 2 MB, qcow2 image can handle maximum 2^36 x 2^21 = 2^57 (128 PB).
 
-
 ### How libvirt communicates with QEMU?
 
 "libvirt" only manages qemu-related information as XML format and provides additional features to users.
@@ -160,6 +152,6 @@ QEMU-related works are performed by executing command through g_loop asymmetrica
 For example, libvirt only generates xmls for a snapshot.
 Actual snapshot image is created by QEMU through "qemu-img" command from libvirt.
 
-
 ## References
+
 [Qcow2 Overlay Images](https://kashyapc.fedorapeople.org/virt/lc-2012/snapshots-handout.html)

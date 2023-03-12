@@ -9,7 +9,6 @@ date:   2022-04-27 09:00:00 +0900
 
 ## 0. What is LightPC?
 
-
 [Non-volatile computing demo (LightPC) English version](https://www.youtube.com/watch?v=HzYe_xooOKk&feature=emb_title)
 
 [LightPC Presents a Resilient System Using Only Non-Volatile Memory](https://news.kaist.ac.kr/newsen/html/news/?GotoPage=1&list_e_date=&list_s_date=&mng_no=20111&mode=V&skey=&sval=)
@@ -31,7 +30,6 @@ The following summarizes represent the contributions of the paper:
 * Transparent full persistence mechanism
 
 * Practical non-volatile computing and prototypes
-
 
 ## 2. Introduction
 
@@ -73,22 +71,14 @@ Third, complicated PMEM's DIMM-level architecture which causes non-deterministic
 
 For these reasons, it is very challenable that utilize PMEM for leaveraging system performance.
 
-
 ## 4. Design (LightPC)
 
 ## 5. Experiment
 
 ## 6. Conclusion
 
-
-
-
-
-
-
 ## References
 
 [PDF](https://dl.acm.org/doi/pdf/10.1145/3470496.3527397)
 [Slides](https://www.iscaconf.org/isca2022/slides/isca22-kwon.pdf)
 [pmem.io](https://pmem.io/)
-

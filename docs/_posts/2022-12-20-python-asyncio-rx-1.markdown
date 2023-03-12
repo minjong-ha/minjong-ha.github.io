@@ -8,7 +8,6 @@ date:   2022-12-15 12:00:00 +0900
 
 <!--- Lets study about python asyncio and rx with event_loop() --->
 
-
 ## Introduction
 
 When you want to implement reactive, passive-working application, asynchronous programming is an essential option.
@@ -35,7 +34,6 @@ async def coroutine_func():
 
 I will explain more details about it on "Event Loop" section.
 
-
 ### Task
 
 Task is used to assign multiple tasks at the same time.
@@ -49,7 +47,6 @@ asyncio.create_task(coroutine_func_3())
 ```
 
 I will explain more details about it on "Event Loop" section
-
 
 ### Event Loop
 
@@ -143,7 +140,6 @@ Above codes create a event loop, and create task.
 However, while "asyncio.create_task" can share the execution with main, await demands waiting the job finished.
 In codes, three awaited jobs will be executed sequentially while three tasks run at the same time.
 It is important to choose proper asyncio function.
-
 
 Many tutors recommend using asyncio with high-level API only without loop.
 However, in my personal experience, using loop with high-level API is more flexible to implement the features.

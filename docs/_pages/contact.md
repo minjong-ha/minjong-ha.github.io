@@ -11,5 +11,3 @@ layout: posts
   Thank you!!
 
 __Email: hmjong1128@gmail.com__
-
-

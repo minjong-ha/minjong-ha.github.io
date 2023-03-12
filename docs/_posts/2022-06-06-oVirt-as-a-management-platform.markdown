@@ -7,12 +7,12 @@ date:   2022-06-16 10:48:00 +0900
 ---
 
 ## Abstract
+
 oVirt is an open-source distributed virtualization solution, designed to manage your entire enterprise infrastructure. oVirt uses the trusted KVM hypervisor and is built upon several other community projects, including libvirt, Gluster, PatternFly, and Ansible. [oVirt Official Site](https://www.ovirt.org/)
 
 Usually, oVirt presents a distributed system for the VMs and helps to deploy the cloud infrastructure.
 In this post, I will explain how to deploy the oVirt and describe the architecture.
 Then I will talk about why I tried to deploy oVirt as an effective VM image footpring management.
-
 
 ## Introduction
 
@@ -35,8 +35,8 @@ There are many VM supports in oVirt as an DaaS, however, I focused on the featur
 Especially, what caught my eye in particular is the templated image.
 It looks attractive to managing the image versions as a template.
 
-
 ## oVirt: Architecture
+
 I deployed a CentOS 7 as a hosted engine, and three oVirt-nodes (4.3) as host and storage domains.
 Also, to manage FQDNs for each nodes, I implemented docker-dnsmasq on the another machine as an internal DNS server.
 It could be replaced manual /etc/hosts editting, which is more annoying to manage.
@@ -44,8 +44,10 @@ It could be replaced manual /etc/hosts editting, which is more annoying to manag
 Followings represent the overall architecture of ovirt-engine I deployed.
 
 * 5 nodes
+>
 > * ovirt-engine: CentOS 7 + oVirt 4.3 installed
 > * ovirt-node 0 - 3: oVirt-node 4.3 installed
+>>
 >> * ovirt-node 0 - 2: host and glusterFS storage
 >> * ovirt-node 3: host and NFS storage
 
@@ -57,6 +59,7 @@ They are simple and domestic PC, not the servers.
 <!--- describe install sequences --->
 
 ### oVirt-Engine
+
 First, I deployed the oVirt-engine on CentOS 7.
 Following codes represent the commands that I use to install the engine.
 
@@ -77,11 +80,11 @@ engine-setup
 ```
 
 After the installation, You can access the oVirt-engine web console through the "https://engine.ovirt.net".
-ID and PW is defined during the engine-setup. 
+ID and PW is defined during the engine-setup.
 Usually, ID is "admin".
 
-
 ### oVirt-Nodes
+
 I installed oVirt-node 4.3 on the computers using ISO installed USB.
 After I installed the oVirt-node OS, I set the ssh authorization for each nodes.
 
@@ -99,8 +102,8 @@ ${paste_public_ssh_key_from_hosted_engine}
 
 After I finished above sequences, I add the oVirt-nodes as hosts for oVirt-engine.
 
-
 ### Storage: glusterFS
+
 (192.168.103.82: oVirt-engine, 192.168.103.83-85: oVirt-node-0~2)
 
 1. Configure Firewall
@@ -154,10 +157,9 @@ w
 mkfs.xfs -f -i size=512 /dev/sd
 ```
 
-Setup the gluster volume on the https://ovirt-node-0.ovirt.net
+Setup the gluster volume on the <https://ovirt-node-0.ovirt.net>
 > Virtualization - Hosted Engine - Hyperconverged
 >/dev/sdb1
-
 
 ### Storage: NFS
 
@@ -190,6 +192,7 @@ exportfs -r
 ```
 
 Configurate NFS service accessible from external network
+
 ```bash
 firewall-cmd --permanent --add-service=nfs
 firewall-cmd --permanent --add-service=rpc-bind
@@ -199,8 +202,8 @@ firewall-cmd --reload
 
 Add storage domain (ovirt-node-3.ovirt.net:/exports/data) in ovirt-engine web console
 
-
 # Result
+
 If you followed above guides and deploy the oVirt-engine success, it presents 4 hosts (ovirt-node-0 ~ 3) and 2 storage (glusterFS, NFS).
 You can upload the image and make that image a VM.
 Then, you can template the VM.
@@ -209,18 +212,19 @@ Each templates has their own name, description, comments.
 It is also possible to manage the templates with versions using sub-template feature.
 
 # Appendix
+
 ## oVirt template image download in the CLI with REST API
 
-I also implement a CLI template downloader using Python 3. 
+I also implement a CLI template downloader using Python 3.
 I used oVirt-engine REST API.
 > [ovirt-template-manager](https://github.com/minjong-ha/ovirt-template-manager)
 
 "oVirt-engine" issues certification to the client, and client requests multiple features including download template, create VM and etc.
 
 ## oVirt-engine REST API
+
 oVirt-engine presents REST API.
 Above ovirt template downloader using Python uses the REST API.
 > [ovirt-engine REST API](http://ovirt.github.io/ovirt-engine-api-model/)
-
 
 [oVirt-engine Deployment Notion Document (korean)](https://seen-fact-e72.notion.site/VM-oVirt-92ca20a41c1741f4ac4b39f0c97f56a2)

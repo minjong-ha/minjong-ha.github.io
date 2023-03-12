@@ -50,15 +50,12 @@ Application in the Host can connect to the socket in the 'source' and works as a
 'target' represents the name of port in the Windows Guest.
 I will explain details about it through the last sections.
 
-
-
 ## Linux Host socket connection with QEMU
 
 In the Linux Host, QEMU presents a socket for a channel to communicate with the Guest.
 QEMU hypervisor performs a role as a server, and a process which tries to connect to the socket is a client.
 Since the QEMU only accept one client, it is impossible connecting multiple processes to the socket unless modifies the source codes of QEMU (It is not sure because I did not try it).
 You can use the socket through the Linux socket API (open, connect, listen , receive, send, and etcs).
-
 
 ## Windows Guest port connection with WIN32 API
 
@@ -74,7 +71,6 @@ I do not know why it is not enable (there is no official document or reference f
 However, since there are some mentions about these problems in different situation, I assume that the driver does not support full WIN32 API.
 
 <!-- with characteristics compare with orninary port in WIN32 API -->
-
 
 ## Example
 
@@ -94,6 +90,7 @@ Unlike the qemu-guest-agent or oVirt-guest-agent work as host-driven services, I
             self.g2h_sock = self.__open_sock(g2h_path)
 
 ```
+
 In the host, as I mentioned in previous section, the third-party process can connect to the bind socket as a client.
 
 The path of the socket is defined in the libvirt xml (at least in my working environment).
@@ -118,7 +115,6 @@ In my analysis, QEMU only presents a single connection bind.
             _logger.debug("fail to open port. GetLastError: %d" % error)
             return None
 ```
-
 
 In the guest, the communication channel is presented as a form of serial-port.
 Unlike the normal serial-port is in the serial-port section as a COM in the device manager, virtio-serial port is in the hidden device - other device section.
@@ -194,4 +190,3 @@ It immediately wait for ReadFile() or WriteFile() is in complete and proceed the
 I am not sure why the virtio does not support WIN32 API perfectly, however, there are some hints that the reason ERR 1 happen is usually the problem of the device itself.
 In this case, virtio-serial device itself seems like not support the functions.
 (It is not because I use Python intead C. Even in C, it shows same results)
-

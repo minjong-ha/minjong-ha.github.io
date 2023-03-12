@@ -46,10 +46,8 @@ List will be converted to observable by "Observable.from_" function.
 Since I subscribe it, PrintObserver will traverse the list and print the value by "on\_next".
 "rust" will be printed at last, and PrintObserver will call on\_completed() function.
 
-
 The features I explained are useful but not a killer.
 The reason that RxPy can be killer is it can implement state based reactive application.
-
 
 ### Pipe
 
@@ -88,9 +86,7 @@ Then, add all even numbers in 'x' with 'reduce()' operator.
 
 Since there are many operators in RxPy, reference [here](https://www.tutorialspoint.com/rxpy/rxpy_operators.htm)
 
-
 ### Subject
-
 
 ### Reactive Application
 
@@ -173,7 +169,7 @@ Since interface subscribe the subject in controller, 'on\_next' notification is 
 Be careful not to forget add condition in 'on\_changes()'.
 Without proper condition, 'set\_current()' will emit 'on\_next()" again and again since there is a circular, recursive calling.
 
-It is not a best architecture since there are many alternatives to synchronize. 
+It is not a best architecture since there are many alternatives to synchronize.
 However it can be used in many other, complex situations.
 What if only 'current' should be synchronized to 'requested', while there are number of objects updating 'current'?
 Using observer and observable with rx can make synchronizing the values automatically and I think it is useful.

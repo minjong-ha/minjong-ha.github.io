@@ -15,7 +15,6 @@ As a result, "CI/CD" can automate the system and presents organized management.
 In this post, I will share my experience and trial about the "CI/CD" with Github Actions.
 (Gitlab also provides powerful CI/CD feature, but I focused on github since I do not have gitlab projects)
 
-
 ## Github Actions
 
 Github Action presents the automated tasks that triggered by pull request (merge request), push and etc.
@@ -28,7 +27,6 @@ Workflow is a kind of command group that can be added to the repository.
 
 You can write a new yml file in .github/workflows directory but it is more recommended to use "workflow template" in Repository - Actions.
 Following codes represents the default template that githup provides.
-
 
 ```
 # main.yml
@@ -65,7 +63,6 @@ It is an optional parameter
 Users can manually execute workflow in Repository-Action on github.
 "workflow\_dispatch" is an option for it.
 
-
 ### Event
 
 Events can trigger the workflow.
@@ -74,14 +71,12 @@ It can be 'Push', 'Pull Request (Merge Request)', 'Commit' and etc.
 "on:" represents the events that execute the workflow.
 In this example, workflow will be triggered when the branch 'develop' is pushed or pull\_requested.
 
-
 ### Runner
 
 Runner is an application that executing jobs in the workflow
 
 "build" in "jobs" represents the environment that runner running.
 In this case, it runs on the ubuntu-latest.
-
 
 ### Job
 
@@ -94,11 +89,9 @@ Job is a group of multiple steps that executed by runner.
 Step is an task for command.
 Command can be shell command or action.
 
-
 ### Action
 
 Action is an independent command that creating jobs.
-
 
 ## Example
 
@@ -109,15 +102,12 @@ Followings my personal goals:
 - When the branches are pushed or pull requested, It will tests its test codes automatically
 - When 'master' branch is pushed or pull requested, It will create debian package automatically
 
-
 ## Appendix
 
 My personal webpage is based on the jekyll with github.io.
 It can be a good example to understand about the CI/CD.
 
-
 ## Reference
 
 [What is CI/CD?](https://www.redhat.com/en/topics/devops/what-is-ci-cd)
 [GitHub Docs: GitHub Actions](https://docs.github.com/en/actions)
-

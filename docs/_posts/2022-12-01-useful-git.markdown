@@ -32,14 +32,13 @@ git checkout
 Above commands are required from a small team project.
 Each members in team can work in independent branches, and requests merge.
 
-
 ```
 git rebase -i ${commit_uuid}
 ```
 
 Above command is an unfamiliar at first, but it is very useful for pretty commit history.
 Basically, it is git rebase command with interaction.
-Rebase supports multiple functions: 
+Rebase supports multiple functions:
 
 ```
  Commands:
@@ -66,7 +65,7 @@ Rebase supports multiple functions:
 
 I will explain about the commit-related features that I use frequently: "p", "r", "s", "e"
 
-"p"(pick) represents no changes. 
+"p"(pick) represents no changes.
 Commits have p or pick remain still.
 It is optional if you want to change the order of the commit, it can be done in "p".
 
@@ -81,7 +80,6 @@ Since it is a little hard to understand only with the text, suppose there are so
 It looks like very similar to reword, but has wider feature.
 It can amend commit using 'git commit --amend'.
 "git commit --amend" can also modify the date, author not only the log itself.
-
 
 ```
 # git log --pretty=oneline
@@ -142,7 +140,6 @@ After then, you can continue your rebase with "git rebase --continue".
 If the conflicts remain, you will repeats above processes again.
 If there is no conflict, its rebase will be completed.
 
-
 If you use private and public github accounts, you should config your local config in each directories with
 
 ```
@@ -168,4 +165,3 @@ git commit --amend --date="Mon Sep 1 44:44:44 2022"
 ```
 
 After you update your commit information, you can continue with "git rebase --continue".
-

@@ -7,6 +7,7 @@ date:   2022-04-25 19:13:43 +0900
 ---
 
 ## Introduction
+
 In previous post, we analyzed how the vCPU thread working and understoodd the concept of the vCPU in the GUEST_MODE under the QEMU-KVM hypervisor.
 Now, lets look around how Para-Virtualization (virtio) works and compare it to the Full-Virtualization.
 Since we already understand the detail operations, comparison between the Full and Para Virtualization is much easier.
@@ -15,7 +16,6 @@ Since we already understand the detail operations, comparison between the Full a
 
 <!-- require proper image-->
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-04-25-host-guest-communication/QEMU-KVM.png" | relative_url }}' alt='relative'>
-
 
 Assume that we try to send network packet inside the Guest.
 In the Guest, the application requests to the Guest's Kernel and hands over the data to make it as a packet and send.
@@ -37,13 +37,11 @@ Finally, QEMU __passes over (copies)__ the data to the native kernel drive and i
 
 If we look at the result, data about the device in the guest area is only moved to the host, but actually, it can be seen that unnecessary data copy (overhead) happens because the guest does not know that it is on the virtualization.
 
-
 ## Para-Vitualization
 
 <!-- require proper image-->
 
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-04-25-host-guest-communication/VIRTIO.png" | relative_url }}' alt='relative'>
-
 
 Not only the vmexits, user-kernel data copy is the huge overheads.
 It is because that the Guest does not know the device is a virtual, emulated device.
@@ -59,7 +57,6 @@ The notification notices there is a data that Host or Guest should read, and it 
 Still, virtio causes vmexit to context switch to the Host from the Guest.
 However, it could reduces the copy overheads compared to the Full-Virtualization.
 
-
 <!---
 ## Experiment
 --->
@@ -73,5 +70,3 @@ For instancde, QEMU-Guest-Agent (qga) is implemented based on the virtio-serial.
 There are more interesting technologies and implementations based on vhost, vhost-user which are the more recent Para-Virtualization techniques.
 For example, vSock (Virtual Socket) connects the Host and Guest's sockets and supports the application communication.
 I hope there will be a chance to analyze about it.
-
-

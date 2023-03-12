@@ -65,58 +65,56 @@ Also=virtlockd.socket
 
 Above codes represent the contents of the service file.
 
-
 ### 1. Unit
+
 Unit section defines the relations with other services.
 Suppose there is a service "A":
 
 * Description
-    * Short describes what service it is.
+  * Short describes what service it is.
 
 * Requires
-    * The services belong to "Requires" should be active to activate service "A".
+  * The services belong to "Requires" should be active to activate service "A".
 
 * Wants
-    * When the service "A" executes, the services belong to "Wants" also be executed. Unlike "Requires", "A" can be active even if the service in "Wants" fails to run.
+  * When the service "A" executes, the services belong to "Wants" also be executed. Unlike "Requires", "A" can be active even if the service in "Wants" fails to run.
 
-- BindsTo:
-    * If the services in "BindsTo" become inactive, "A" also be inactive.
+* BindsTo:
+  * If the services in "BindsTo" become inactive, "A" also be inactive.
 
-- PartOf:
-    * If the services in "PartOf" try to restart or inactive, "A" follows their action.
+* PartOf:
+  * If the services in "PartOf" try to restart or inactive, "A" follows their action.
 
-- Before:
-    * Services in "Before" will not be executed until the "A" executed == Service "A" should be executed before the services in "Before".
+* Before:
+  * Services in "Before" will not be executed until the "A" executed == Service "A" should be executed before the services in "Before".
 
-- After:
-    * Services in "After" will be executed first then "A" == Service "A" wait its execution after the services in "After".
+* After:
+  * Services in "After" will be executed first then "A" == Service "A" wait its execution after the services in "After".
 
-- Conflicts:
-    * Services in "Conflicts" will not executed at the same time with "A". If "A" is active, "Confilicts" will be inactive, and vice versa.
-
+* Conflicts:
+  * Services in "Conflicts" will not executed at the same time with "A". If "A" is active, "Confilicts" will be inactive, and vice versa.
 
 ### 2. Service
 
 Service section defines the execution related tasks for service "A".
 One thing important is there are multiple types for define the active of service "A".
 
-- Type = simple, forking, oneshot, dbus, notify
-    * "Type" represents the conditions for active. If the service satisfies the condition in "Type", its state changes to active from activating.
-        * simple: Executing the service is considered as active.
-        * forking: When the child process of the service is created, it is considred as active.
-        * oneshot: Executing the service is considered as active, but it is considered that the main process of the service exits.
-        * dbus: When the service acquires the dbus it defined, it is considered as active.
-        * notify: When the service sends message through sd_notify, it is considered as active.
+* Type = simple, forking, oneshot, dbus, notify
+  * "Type" represents the conditions for active. If the service satisfies the condition in "Type", its state changes to active from activating.
+    * simple: Executing the service is considered as active.
+    * forking: When the child process of the service is created, it is considred as active.
+    * oneshot: Executing the service is considered as active, but it is considered that the main process of the service exits.
+    * dbus: When the service acquires the dbus it defined, it is considered as active.
+    * notify: When the service sends message through sd_notify, it is considered as active.
 
-- Exec
-    * Execution command or file for the service.
+* Exec
+  * Execution command or file for the service.
 
-- ExecStart Post and ExecStart Pre
-     * Execution command or file before or after the service starts.
+* ExecStart Post and ExecStart Pre
+  * Execution command or file before or after the service starts.
 
-- ExecStop Post and ExecStop Pre
-     * Execution command or file before or after the service stops.
-
+* ExecStop Post and ExecStop Pre
+  * Execution command or file before or after the service stops.
 
 ### 3. Install
 
@@ -125,18 +123,16 @@ Usually, install section includes ".target" dependency using WantedBy or Require
 When the system is booted, systemd launches the services following the target level: init.target -> basic.target -> ... -> multi-user.target -> graphical.target.
 If the service has multi-user.target dependency in Install section, systemd launches it at the multi-user.target turn.
 
-
 It is also can be used to manage the services as a group.
 
-- WantedBy and RequiredBy
-     * Define the services that should be enabled when the service "A" is enabled == Enable them with "A".
+* WantedBy and RequiredBy
+  * Define the services that should be enabled when the service "A" is enabled == Enable them with "A".
 
-- Alias
-     * Create symbolic link for the service "A" in the name in "Alias".
+* Alias
+  * Create symbolic link for the service "A" in the name in "Alias".
 
-- Also
-     * Define the services that should be enabled or disabled when the service "A" is enabled or disabled.
-
+* Also
+  * Define the services that should be enabled or disabled when the service "A" is enabled or disabled.
 
 ## Appendix
 
@@ -164,8 +160,3 @@ Following represents the order of priority that systemd has:
 /lib/systemd/ -> /etc/systemd -> /etc/systemd/${unit_name}.d/override.conf
 
 With override.conf, it is easy to manage the unit files with less dependencies.
-
-
-
-
-

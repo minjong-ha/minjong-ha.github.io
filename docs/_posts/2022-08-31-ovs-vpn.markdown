@@ -8,7 +8,6 @@ date:   2022-08-31 09:14:00 +0900
 
 <!--- I think this post requires overall re-write for company security and my safe... --->
 
-
 ## Abstract
 
 In this post, I will explain What the OvS is and how can we utilize it on the multi-VM machine.
@@ -16,7 +15,6 @@ In this post, I will explain What the OvS is and how can we utilize it on the mu
 Suppose that there is a computer that should be connected with seperated, independent network for each VMs.
 Host can manage the networks with OvS and seperates them logically.
 Since the target networks are located in the private network, host should consider the VPN handling from VMs.
-
 
 ## Introduction
 
@@ -55,7 +53,6 @@ Since the risk of leakage, it is not recommended to use a single computer for bo
 
 Virtual machines(VM) could be a solution for it.
 Advances of hardware performance and VM optimization make it possible to run VMs on the laptop.
-
 
 Since the internal networks (public, private) are not open for everyone, using VPN is one of the access point.
 There are two types of VPN: Guest-centric VPN and Host-centric VPN.
@@ -119,7 +116,6 @@ Each ovs-bridges has a tap device for VPN module.
 The packets from VMs are delievered to the ovs-bridge through VM tap, and also delivered to the VPN tap.
 Following the routing rules, packets will be sended to NIC (in case of public network VM) or ovs-bridge for public network (in case of private network VM).
 
-
 ### Packet Path
 
 Using the networks of VMs requires the logically seperated networks.
@@ -132,12 +128,8 @@ Public Network VM: VM -> tap for VM -> ovs bridge for VM (Public) -> VPN Module 
 
 Private Network VM: VM -> tap for VM -> ovs bridge for VM (Private) -> VPN Module (2nd) -> ovs bridge for VM (Public) -> VPN Module (1st) -> NIC
 
-
-
-
 ## Reference
 
-* https://opennetworking.org/news-and-events/blog/p4-and-open-vswitch/
-* https://docs.openvswitch.org/en/latest/howto/vlan/
-* https://commons.wikimedia.org/wiki/File:Distributed_Open_vSwitch_instance.svg
-
+* <https://opennetworking.org/news-and-events/blog/p4-and-open-vswitch/>
+* <https://docs.openvswitch.org/en/latest/howto/vlan/>
+* <https://commons.wikimedia.org/wiki/File:Distributed_Open_vSwitch_instance.svg>

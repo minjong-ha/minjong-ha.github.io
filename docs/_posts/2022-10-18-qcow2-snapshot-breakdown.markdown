@@ -7,11 +7,13 @@ date:   2022-10-18 16:59:00 +0900
 ---
 
 ## Introduction
+
 I already wrote a post about VM image snapshot in [here](https://minjong-ha.github.io/2022/08/08/vm-image-versioning.html).
 However, there was a chance that analyzing more detail actions of qcow2 snapshot with source code.
 In this post, I will explain how exactly qcow2 and qemu generate snapshot (overlay image), especially focusing on the copy-on-write.
 
 ## Qcow2 Architecture
+
 I already explained the architecture of qcow2 image in [here](https://minjong-ha.github.io/2022/08/08/vm-image-versioning.html).
 To understand more details about I/O and snapshots, I analyzed qcow2 header and source codes based on qemu-7.0.0.
 
@@ -36,6 +38,7 @@ Qemu can switch the VM between the snapshots during the runtime of VM.
 Moreover, it also provide memory state snapshot either, so it can reload the VM state when the snapshot created.
 
 ## Qcow2 Snapshot
+
 In this section, I will describe more detail actions about snapshot with source codes.
 
 ```c
@@ -81,7 +84,7 @@ int qcow2_snapshot_create(BlockDriverState *bs, QEMUSnapshotInfo *sn_info)
         ret = l1_table_offset;
         goto fail;
     }
-		sn->l1_table_offset = l1_table_offset;
+  sn->l1_table_offset = l1_table_offset;
     sn->l1_size = s->l1_size;
 
     l1_table = g_try_new(uint64_t, s->l1_size);
@@ -133,7 +136,7 @@ int qcow2_snapshot_create(BlockDriverState *bs, QEMUSnapshotInfo *sn_info)
     if (ret < 0) {
         g_free(s->snapshots);
         s->snapshots = old_snapshot_list;
-				s->nb_snapshots--;
+    s->nb_snapshots--;
         goto fail;
     }
 
@@ -178,15 +181,15 @@ Copy-on-Write operations, including allocate new L2 table and data clusters, are
  */
 static int coroutine_fn qed_aio_next_io(QEDAIOCB *acb)
 {
-	...
-	while (1) {
-		...
-		if (acb->flags & QED_AIOCB_WRITE) {
-			ret = qed_aio_write_data(acb, ret, offset, len);
-		}
-		...
-	}
-	...
+ ...
+ while (1) {
+  ...
+  if (acb->flags & QED_AIOCB_WRITE) {
+   ret = qed_aio_write_data(acb, ret, offset, len);
+  }
+  ...
+ }
+ ...
 }
 
 
@@ -235,13 +238,13 @@ static int coroutine_fn qed_aio_write_data(void *opaque, int ret,
  */
 static int coroutine_fn qed_aio_write_alloc(QEDAIOCB *acb, size_t len)
 {
-	...
-	if (!(acb->flags & QED_AIOCB_ZERO)) {
-		ret = qed_aio_write_cow(acb); // copy data-cluster of backing file
-		...
-	}
-	...
-	return qed_aio_write_l2_update(acb, acb->cur_cluster); // alloc and update L2 table
+ ...
+ if (!(acb->flags & QED_AIOCB_ZERO)) {
+  ret = qed_aio_write_cow(acb); // copy data-cluster of backing file
+  ...
+ }
+ ...
+ return qed_aio_write_l2_update(acb, acb->cur_cluster); // alloc and update L2 table
 }
 
 /**
@@ -251,9 +254,9 @@ static int coroutine_fn qed_aio_write_alloc(QEDAIOCB *acb, size_t len)
  */
 static int coroutine_fn qed_aio_write_cow(QEDAIOCB *acb)
 {
-	...
+ ...
   ret = qed_copy_from_backing_file(s, start, len, acb->cur_cluster);
-	...
+ ...
 }
 
 /**
@@ -320,7 +323,6 @@ Representing 1 bit also be 0.
 If the representing 1 bit is 0, it means that there is no L2 table in this offset pointing.
 When the L2 table is allocated, qemu also update the representing 1 bit value to 1 and it means there is a L2 table in owned image.
 
-
 ## References
 
 * [QEMU](https://github.com/qemu/qemu) : Source codes
@@ -328,5 +330,5 @@ When the L2 table is allocated, qemu also update the representing 1 bit value to
 
 ## Footnotes
 
-<a name='footnote_1'><1></a>: qcow2 presents two snapshot: internal and external (https://kashyapc.fedorapeople.org/virt/lc-2012/snapshots-handout.html)
-<a name='footnote_2'><2></a>: The difference from the original version is that qcow2 supports multiple snapshots using a newer, more flexible model for storing them. (https://en.wikipedia.org/wiki/Qcow)
+<a name='footnote_1'><1></a>: qcow2 presents two snapshot: internal and external (<https://kashyapc.fedorapeople.org/virt/lc-2012/snapshots-handout.html>)
+<a name='footnote_2'><2></a>: The difference from the original version is that qcow2 supports multiple snapshots using a newer, more flexible model for storing them. (<https://en.wikipedia.org/wiki/Qcow>)
