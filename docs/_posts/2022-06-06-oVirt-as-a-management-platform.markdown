@@ -202,7 +202,7 @@ firewall-cmd --reload
 
 Add storage domain (ovirt-node-3.ovirt.net:/exports/data) in ovirt-engine web console
 
-# Result
+## Result
 
 If you followed above guides and deploy the oVirt-engine success, it presents 4 hosts (ovirt-node-0 ~ 3) and 2 storage (glusterFS, NFS).
 You can upload the image and make that image a VM.
@@ -211,9 +211,9 @@ Then, you can template the VM.
 Each templates has their own name, description, comments.
 It is also possible to manage the templates with versions using sub-template feature.
 
-# Appendix
+## Appendix
 
-## oVirt template image download in the CLI with REST API
+### oVirt template image download in the CLI with REST API
 
 I also implement a CLI template downloader using Python 3.
 I used oVirt-engine REST API.
@@ -221,7 +221,7 @@ I used oVirt-engine REST API.
 
 "oVirt-engine" issues certification to the client, and client requests multiple features including download template, create VM and etc.
 
-## oVirt-engine REST API
+### oVirt-engine REST API
 
 oVirt-engine presents REST API.
 Above ovirt template downloader using Python uses the REST API.

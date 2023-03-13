@@ -26,8 +26,6 @@ title: About me
     * Seat checking system for the children with the BLE device
     * Implement the interactions between the application and bluetooth seat cushion
 
-<hr/>
-
 ## Tools
 
 * Programming Language
@@ -35,8 +33,6 @@ title: About me
   * C++
   * Python
   * (Optional) SwiftUI
-
-<hr/>
 
 ## Education
 
@@ -48,8 +44,6 @@ title: About me
 * __2013.03 - 2020.02: B.S. in Software Engineering and Computer Science / Ajou University, Korea__
   * Graduation Work: [Fit-Got-U: Smartphone Home-Fitness Application with Pose Estimation](https://github.com/minjong-ha/Fit-Got-U)
 
-<hr/>
-
 ## Journals
 
 * [CCoW: Optimizing Copy-on-Write Considering the Spatial Locality in Workloads](https://doi.org/10.3390/electronics11030461)
@@ -59,8 +53,6 @@ title: About me
 * [InK: In-Kernel Key-Value Storage with Persistent Memory](https://doi.org/10.3390/electronics9111913)
   * Minjong Ha, and Sang-Hoon Kim*.
   * MDPI Electronics, Vol. 9, Issue 11, No. 1913, November 2020
-
-<hr/>
 
 <!--
 ## Personal Project
@@ -75,5 +67,3 @@ title: About me
 * __Copy-on-Write Optimization Apparatus and Method for Process Fork__
   * Sang-Hoon Kim and Minjong Ha
   * Patent Filed No. 10-2020-0187135 (December 30, 2020), Korea
-
-<hr/>

@@ -1,8 +1,12 @@
+# minjong-ha.github.io
+
 This is Minjong-Ha's personal github.io page
-===========================================
+
+--------
 
 Nice to meet you
-----------------
+
+--------
 
 # What I use to implement personal page?
 
@@ -14,9 +18,11 @@ First, I organize default and base structures and posts on vanila jekyll, and th
 
 To test the personal page on local machine, exec the commands below
 
+```bash
  cd docs/
 
  bundle exec jekyll serve
+```
 
 Thank you.
 

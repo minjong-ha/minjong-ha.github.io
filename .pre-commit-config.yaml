@@ -2,5 +2,5 @@
   rev: v0.27.1
   hooks:
     - id: markdownlint
-      args: [--fix]
+      args: [--fix, "--config", ".markdownlint.json"]
 

@@ -14,7 +14,7 @@ Followings are useful and essential git commands what I use frequently.
 
 ## Git commands for individual
 
-```
+```bash
 git add 
 git commit 
 git push
@@ -24,7 +24,7 @@ git pull
 Above commands are basic commands for git.
 It is useful even if there is a single developer.
 
-```
+```bash
 git branch
 git checkout
 ```
@@ -32,7 +32,7 @@ git checkout
 Above commands are required from a small team project.
 Each members in team can work in independent branches, and requests merge.
 
-```
+```bash
 git rebase -i ${commit_uuid}
 ```
 
@@ -40,7 +40,7 @@ Above command is an unfamiliar at first, but it is very useful for pretty commit
 Basically, it is git rebase command with interaction.
 Rebase supports multiple functions:
 
-```
+```bash
  Commands:
 # p, pick <commit> = use commit
 # r, reword <commit> = use commit, but edit the commit message
@@ -81,8 +81,8 @@ It looks like very similar to reword, but has wider feature.
 It can amend commit using 'git commit --amend'.
 "git commit --amend" can also modify the date, author not only the log itself.
 
-```
-# git log --pretty=oneline
+```bash
+$ git log --pretty=oneline
 d085827ec8be53c408bbb5b28638040195ef55ac fix typos in changelog
 67c842bca087447aa626c54326030c64386ba641 Update changelog
 f1d3e06746393fcb9f07d120f04f76801e673486 Add new feature
@@ -99,7 +99,7 @@ As you can see, there are rebundant and duplicated commits.
 "Update changelog" and "fix typos in changelog" also have no reason to be exist independently.
 So you can execute following commands and see the screen like this:
 
-```
+```bash
 # git rebase -i ${some_base_commit_uuid}
 
 pick a30fe31 Add new feature
@@ -114,7 +114,7 @@ pick d085827 fix typos in changelog
 Be careful that now the order of commits is vice versa (upper commit represents the past commit).
 Since we want to merge some commits, it should be:
 
-```
+```bash
 pick a30fe31 Add new feature
 pick 096ec86 Add unittest
 s    69c6f96 Fix unittest
@@ -142,7 +142,7 @@ If there is no conflict, its rebase will be completed.
 
 If you use private and public github accounts, you should config your local config in each directories with
 
-```
+```bash
 git config --local user.name "name"
 git config --local user.email "email"
 ```
@@ -151,7 +151,7 @@ However, since we are human, we forget to change name and email and put wrong au
 In this case, you should change your author info in each commits.
 "git rebase -i" also can be used to change these information with "edit".
 
-```
+```bash
 # git rebase -i ${some_commit_uuid}
 
 edit d085827 fix typos in changelog
@@ -159,7 +159,7 @@ edit d085827 fix typos in changelog
 
 In "edit" mode, you can use only one command: git commit --amend.
 
-```
+```bash
 git commit --amend --author="your_right_name <your_email@domain.com>"
 git commit --amend --date="Mon Sep 1 44:44:44 2022"
 ```

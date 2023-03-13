@@ -92,7 +92,7 @@ export default App;
 ```
 
 'App.js' defines App() function and we can see the html codes at return.
-It is the part where JSX returns when index.js tries to use <App />.
+It is the part where JSX returns when index.js tries to use `<App />`.
 Almost every components in this project will be returned as a JSX, except the database, computing, and etc.
 
 =================================================================

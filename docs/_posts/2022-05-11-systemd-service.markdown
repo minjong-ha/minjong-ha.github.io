@@ -41,7 +41,7 @@ If the service satisfies the active contidion, its state becomes "active".
 Above is the part of "libvirtd.service" file.
 There are three sections in ".service" file: Unit, Service, and Install.
 
-```
+```bash
 # libvirtd.service
 
 [Unit]
@@ -148,7 +148,7 @@ It is high complexity task that managing service file in /etc/systemd whenever t
 For example, suppose that I want to add dependency for libvirtd.service.
 I can create a directory called /etc/systemd/system/libvirtd.service.d and write a "override.conf" file and its content is:
 
-```
+```bash
 [Unit]
 After=dev-mapper-extra.device
 ```

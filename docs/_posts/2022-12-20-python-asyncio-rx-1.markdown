@@ -62,7 +62,7 @@ It keeps alive event loop until one of the task call loop.stop().
 If there are tasks having long latency for return such as network communication, asyncio is an effective choice.
 It can handle multiple tasks concurrently with a single thread.
 
-```
+```text
                Eventloop
                    │
   Coroutine 1      │

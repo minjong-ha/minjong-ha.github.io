@@ -96,7 +96,7 @@ Private VM -> Encapsulated by Private VPN -> Encapsulated by Public VPN -> Delie
 To implement above figure, VMs should pass their packets to the ovs-bridge.
 Fortunately, libvirt supports ovs network bridge for KVM.
 
-```
+```xml
 <network>
   <name>test</name>
   <forward mode='bridge'/>

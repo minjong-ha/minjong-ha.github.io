@@ -28,7 +28,7 @@ Workflow is a kind of command group that can be added to the repository.
 You can write a new yml file in .github/workflows directory but it is more recommended to use "workflow template" in Repository - Actions.
 Following codes represents the default template that githup provides.
 
-```
+```bash
 # main.yml
 
 name: CI

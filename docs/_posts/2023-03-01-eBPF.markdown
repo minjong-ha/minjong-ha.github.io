@@ -100,7 +100,7 @@ It uses 'bpf\_map\_lookup\_elem' to retrieve the counter for the interface and i
 
 To compile above example, follow:
 
-```
+```bash
 clang -O2 -Wall -target bpf -c example.c -o example.o
 ```
 
