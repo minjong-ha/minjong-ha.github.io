@@ -16,8 +16,10 @@ Let's figure it out.
 'BPF (Berkely Packet Filter)' is an in-kernel virtual machine that analyzing packets with packet fileter.
 BPF has virtual registers and stack and execute codes based on it.
 JIT (Just In-Time) compiler makes BPF commands run directly on the processor.
-
+<!--
 <img data-action="zoom" src='{{ "../assets/images/posts/2023-03-01-eBPF/how_bpf_vs_ebpf.png" | relative_url }}' alt='relative'>
+-->
+![BPF vs eBPF](../assets/images/posts/2023-03-01-eBPF/how_bpf_vs_ebpf.png)
 
 Above figure represents how BPF works.
 BPF executes the program on the pre-defined hook inside the kernel or kprobe, uprobe, and tracepoint.
@@ -26,7 +28,10 @@ The point is, you can run such program inside the certain points of kernel.
 
 ### eBPF
 
+<!--
 <img data-action="zoom" src='{{ "../assets/images/posts/2023-03-01-eBPF/bpf_vs_ebpf.png" | relative_url }}' alt='relative'>
+-->
+![BPF vs eBPF](../assets/images/posts/2023-03-01-eBPF/bpf_vs_ebpf.png)
 
 'eBPF (extended BPF)' takes one more step.
 It has larger register, stack and map.

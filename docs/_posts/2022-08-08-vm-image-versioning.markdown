@@ -24,7 +24,10 @@ In this post, I will explain about external snapshot.
 
 ## Qcow2 Architecture
 
+<!--
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-08-08-vm-image-versioning/qcow_struct.png" | relative_url }}' alt='relative'>
+-->
+![Overall structure of `qcow`](../assets/images/posts/2022-08-08-vm-image-versioning/qcow_struct.png)
 
 Above image represents the header (metadata) of qcow2 file.
 "qcow2" image can be divided to seven sectors: Header, L1 Table, Refcount Table, More Refcount Blocks, Snapshot Headers, L2 Tables and Data Reserved (data cluster).
@@ -48,7 +51,10 @@ I will explain more details about it in later section.
 
 ## Qcow2 Data Allocation
 
+<!--
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-08-08-vm-image-versioning/qcow_image_achitecture.png" | relative_url }}' alt='relative'>
+-->
+![Architecture of `qcow` image](../assets/images/posts/2022-08-08-vm-image-versioning/qcow_image_achitecture.png)
 
 Above image represents the architecture of qcow2 file when it writes the data.
 qcow2 image manages the data with L1,L2 tables and Refcount tables like page table.
@@ -148,7 +154,7 @@ In the case when the data cluster is 2 MB, qcow2 image can handle maximum 2^36 x
 
 "libvirt" only manages qemu-related information as XML format and provides additional features to users.
 "libvirt" itself only perform XML managing.
-QEMU-related works are performed by executing command through g_loop asymmetrically.
+QEMU-related works are performed by executing command through g\_loop asymmetrically.
 For example, libvirt only generates xmls for a snapshot.
 Actual snapshot image is created by QEMU through "qemu-img" command from libvirt.
 

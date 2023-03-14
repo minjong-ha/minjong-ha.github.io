@@ -23,9 +23,13 @@ Since the target networks are located in the private network, host should consid
 Open vSwitch implements virtual, software based switch instead of physical switch.
 OvS can support multiple virtual NICs(vNIC) with single physical NIC cable
 
-<!---OvS example image --->
+<!--OvS example image -->
+<!---
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-08-31-ovs-vpn/ovs_example_1.png" | relative_url }}' alt='relative'>
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-08-31-ovs-vpn/ovs_example_2.png" | relative_url }}' alt='relative'>
+-->
+![OvS example - 1](../assets/images/posts/2022-08-31-ovs-vpn/ovs_example_1.png)
+![OvS example - 2](../assets/images/posts/2022-08-31-ovs-vpn/ovs_example_2.png)
 
 Above image represents the overall architecture of OvS applied system.
 There are two VMs with different purposes (internal / external), and OvS supports them by providing virtual NICs.
@@ -40,7 +44,10 @@ However, they also need to connect to the internet to use e-mail and etc.
 In this case, their network are usually having following shape.
 
 <!---VPN Environment image--->
+<!--
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-08-31-ovs-vpn/vpn_topology.png" | relative_url }}' alt='relative'>
+-->
+![VPN topology](../assets/images/posts/2022-08-31-ovs-vpn/vpn_topology.png)
 
 It is reasonable network topology if their computers are located in private network.
 Usually, there are two computers in these environments: one for the private, and another for the public.
@@ -71,7 +78,10 @@ It means that there are VPN clients on the host side.
 Since the network and VPN modules are on same layer, it is possible to configurate VPN depending on the network state.
 
 <!--- vm-vm model network topology --->
+<!--
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-08-31-ovs-vpn/vm_topology.png" | relative_url }}' alt='relative'>
+-->
+![Virtual machine topology](../assets/images/posts/2022-08-31-ovs-vpn/vm_topology.png)
 
 Above image represents the vm topology.
 Each VMs should looks like located in the private network.
@@ -87,7 +97,10 @@ They are delivered to the private ovs-bridge and private VPN.
 Then, following the routing rules, they are handled over to public ovs-bridge.
 Remains are same with the public packtes.
 
+<!---
 <img data-action="zoom" src='{{ "../assets/images/posts/2022-08-31-ovs-vpn/overall_topology.png" | relative_url }}' alt='relative'>
+--->
+![Overall topology](../assets/images/posts/2022-08-31-ovs-vpn/overall_topology.png)
 
 Above image represents overall architecture combined with VPN and VM topologies.
 The packtes from private VM follow following sequences.
