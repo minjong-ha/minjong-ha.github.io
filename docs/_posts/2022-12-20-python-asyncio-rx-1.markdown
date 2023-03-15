@@ -51,9 +51,9 @@ I will explain more details about it on "Event Loop" section
 ### Event Loop
 
 <!--
-<img data-action="zoom" src='{{ "../assets/images/posts/2022-12-20-python-asyncio-rx/async_eventloop.jpg" | relative_url }}' alt='relative'>
+<img data-action="zoom" src='{{ "/assets/images/posts/2022-12-20-python-asyncio-rx/async_eventloop.jpg" | relative_url }}' alt='relative'>
 -->
-![asyncio eventloop](../assets/images/posts/2022-12-20-python-asyncio-rx/async_eventloop.jpg)
+![asyncio eventloop](/assets/images/posts/2022-12-20-python-asyncio-rx/async_eventloop.jpg")
 (image from [here](https://hackersandslackers.com/intro-to-asyncio-concurrency/))
 
 Event-loop can execute async tasks and callbacks in python.

@@ -332,9 +332,9 @@ It leads the KVM to the __vcpu_enter_guest()__, which is the most important code
 In the for loop in it,  __static_call(kvm_x86_run)(vcpu)__ is the point where the CPU switches itself into the GUEST_MODE.
 
 <!--
-<img data-action="zoom" src='{{ "../assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-1.png" | relative_url }}' alt='relative'>
+<img data-action="zoom" src='{{ "/assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-1.png" | relative_url }}' alt='relative'>
 -->
-![How vmx vcpu run - 1](../assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-1.png)
+![How vmx vcpu run - 1](/assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-1.png)
 
 It calls an assembly function in the image.
 Since my machine has Intel CPU, vmx_vcpu_run() is called (It is called smx under the AMD CPU).
@@ -343,16 +343,16 @@ I estimate this is the part where the VMCS (Virtual Machine Control Structure) s
 If my assume is right, this is the part where the machine prepare the HOST-GUEST mode switch.
 
 <!--
-<img data-action="zoom" src='{{ "../assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-2.png" | relative_url }}' alt='relative'>
+<img data-action="zoom" src='{{ "/assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-2.png" | relative_url }}' alt='relative'>
 -->
-![How vmx vcpu run - 2](../assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-2.png)
+![How vmx vcpu run - 2](/assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-2.png)
 
 After it saves all HOST's state data and load GUEST's state data on the CPU, it calls vmenter() function
 
 <!--
-<img data-action="zoom" src='{{ "../assets/images/posts/2022-04-25-host-guest-communication/vmx_vmenter.png" | relative_url }}' alt='relative'>
+<img data-action="zoom" src='{{ "/assets/images/posts/2022-04-25-host-guest-communication/vmx_vmenter.png" | relative_url }}' alt='relative'>
 -->
-![`vmx_vmenter()`](../assets/images/posts/2022-04-25-host-guest-communication/vmx_vmenter.png)
+![`vmx_vmenter()`](/assets/images/posts/2022-04-25-host-guest-communication/vmx_vmenter.png)
 
 This is the instruction that makes CPU mode into the GUEST_MODE in the vmenter() function through vm_resume, and vm_launch.
 
@@ -401,9 +401,9 @@ Above codes are the one of the exit handling by KVM: the device MMIO request.
 After the KVM completes the works it should do, it returns the control to the QEMU.
 
 <!--
-<img data-action="zoom" src='{{ "../assets/images/posts/2022-04-25-host-guest-communication/overall_flow.png" | relative_url }}' alt='relative'>
+<img data-action="zoom" src='{{ "/assets/images/posts/2022-04-25-host-guest-communication/overall_flow.png" | relative_url }}' alt='relative'>
 -->
-![Overall flowchart](../assets/images/posts/2022-04-25-host-guest-communication/overall_flow.png)
+![Overall flowchart](/assets/images/posts/2022-04-25-host-guest-communication/overall_flow.png)
 
 The image represents the overall code flow of the vCPU execution.
 We saw that the vCPU enters to the GUEST_MODE and exits periodically with the detail codes.
