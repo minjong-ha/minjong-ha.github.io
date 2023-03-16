@@ -1,6 +1,6 @@
 ---
 layout: posts
-title:  "Debian (Re)Packaging""
+title:  "Debian (Re)Packaging"
 author: Minjong Ha
 published: true
 date:   2023-02-06 19:39:00 +0900
