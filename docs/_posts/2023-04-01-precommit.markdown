@@ -294,3 +294,23 @@ repos:
   }
 }
 ```
+
+### Markdown
+
+`markdownlint` is a formatting tool for markdown file.
+Folloing is a `.pre-coimmit-config.yaml` and `.markdownlint.json`:
+
+```bash
+repos:
+- repo: https://github.com/igorshubovych/markdownlint-cli.git
+  rev: v0.27.1
+  hooks:
+    - id: markdownlint
+      args: [--fix, "--config", ".markdownlint.json"]
+```
+
+```bash
+{
+    "line_length": null
+}
+```
