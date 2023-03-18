@@ -32,6 +32,8 @@ git checkout
 Above commands are required from a small team project.
 Each members in team can work in independent branches, and requests merge.
 
+## Git commands for teamwork
+
 ```bash
 git rebase -i ${commit_uuid}
 ```
@@ -65,21 +67,21 @@ Rebase supports multiple functions:
 
 I will explain about the commit-related features that I use frequently: "p", "r", "s", "e"
 
-"p"(pick) represents no changes.
+`p`(pick) represents no changes.
 Commits have p or pick remain still.
-It is optional if you want to change the order of the commit, it can be done in "p".
+It is optional if you want to change the order of the commit, it can be done in `p`.
 
-"r"(reword) rewords the commit log.
-If there is a typos in commit or want to change the sentence in commit, "r" is for you.
+`r`(reword) rewords the commit log.
+If there is a typos in commit or want to change the sentence in commit, `r` is for you.
 
-"s"(squash) merges multiple commits to a single commit.
+`s`(squash) merges multiple commits to a single commit.
 It is the important to manage the organized commit histories.
 Since it is a little hard to understand only with the text, suppose there are some commits like:
 
-"e"(edit) edits commit log.
+`e`(edit) edits commit log.
 It looks like very similar to reword, but has wider feature.
-It can amend commit using 'git commit --amend'.
-"git commit --amend" can also modify the date, author not only the log itself.
+It can amend commit using `git commit --amend`.
+`git commit --amend` can also modify the date, author not only the log itself.
 
 ```bash
 $ git log --pretty=oneline
@@ -111,6 +113,8 @@ pick 67c842b Update changelog
 pick d085827 fix typos in changelog
 ```
 
+## Squash
+
 Be careful that now the order of commits is vice versa (upper commit represents the past commit).
 Since we want to merge some commits, it should be:
 
@@ -124,21 +128,24 @@ pick 67c842b Update changelog
 s    d085827 fix typos in changelog
 ```
 
-Following the "pick"s, there will be four commits remain after the rebase.
-Commits with "s" will be merged with the commits with "pick".
-"fix typos in changlog" commit will be merged with "Update Changelog".
+Following the `pick`s, there will be four commits remain after the rebase.
+Commits with `s` will be merged with the commits with `pick`.
+"Fix typos in changlog" commit will be merged with "Update Changelog".
 And "Fix unittest", "Fix typos in unittest" commits will be merged with "Add unittest".
 After you finish your edit, save and exit from vi.
 
 Now there are two things can be happen.
 One is the completion of rebase.
 There is no conflicts between the commits, and squash succeed.
+
 Another is the conflict.
 If there are some conflicts between the commits you want to squash, you should solve it like merge request.
-You should solve the conflicts of existing and incoming changes (usually, I select incoming changes only in my cases), and add the solved file with "git add".
-After then, you can continue your rebase with "git rebase --continue".
+You should solve the conflicts of existing and incoming changes (usually, I select incoming changes only in my cases), and add the solved file with `git add`.
+After then, you can continue your rebase with `git rebase --continue`.
 If the conflicts remain, you will repeats above processes again.
 If there is no conflict, its rebase will be completed.
+
+## Edit
 
 If you use private and public github accounts, you should config your local config in each directories with
 
@@ -149,7 +156,7 @@ git config --local user.email "email"
 
 However, since we are human, we forget to change name and email and put wrong author in commit.
 In this case, you should change your author info in each commits.
-"git rebase -i" also can be used to change these information with "edit".
+`git rebase -i` also can be used to change these information with `edit`.
 
 ```bash
 # git rebase -i ${some_commit_uuid}
@@ -157,11 +164,11 @@ In this case, you should change your author info in each commits.
 edit d085827 fix typos in changelog
 ```
 
-In "edit" mode, you can use only one command: git commit --amend.
+In `edit` mode, you can use only one command: git commit --amend.
 
 ```bash
 git commit --amend --author="your_right_name <your_email@domain.com>"
 git commit --amend --date="Mon Sep 1 44:44:44 2022"
 ```
 
-After you update your commit information, you can continue with "git rebase --continue".
+After you update your commit information, you can continue with `git rebase --continue`.
