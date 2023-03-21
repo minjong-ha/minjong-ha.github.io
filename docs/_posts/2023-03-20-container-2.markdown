@@ -1,0 +1,76 @@
+---
+layout: posts
+title:  "Container - 2"
+author: Minjong Ha
+published: false
+date:   2023-03-21 12:00:00 +0900
+---
+
+In this post, I will install container platform on my raspberry pi and deploy multiple applications.
+
+## What should I choose?
+
+### Docker
+
+Docker: Docker is a popular container platform that is widely used for building, packaging, and deploying containerized applications. It has official support for the Raspberry Pi, and there are many pre-built Docker images available for running on the Raspberry Pi.
+Pros:
+
+* Easy to use and deploy containers
+* Large and active community of users and developers
+* Official support for Raspberry Pi
+* Many pre-built Docker images available
+
+Cons:
+
+* Resource-intensive, may not be suitable for low-powered Raspberry Pi models
+* Requires some knowledge of containerization and Docker commands to use effectively
+
+### Belena
+
+Balena: Balena is a container platform designed specifically for IoT devices, including the Raspberry Pi. It includes tools for building and deploying containers, as well as a cloud-based dashboard for managing devices and applications.
+Pros:
+
+* Designed specifically for IoT devices, including Raspberry Pi
+* Easy to use and deploy containers
+* Cloud-based dashboard for managing devices and applications
+* Supports both Docker and Kubernetes container formats
+
+Cons:
+
+* Requires a Balena account to use
+* Limited free tier, may require a paid subscription for larger deployments
+
+## Kubernetes
+
+Kubernetes: Kubernetes is a popular container orchestration platform that provides tools for deploying, scaling, and managing containerized applications across a cluster of machines. It can be run on a Raspberry Pi cluster for small-scale deployments.
+
+Pros:
+
+* Provides advanced tools for managing containerized applications
+* Supports large-scale deployments across a cluster of machines
+* Widely used and supported by many cloud providers and vendors
+
+Cons:
+
+* Requires some knowledge of Kubernetes concepts and commands to use effectively
+* Resource-intensive, may not be suitable for low-powered Raspberry Pi models
+* Requires additional tools and configuration for running on a Raspberry Pi cluster
+
+### LXC
+
+LXC (Linux Containers) is a lightweight container platform that uses Linux kernel features to provide containerization capabilities. It can be used on the Raspberry Pi, but it is not as popular as Docker or Kubernetes.
+
+Here are some pros and cons of using LXC on Raspberry Pi:
+
+Pros:
+
+* Lightweight and efficient, suitable for low-powered Raspberry Pi models
+* Easy to use and deploy containers
+* Provides a high degree of isolation between containers
+* Supports a wide range of Linux distributions and applications
+
+Cons:
+
+* Limited community support compared to Docker and Kubernetes
+* Requires some knowledge of Linux containers and LXC commands to use effectively
+* Limited support for advanced features like load balancing and resource management
