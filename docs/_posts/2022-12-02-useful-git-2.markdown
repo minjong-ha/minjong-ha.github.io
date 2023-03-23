@@ -1,0 +1,25 @@
+---
+layout: posts
+title:  "Git Guide - Useful and practical commands for teamwork: Advanced"
+author: Minjong Ha
+published: false
+date:   2022-12-02 17:29:02 +0900
+---
+
+In previous post, I explained default and basic git commands.
+In this posts, I will explain some cases that require advanced techniques.
+
+## I committed new features and refactorings
+
+When I was not familiar to git, I had mistake that committing two different changes: features and refactoring.
+Since each commits is a last point for recovery, it should be clear and not be blended other commits.
+However I mistaked put two different types of commits at the same branch.
+
+```shell
+041e4d379e6a551a443b04dbc266304bddcdd29d fix(refactoring): Fix refactoring some codes
+2b662fe66690948b67c69c2d3a8e17f6ff3066ba feat(new): Add new features
+5f39ce334d33322a8a671da3c57e8df85d54dc1f fix(refactoring): Fix function locations
+59b21b7e5ab35f0674a393ba5eea587f7936b8ef feat(new): Add new features
+```
+
+Above logs represent that two types of commits are blended.

@@ -1,6 +1,6 @@
 ---
 layout: posts
-title:  "Git Guide - Useful and practical commands for teamwork"
+title:  "Git Guide - Useful and practical commands for teamwork: Basic"
 author: Minjong Ha
 published: true
 date:   2022-12-01 17:29:02 +0900
