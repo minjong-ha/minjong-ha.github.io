@@ -22,4 +22,26 @@ However I mistaked put two different types of commits at the same branch.
 59b21b7e5ab35f0674a393ba5eea587f7936b8ef feat(new): Add new features
 ```
 
-Above logs represent that two types of commits are blended.
+Above logs represent that two types of commits are blended (present to past from top).
+More bad thing is each commits are not even independent from each others.
+Some commits includes refactoring and feature at the same time.
+In this case, I have to divide changes to two branches.
+
+Before the tasks, I backup my branch with `git checkout -b backup_branch` (-b: create and checkout to branch).
+
+First, I squashed all commits to one: `git rebase -i ${COMMIT_FOR_REBASE}
+
+```shell
+pick 041e4d3 fix(refactoring): Fix refactoring some codes
+s 2b662fe feat(new): Add new features
+s 5f39ce3 fix(refactoring): Fix function locations
+s 59b21b7 feat(new): Add new features
+```
+
+Now, I have only one commit that including all changes.
+I create new branch for refactoring: `git checkout -b refactoring\_codes` since my new features already use refactored codes.
+Uncommit(?) using `git reset HEAD^`: it uncommits the last commit not removing all changes.
+I removed all codes related to new features and I committed only refactorings.
+
+Checkout to the original branch: `git checkout ${ORIGINAL_BRANCH}`.
+Since the `${ORIGINAL_BRANCH}` have all refactorings and new features, it need to rebase: `git rebase refactoring\_codes`.
