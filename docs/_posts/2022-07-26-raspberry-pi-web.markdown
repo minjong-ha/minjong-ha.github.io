@@ -50,7 +50,7 @@ You can create react application using above commands.
 
 ## Components and JSX
 
-'npm-start' command starts the react application by executing 'index.js'.
+`npm start` command starts the react application by executing 'index.js'.
 
 Web page build by react has multiple components.
 Each components can be represented as a chunk and the browser only deploys them.
@@ -88,12 +88,13 @@ function App() {
 }
 
 export default App;
-
 ```
 
 'App.js' defines App() function and we can see the html codes at return.
 It is the part where JSX returns when index.js tries to use `<App />`.
 Almost every components in this project will be returned as a JSX, except the database, computing, and etc.
+
+You can access to `http://${YOUR_IP}:3000`.
 
 =================================================================
 
