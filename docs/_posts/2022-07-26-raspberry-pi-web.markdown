@@ -6,6 +6,11 @@ published: false
 date:   2022-07-26 13:34:00 +0900
 ---
 
+`React` and `node.js` deleverage the difficulty to deploy personal website.
+You can use `react` to build frontend and `node.js` for backend.
+In this post, I will describe my experience that implementing own website that shows summary of informations used in office.
+Moreover, I use `ChatGPT-4` to implement most of the codes.
+
 ## Abstract
 
 ## Installation
