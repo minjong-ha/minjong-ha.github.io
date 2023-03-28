@@ -11,35 +11,30 @@ You can use `react` to build frontend and `node.js` for backend.
 In this post, I will describe my experience that implementing own website that shows summary of informations used in office.
 Moreover, I use `ChatGPT-4` to implement most of the codes.
 
-## Abstract
-
-## Installation
-
 ## Install node.js and npm
 
 ```bash
 # as root
-uname -m
+$ uname -m
 armv7j
 
-wget https://nodejs.org/dist/v16.16.0/node-v16.16.0-linux-armv7l.tar.xz
+$ wget https://nodejs.org/dist/v16.16.0/node-v16.16.0-linux-armv7l.tar.xz
 #https://nodejs.org/en/download/
 
-tar -xvf node-v16.16.0-linux-armv7l.tar.xz
+$ tar -xvf node-v16.16.0-linux-armv7l.tar.xz
 
-cd node-v16.16.0-linux-armv7l
-cp -R * /usr/local
+$ cd node-v16.16.0-linux-armv7l
+$ cp -R * /usr/local
 ```
 
 Above code represents the node.js and npm install in Raspberry Pi 4.
-Other installation method, such as apt install, could be malfunction (I assume it is because Raspberry Pi has arm architecture).
 
 ```bash
 node --version
 npm --version
 ```
 
-If you can see the versions of the packages, it successes.
+If you can see the versions of the packages, it succeed.
 
 ```bash
 npx create-react-app my-app # install react together
@@ -102,6 +97,222 @@ Almost every components in this project will be returned as a JSX, except the da
 You can access to `http://${YOUR_IP}:3000`.
 
 =================================================================
+
+## Moonphase
+
+Since I like moonphase, I added moonphase on the top-center of the page.
+Following is `MoonPhase.css` file that containing css data for moon and stars:
+
+```javascript
+//MoonPhase.css
+
+@keyframes fillMoon {
+    0% {
+transform: scale(0);
+    }
+    100% {
+transform: scale(1);
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+opacity: 1;
+    }
+    50% {
+opacity: 0.3;
+    }
+}
+
+@keyframes moveRightToLeft {
+    0% {
+transform: translateX(0);
+    }
+    100% {
+/*transform: translateX(-100%);*/
+transform: translateX(-200%);
+    }
+}
+
+
+
+.MoonPhase {
+display: flex;
+         justify-content: center;
+         align-items: center;
+         margin-top: 15px;
+         margin-bottom: 15px;
+}
+
+.moon {
+width: 100px;
+height: 100px;
+        border-radius: 50%;
+        background-color: #e0e0e0; /* Slightly darker grey */
+position: relative;
+overflow: hidden;
+border: 3px solid #ffffb1;
+        box-sizing: border-box;
+}
+
+.moon-phase {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+        background-color: #333;
+        border-radius: 50%;
+        animation-name: fillMoon;
+        animation-duration: 5s;
+}
+
+.StarsWrapper {
+position: relative;
+width: 100%;
+height: 100%;
+}
+
+.StarsContainer {
+position: absolute;
+width: 100%;
+height: 100%;
+overflow: hidden;
+          z-index: -1;
+}
+
+
+.star {
+position: absolute;
+width: 4px;
+height: 4px;
+        background-color: #ffffb1;
+        border-radius: 50%;
+animation: sparkle 2s linear infinite;
+}
+```
+
+I used default css feature to represent the moon, and stars.
+It also has `@keyframes` for animation that filling the moon and sparkling the stars.
+
+And following is `MoonPhase.js` for moonphase:
+
+```javascript
+//MoonPhase.js
+
+import React, { useState, useEffect } from 'react';
+import './MoonPhase.css';
+
+function MoonPhase() {
+    const [moonPhase, setMoonPhase] = useState(0);
+
+    useEffect(() => {
+            const getMoonPhase = async () => {
+            const apiKey = 'BSUPRTMGB5FSM5D8EBTU3ZYYS';
+            // Coordinate for Seoul, Republic of Korea
+            const lat = '37.5665';
+            const lon = '126.9780';
+
+            const response = await fetch(
+                    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}/today?unitGroup=us&key=${apiKey}`
+                    );
+            const data = await response.json();
+            const moonPhaseData = data.days[0].moonphase;
+
+            setMoonPhase(moonPhaseData);
+            };
+
+            getMoonPhase();
+            }, []);
+
+    const phasePercentage = 100 - moonPhase * 100;
+
+    useEffect(() => {
+            // Start the animation when the component is mounted
+            const moonPhaseEl = document.querySelector('.moon-phase');
+            moonPhaseEl.style.animationPlayState = 'running';
+            }, []);
+
+
+    useEffect(() => {
+            const starsContainer = document.querySelector(".StarsContainer");
+            const numberOfStars = 50;
+
+            for (let i = 0; i < numberOfStars; i++) {
+            const star = document.createElement("div");
+            star.classList.add("star");
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 2}s`; // Set random animation delays for the sparkle and moveRightToLeft animations
+            star.style.animationDuration = `2s`; // Set random animation durations for the moveRightToLeft animation between 10 and 20 seconds
+
+
+            starsContainer.appendChild(star);
+            }
+            }, []);
+
+    return (
+            <div className="StarsWrapper">
+            <div className="StarsContainer"></div>
+            <div className="MoonPhase">
+            <div className="moon">
+            <div
+            className="moon-phase"
+            style={{ clipPath: `inset(0% ${phasePercentage}% 0% 0%)` }}
+            ></div>
+            </div>
+            </div>
+            </div>
+           );
+}
+
+export default MoonPhase;
+```
+
+And following is `App.js` that showing moonphase on its top:
+
+```javascript
+// App.js
+
+import React, { useEffect } from 'react';
+import './App.css';
+import MoonPhase from './MoonPhase';
+
+function App() {
+    useEffect(() => {
+            document.title = 'Dashboard';
+            }, []);
+
+    return (
+            <div className="App">
+            <MoonPhase />
+
+            <header className="App-header">
+            <h1>Dashboard</h1>
+            </header>
+
+            {/* Add the rest of your App component code here */}
+            </div>
+           );
+}
+
+export default App;
+
+```
+
+Since I want to make the sky looks like night, I added following codes on `App.css`:
+
+```css
+body {
+    background-color: #2a2f4a; /* Dark blue */
+margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+            'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+            sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+}
+```
 
 ## Interesting Libraries
 
