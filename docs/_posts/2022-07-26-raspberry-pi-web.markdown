@@ -269,6 +269,10 @@ function MoonPhase() {
 export default MoonPhase;
 ```
 
+`MoonPhase.js` mounts the components.
+It mounts moon and stars and uses `useEffect()` for animation.
+It makes moonphase filling the moon and sparkles the stars with random deployment.
+
 And following is `App.js` that showing moonphase on its top:
 
 ```javascript
@@ -313,6 +317,9 @@ margin: 0;
         -moz-osx-font-smoothing: grayscale;
 }
 ```
+
+Remember that I only use `GPT-4` for implementation.
+AI can write codes that having enough data such like it.
 
 ## Interesting Libraries
 
