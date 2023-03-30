@@ -106,45 +106,8 @@ Following is `MoonPhase.css` file that containing css data for moon and stars:
 ```javascript
 //MoonPhase.css
 
-@keyframes fillMoon {
-    0% {
-transform: scale(0);
-    }
-    100% {
-transform: scale(1);
-    }
-}
-
-@keyframes sparkle {
-    0%, 100% {
-opacity: 1;
-    }
-    50% {
-opacity: 0.3;
-    }
-}
-
-@keyframes moveRightToLeft {
-    0% {
-transform: translateX(0);
-    }
-    100% {
-/*transform: translateX(-100%);*/
-transform: translateX(-200%);
-    }
-}
-
-
-
-.MoonPhase {
-display: flex;
-         justify-content: center;
-         align-items: center;
-         margin-top: 15px;
-         margin-bottom: 15px;
-}
-
 .moon {
+display: inline-block;
 width: 100px;
 height: 100px;
         border-radius: 50%;
@@ -153,6 +116,7 @@ position: relative;
 overflow: hidden;
 border: 3px solid #ffffb1;
         box-sizing: border-box;
+margin: 10px 0;
 }
 
 .moon-phase {
@@ -165,6 +129,17 @@ height: 100%;
         border-radius: 50%;
         animation-name: fillMoon;
         animation-duration: 5s;
+        animation-fill-mode: forwards;
+}
+
+.waning {
+left: auto;
+right: 0;
+}
+
+.moon-phase-container {
+    text-align: center;
+    font-family: Arial, sans-serif;
 }
 
 .StarsWrapper {
@@ -190,6 +165,25 @@ height: 4px;
         border-radius: 50%;
 animation: sparkle 2s linear infinite;
 }
+
+@keyframes fillMoon {
+    0% {
+transform: scale(0);
+    }
+    100% {
+transform: scale(1);
+    }
+}
+
+@keyframes sparkle {
+    0%, 100% {
+opacity: 1;
+    }
+    50% {
+opacity: 0.3;
+    }
+}
+
 ```
 
 I used default css feature to represent the moon, and stars.
