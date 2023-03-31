@@ -9,7 +9,7 @@ date:   2022-07-26 13:34:00 +0900
 `React` and `node.js` deleverage the difficulty to deploy personal website.
 You can use `react` to build frontend and `node.js` for backend.
 In this post, I will describe my experience that implementing own website that shows summary of informations used in office.
-Moreover, I use `ChatGPT-4` to implement most of the codes.
+Moreover, I used `ChatGPT-4` to implement most of the codes.
 
 ## Install node.js and npm
 
@@ -280,10 +280,11 @@ function App() {
     useEffect(() => {
             document.title = 'Dashboard';
             }, []);
+    const today = new Date();
 
     return (
             <div className="App">
-            <MoonPhase />
+            <MoonPhase date={today}/>
 
             <header className="App-header">
             <h1>Dashboard</h1>
@@ -295,7 +296,6 @@ function App() {
 }
 
 export default App;
-
 ```
 
 Since I want to make the sky looks like night, I added following codes on `App.css`:
@@ -311,9 +311,6 @@ margin: 0;
         -moz-osx-font-smoothing: grayscale;
 }
 ```
-
-Remember that I only use `GPT-4` for implementation.
-AI can write codes that having enough data such like it.
 
 ## Interesting Libraries
 
