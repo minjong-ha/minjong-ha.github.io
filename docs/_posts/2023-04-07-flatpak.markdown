@@ -1,0 +1,30 @@
+---
+layout: posts
+title:  "`flatpak` based Application Management"
+author: Minjong Ha
+published: false
+date:   2023-04-07 17:13:43 +0900
+---
+
+`flatpak` is an open-source software providing a framework for development, packaging and distributing application.
+It uses a sandboxing approach to isolate the applications from host system.
+Applications are packaged with their dependencies and installed easily on different linux distributions (less compatibility issue).
+
+## Install
+
+To run a flatpak-based application, you need to install `flatpak` first.
+
+In [`flatpak` setup page](https://flatpak.org/setup/), you can find linux distributions(icons) from the list.
+For example, I can see following instructions on `Debian`:
+
+```bash
+apt install flatpak
+```
+
+```bash
+apt install gnome-software-plugin-flatpak
+```
+
+```bash
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+```
