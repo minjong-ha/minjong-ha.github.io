@@ -1,6 +1,6 @@
 ---
 layout: posts
-title:  "`flatpak` based Application Management"
+title:  "`flatpak` based Application Management (feat. `electron`)"
 author: Minjong Ha
 published: false
 date:   2023-04-07 17:13:43 +0900
@@ -27,4 +27,78 @@ apt install gnome-software-plugin-flatpak
 
 ```bash
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+```
+
+## Electron
+
+Many electron-based applications were already distributed through the `flatpak`.
+To package and distribute an electron application, you need to create a `flatpak` manifest file.
+It describes the application, dependencies and build instruction.
+
+Now, create the `flatpak` manifest:
+
+```json
+{
+  "app-id": "com.yourcompany.yourapp",
+  "runtime": "org.freedesktop.Platform",
+  "runtime-version": "20.08",
+  "sdk": "org.freedesktop.Sdk",
+  "command": "your-app-name",
+  "finish-args": [
+    "--share=ipc",
+    "--socket=x11",
+    "--socket=pulseaudio",
+    "--filesystem=home"
+  ],
+  "modules": [
+    {
+      "name": "your-app-name",
+      "buildsystem": "simple",
+      "build-commands": [
+        "install -Dm755 your-app-name.sh /app/bin/your-app-name"
+      ],
+      "sources": [
+        {
+          "type": "dir",
+          "path": "your-app-directory"
+        },
+        {
+          "type": "script",
+          "commands": [
+            "exec /app/your-app-directory/your-app-name \"$@\""
+          ],
+          "dest-filename": "your-app-name.sh"
+        }
+      ]
+    }
+  ]
+}
+```
+
+## Configuration
+
+`flatpak` allows to customize that how application is running, including network access.
+
+Followings are options for network access:
+
+```bash
+--share=network
+--unshare=network
+```
+
+### `--share=network`
+
+This option grants the application access to the network.
+If it is not included in `finish-args`, the application cannot access to network.
+
+### `--unshare=network`
+
+This option denies the application access to the network.
+
+```bash
+sudo ip netns add my_namespace
+
+sudo ip link set dev my_ovs_bridge netns my_namespace
+
+sudo ip netns exec my_namespace flatpak run com.example.myapp
 ```
