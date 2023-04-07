@@ -32,7 +32,10 @@ title: About me
   * C
   * C++
   * Python
+  <!--
+
   * (Optional) SwiftUI
+  -->
 
 ## Education
 
