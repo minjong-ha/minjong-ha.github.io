@@ -34,6 +34,18 @@ async def do_call(function, *args, **kwargs):
     )
 ```
 
+Above represents the `do_call()` function.
+This `do_call()` function is a asynchronous Python function that takes another function as its first argument, follwed by an arbitrary number of positional arguments(`*args`) and keyword arguments (`**kwargs`).
+It is to call the given funtion whether synchronous or asynchronous wit the provided arguments.
+
+The inner function `is_coroutine_function()` takes another function as its argument and returns `True` if the given function is a coroutine function in `asyncio` or `False` in normal.
+If `is_coroutine_function()` returns `True` (which means the function is asynchronouse), `do_call()` function awaits the result of the `function` called with the provided `*args` and `**kwargs`.
+On the other hand, `do_call()` function needs to execute synchronous function without the event loop in `asyncio`.
+To achieve it, `do_call()` first gets the currently running event loop using `asyncio.get_running_loop()`.
+It schedules the synchronous function to run in a separate executor using `loop.run_in_executor()`.
+
+Finally, `do_call()` returns the result of execution for proper function type.
+
 ## `do_call_if_callable()`
 
 In some cases, you might need to check whether the function is callable.
