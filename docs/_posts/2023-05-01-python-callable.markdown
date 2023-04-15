@@ -59,6 +59,9 @@ async def do_call_if_callable(function, *args, **kwargs):
     return await do_call(function, *args, **kwargs)
 ```
 
+It is simple function that determines whether the `function` is callable first.
+Then, it calls `do_call()` if callable.
+
 ## Other Usages
 
 When dealing the funtion calls, it is important to ensure error handling and execution management.
