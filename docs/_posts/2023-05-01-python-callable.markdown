@@ -67,13 +67,15 @@ Then, it calls `do_call()` if callable.
 When dealing the funtion calls, it is important to ensure error handling and execution management.
 
 ```python
-async def safe_call(function, *args, **kwargs):
+async def do_call_with_try(function, *args, **kwargs):
     try:
         return await do_call(function, *args, **kwargs)
     except Exception as e:
         print(f"Error while calling {function.__name__}: {e}")
-
 ```
+
+Above `do_call_with_try()` wraps `do_call()` with `try-except` to prevent termination due to exception.
+However, it is not recommended in python to use wild card on try-except.
 
 ```python
 async def timeout_call(function, timeout, *args, **kwargs):
