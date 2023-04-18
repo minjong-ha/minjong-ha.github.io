@@ -78,7 +78,7 @@ Above `do_call_with_try()` wraps `do_call()` with `try-except` to prevent termin
 However, it is not recommended in python to use wild card on try-except.
 
 ```python
-async def timeout_call(function, timeout, *args, **kwargs):
+async def do_call_with_timeout(function, timeout, *args, **kwargs):
     try:
         return await asyncio.wait_for(do_call(function, *args, **kwargs), timeout)
     except asyncio.TimeoutError:
@@ -86,3 +86,6 @@ async def timeout_call(function, timeout, *args, **kwargs):
     except Exception as e:
         print(f"Error while calling {function.__name__}: {e}")
 ```
+
+Above `do_call_with_timeout()` calls `do_call()` with timeout feature.
+It waits the return of function called with `do_call()` for `timeout` seconds but raise `TimeoutError` exception if it exceeds.
