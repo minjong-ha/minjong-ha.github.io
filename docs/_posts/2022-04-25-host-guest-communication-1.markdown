@@ -27,18 +27,18 @@ In my personal experiments, virtio outperforms the SATA emulation approximately 
 
 ## Background
 
-### ioctl()
+### ``ioctl()``
 
-The ioctl() system call manipulates the underlying device parameters of special files([reference](https://man7.org/linux/man-pages/man2/ioctl.2.html)).
+The `ioctl()` system call manipulates the underlying device parameters of special files([reference](https://man7.org/linux/man-pages/man2/ioctl.2.html)).
 Usually, it is used to configurate and send requests to the device.
-For instance, user could configurate the printer device via ioctl(); such as what is the font it using and what is the size of the paper in the device.
-We can see the information about the ioctl()s that KVM supports in __qemu/linux-headers/linux/kVM.h__
+For instance, user could configurate the printer device via `ioctl()`; such as what is the font it using and what is the size of the paper in the device.
+We can see the information about the `ioctl()`s that KVM supports in __qemu/linux-headers/linux/kVM.h__
 
 ### vCPU()
 
 QEMU-KVM hypervisor supports vCPU, executing the code in the guest directly on the physical CPU.
 When the QEMU-KVM hypervisor emulates the CPU for the VM, the emulated CPU is supported by vCPU in the KVM.
-When the vCPU enters to the GUEST_MODE, the guest can use it exclusively.
+When the vCPU enters to the `GUEST_MODE`, the guest can use it exclusively.
 <!-- Otherwise, it should runs operations that incur large overhead, such as code generation for instructions through the QEMU. -->
 If there were no KVM support, which means in the QEMU only hypervisor, every guest code should be handled by the QEMU.
 QEMU translates the guest code to the suitable instructions for the physical CPUs in the host and the cost is tremendous.
@@ -63,8 +63,8 @@ static void kvm_accel_ops_class_init(ObjectClass *oc, void *data) {
 ```
 
 The above codes are in qemu/accel/kvm/kvm-accel-ops.c.
-The QEMU defines the kvm_accel_ops_type, and allocates the callback functions for the vCPU.
-Thus, when the QEMU tries to allocate vCPU, the kvm_start_vcpu_thread() funcion will be called.
+The QEMU defines the `kvm_accel_ops_type`, and allocates the callback functions for the vCPU.
+Thus, when the QEMU tries to allocate vCPU, the `kvm_start_vcpu_thread()` funcion will be called.
 
 ```c
 static void x86_cpu_realizefn(DeviceState *dev, Error **errp) {
@@ -87,7 +87,7 @@ void qemu_init_vcpu(CPUState *cpu) {
 ```
 
 The above codes are in qemu/target/i386/cpu.c and qemu/softmmu/cpus.c.
-The hypervisor realize the virtual CPUs via x86_cpu_realizefn() and it calls qemu_init_vcpu().
+The hypervisor realize the virtual CPUs via `x86_cpu_realizefn()` and it calls `qemu_init_vcpu()`.
 In this function, it starts to create the threads for the vCPU.
 
 ```c
@@ -126,8 +126,8 @@ static void *qemu_thread_start(void *args) {
 }
 ```
 
-The above codes are in qemu/accel/kvm/kvm_accel-ops.c and qemu/util/qemu-thread-posix.c
-Now, we can understand that the vCPU is the posix thread actually, and this thread runs kvm_vcpu_thread_fn() function.
+The above codes are in `qemu/accel/kvm/kvm_accel-ops.c` and `qemu/util/qemu-thread-posix.c`.
+Now, we can understand that the vCPU is the posix thread actually, and this thread runs `kvm_vcpu_thread_fn()` function.
 
 ```c
 static void *kvm_vcpu_thread_fn(void *arg) {
@@ -153,9 +153,9 @@ static void *kvm_vcpu_thread_fn(void *arg) {
 }
 ```
 
-In vCPU thread, kvm_vcpu_thread_fn(), QEMU requests to allocate the vCPUs to the KVM via ioctl.
-qemu_geut_thread_id() calls ioctl() and the KVM returns the vCPU fd.
-After the QEMU receives the vCPU, now it executes it with kvm_cpu_exec().
+In vCPU thread, `kvm_vcpu_thread_fn()`, QEMU requests to allocate the vCPUs to the KVM via ioctl.
+`qemu_geut_thread_id()` calls `ioctl()` and the KVM returns the vCPU fd.
+After the QEMU receives the vCPU, now it executes it with `kvm_cpu_exec()`.
 Since we are in focusing on how the vCPU actually works, I will explain how the vCPUs are created by KVM in ohter posts later.
 
 ```c
@@ -166,7 +166,7 @@ int kvm_cpu_exec(CPUState *cpu) {
     ...
     kvm_arch_put_registers(cpu, KVM_PUT_RUNTIME_STATE);
     ...z
-    **run_ret = kvm_vcpu_ioctl(cpu, KVM_RUN, 0);**
+    **run_ret = kvm_vcpu_ioctl(cpu, `KVM_RUN`, 0);**
     ...
     switch (**run->exit_reason**) {
       ...
@@ -192,43 +192,43 @@ int kvm_cpu_exec(CPUState *cpu) {
 
 int kvm_vcpu_ioctl(CPUState *cpu, int type, ...) {
   ...
-  ret = ioctl(cpu->kvm_fd, type, arg); //type == KVM_RUN
+  ret = ioctl(cpu->kvm_fd, type, arg); //type == `KVM_RUN`
   ...
 }
 ```
 
-In kvm_cpu_exec(), we can check that it consists of the two parts: one is the 'kvm_vcpu_ioctl()' and another is the 'switch(run->exit_reason)'.
-'kvm_vcpu_ioctl()' is the point makes vCPU switching to the GUEST_MODE.
-QEMU notifies that the vCPU is in ready to run in GUEST_MODE via ioctl().
-KVM_RUN flag represents how the KVM handles the ioctl() requests.
-In the contents below, I will explain how the KVM makes the vCPU, the physical CPU that runs the vCPU thread, into the GUEST_MODE.
-But for now, lets focus on the part after the ioctl().
+In `kvm_cpu_exec()`, we can check that it consists of the two parts: one is the `kvm_vcpu_ioctl()` and another is the `switch(run->exit_reason)`.
+`kvm_vcpu_ioctl()` is the point makes vCPU switching to the `GUEST_MODE`.
+QEMU notifies that the vCPU is in ready to run in `GUEST_MODE` via `ioctl()`.
+`KVM_RUN` flag represents how the KVM handles the `ioctl()` requests.
+In the contents below, I will explain how the KVM makes the vCPU, the physical CPU that runs the vCPU thread, into the `GUEST_MODE`.
+But for now, lets focus on the part after the `ioctl()`.
 
-The KVM returns the result of the kvm_vcpu_ioctl() when the VM_EXIT happens.
-The VM_EXIT makes the CPU to escape from the GUEST_MODE and returns it to the so called HOST_MODE; If the CPU is in the Intel architecture, they are called non-root mode (GUEST_MODE), and root mode (HOST_MODE).
-Usually, there are two reasons what trigger the VM_EXIT: to handle the request that cannot be done in the GUEST_MODE, and the timer expire.
+The KVM returns the result of the `kvm_vcpu_ioctl()` when the `VM_EXIT` happens.
+The `VM_EXIT` makes the CPU to escape from the `GUEST_MODE` and returns it to the so called `HOST_MODE`; If the CPU is in the Intel architecture, they are called non-root mode (`GUEST_MODE`), and root mode (`HOST_MODE`).
+Usually, there are two reasons what trigger the `VM_EXIT`: to handle the request that cannot be done in the `GUEST_MODE`, and the timer expire.
 For better understanding, assumes that there is a machine having only one physical CPU, and it tries to run the VM with QEMU-KVM hypervisor.
-First I will explain about the timer reasoned VM_EXIT.
-Since the machine has only one physical CPU, it cannot proceed any host's task if the CPU is in the GUEST_MODE.
-The CPU in the GUEST_MODE is only for the virtualized system.
-Thus, without the periodical VM_EXIT, the machine could not comeback from the GUEST_MODE and every host's tasks wait over and over.
-To prevent this disaster, every CPUs wake up from the GUEST_MODE in every configurated timeslices.
-It also means if we want to give more execution time to the VM, we could achieve it via extending the timeslices for the GUEST_MODE.
-Another reason is the operations that cannot be done in the GUEST_MODE.
-For example, the requests for the emulated devices usually trigger the VM_EXIT to complete actions.
+First I will explain about the timer reasoned `VM_EXIT`.
+Since the machine has only one physical CPU, it cannot proceed any host's task if the CPU is in the `GUEST_MODE`.
+The CPU in the `GUEST_MODE` is only for the virtualized system.
+Thus, without the periodical `VM_EXIT`, the machine could not comeback from the `GUEST_MODE` and every host's tasks wait over and over.
+To prevent this disaster, every CPUs wake up from the `GUEST_MODE` in every configurated timeslices.
+It also means if we want to give more execution time to the VM, we could achieve it via extending the timeslices for the `GUEST_MODE`.
+Another reason is the operations that cannot be done in the `GUEST_MODE`.
+For example, the requests for the emulated devices usually trigger the `VM_EXIT` to complete actions.
 The QEMU hypervisor emulates the virtual devices for the VM.
 With the support of the BIOS for the VM, It could interact these virtual, logical devices.
 The Guest inside the VM hands over the requests that executed inside the GUEST to the virtual devices.
 However, they are not the real, physical devices.
 If the VM tries to send network packet to the other, the data should pass the physical network device.
-Since the emulated devices is not a real device, it cannot be done in the GUEST_MODE.
+Since the emulated devices is not a real device, it cannot be done in the `GUEST_MODE`.
 Only the host can complete the action by passing over the data from the emulated device to the real device.
-If there is a writes(requests) on the memory area that controlled by the emulated devices, it triggers the VM_EXIT and the CPU wakes up from the GUEST_MODE.
+If there is a writes(requests) on the memory area that controlled by the emulated devices, it triggers the `VM_EXIT` and the CPU wakes up from the `GUEST_MODE`.
 Now, the CPU can proceed the host tasks.
-The KVM that wakes up from the GUEST_MODE, tries to figure out the reason of the VM_EXIT and returns the reason to the QEMU.
-And this is the point where the 'switch(run->exit_reason)' works.
-QEMU completes the requests depending on the 'exit_reason'.
-And after the QEMU finishes the operations, it calls kvm_cpu_exec() again since it is performed in do while loop.
+The KVM that wakes up from the `GUEST_MODE`, tries to figure out the reason of the `VM_EXIT` and returns the reason to the QEMU.
+And this is the point where the `switch(run->exit_reason)` works.
+QEMU completes the requests depending on the `exit_reason`.
+And after the QEMU finishes the operations, it calls `kvm_cpu_exec()` again since it is performed in do while loop.
 
 Now lets move on to the most important part, where the KVM actually runs vCPU.
 
@@ -237,7 +237,7 @@ int kvm_cpu_exec(CPUState *cpu) {
   struct kvm_run *run = cpu->kvm_run;
   ...
   do {
-    **run_ret = kvm_vcpu_ioctl(cpu, KVM_RUN, 0);**
+    **run_ret = kvm_vcpu_ioctl(cpu, `KVM_RUN`, 0);**
     ...
     switch (**run->exit_reason**) {
       ...
@@ -263,19 +263,19 @@ int kvm_cpu_exec(CPUState *cpu) {
 
 int kvm_vcpu_ioctl(CPUState *cpu, int type, ...) {
   ...
-  ret = ioctl(cpu->kvm_fd, type, arg); //type == KVM_RUN
+  ret = ioctl(cpu->kvm_fd, type, arg); //type == `KVM_RUN`
   ...
 }
 ```
 
-As we already checked above, kvm_vcpu_ioctl() calls ioctl() with KVM_RUN flag.
+As we already checked above, `kvm_vcpu_ioctl()` calls `ioctl()` with `KVM_RUN` flag.
 
 ```c
 static long kvm_vcpu_ioctl(struct file, *filp, unsigned int ioctl, unsigned long arg) {
   struct kvm_vcpu *vcpu = filp->private_data;
   ...
   switch (ioctl) {
-  case KVM_RUN:
+  case `KVM_RUN`:
     ...
     **r = kvm_arch_vcpu_ioctl_run(vcpu);**
   }
@@ -304,7 +304,7 @@ static int vcpu_run(struct kvm_vcpu *vcpu) {
 
 static int vcpu_enter_guest(struct kvm_vcp *vcpu) {
   ...
-  vcpu->mode = IN_GUEST_MODE;
+  vcpu->mode = IN_`GUEST_MODE`;
   ...
   exit_fastpath = static_call(kvm_x86_run)(vcpu);
   ...
@@ -320,16 +320,16 @@ static int vcpu_enter_guest(struct kvm_vcp *vcpu) {
     }**
   }
   ...
-  **vcpu->mode = OUTSIDE_GUEST_MODE;**
+  **vcpu->mode = OUTSIDE_`GUEST_MODE`;**
   ...
   **r = static_call(kvm_x86_handle_exit)(vcpu, exit_fastpath);**
 }
 ```
 
 Above codes are represent the flow of the KVM ioctl handling.
-KVM handles ioctl() for the KVM with the KVM_RUN through __kvm_arch_vcpu_ioctl_run()__.
+KVM handles `ioctl()` for the KVM with the `KVM_RUN` through __kvm_arch_vcpu_ioctl_run()__.
 It leads the KVM to the __vcpu_enter_guest()__, which is the most important code I think.
-In the for loop in it,  __static_call(kvm_x86_run)(vcpu)__ is the point where the CPU switches itself into the GUEST_MODE.
+In the for loop in it,  __static_call(kvm_x86_run)(vcpu)__ is the point where the CPU switches itself into the `GUEST_MODE`.
 
 <!--
 <img data-action="zoom" src='{{ "/assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-1.png" | relative_url }}' alt='relative'>
@@ -337,7 +337,7 @@ In the for loop in it,  __static_call(kvm_x86_run)(vcpu)__ is the point where th
 ![How vmx vcpu run - 1](/assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-1.png)
 
 It calls an assembly function in the image.
-Since my machine has Intel CPU, vmx_vcpu_run() is called (It is called smx under the AMD CPU).
+Since my machine has Intel CPU, `vmx_vcpu_run()` is called (It is called smx under the AMD CPU).
 In this function, we can see that the cpu tries to load and save the cpu's state data.
 I estimate this is the part where the VMCS (Virtual Machine Control Structure) switch happens, but it is not sure.
 If my assume is right, this is the part where the machine prepare the HOST-GUEST mode switch.
@@ -347,14 +347,14 @@ If my assume is right, this is the part where the machine prepare the HOST-GUEST
 -->
 ![How vmx vcpu run - 2](/assets/images/posts/2022-04-25-host-guest-communication/vmx_vcpu_run-2.png)
 
-After it saves all HOST's state data and load GUEST's state data on the CPU, it calls vmenter() function
+After it saves all HOST's state data and load GUEST's state data on the CPU, it calls `vmenter()` function
 
 <!--
 <img data-action="zoom" src='{{ "/assets/images/posts/2022-04-25-host-guest-communication/vmx_vmenter.png" | relative_url }}' alt='relative'>
 -->
 ![`vmx_vmenter()`](/assets/images/posts/2022-04-25-host-guest-communication/vmx_vmenter.png)
 
-This is the instruction that makes CPU mode into the GUEST_MODE in the vmenter() function through vm_resume, and vm_launch.
+This is the instruction that makes CPU mode into the `GUEST_MODE` in the vmenter() function through `vm_resume`, and `vm_launch`.
 
 ```c
 static int handle_io(struct kvm_vcpu *vcpu) {
@@ -406,8 +406,8 @@ After the KVM completes the works it should do, it returns the control to the QE
 ![Overall flowchart](/assets/images/posts/2022-04-25-host-guest-communication/overall_flow.png)
 
 The image represents the overall code flow of the vCPU execution.
-We saw that the vCPU enters to the GUEST_MODE and exits periodically with the detail codes.
-The vCPU posix threads on the HOST exist only to secure the running time of the GUEST_MODE through the scheduling.
+We saw that the vCPU enters to the `GUEST_MODE` and exits periodically with the detail codes.
+The vCPU posix threads on the HOST exist only to secure the running time of the `GUEST_MODE` through the scheduling.
 
 Now we understand how the vCPU works in QEMU-KVM hypervisor and ready to compare the difference between the Full-Virtualization and Para-Virtualization.
 I will explain about it in the next post.
