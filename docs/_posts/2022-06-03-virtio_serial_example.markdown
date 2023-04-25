@@ -68,7 +68,7 @@ However, in this post, I only explain about the Windows Guest since there are ma
 
 You can use the virtio-serial port in Windows Guest through the WIN32 API such as CreateFile, ReadFile, WriteFile and etcs.
 However, there are unique characteristics (or restrictions) for virtio-serial port.
-In my experience, it is impossible to use SetCommMask(), WaitForEvent().
+In my experience, it is impossible to use `SetCommMask()`, `WaitForEvent()`.
 It means that I can't implement event-driven port communication with virtio-serial and configurate timeout.
 I do not know why it is not enable (there is no official document or reference for it).
 However, since there are some mentions about these problems in different situation, I assume that the driver does not support full WIN32 API.
@@ -187,9 +187,9 @@ you can simply send the data using standard socket API in Linux: send and recv.
 Unlike the Linux, WIN32 API is a little more tricky to use.
 First, since the data came from the host are bytes, it requires to decode.
 Second, since the virtio-serial port does not support WIN32 API perfectly, implementing timeout read and write operations requires additional steps.
-For some unknown reason, setting up the timeout configuration for synchronous ReadFile() and WriteFile() always fails with ERR 1 (reason: invalid function).
-So I used asynchronous (overlapped) WriteFile() and ReadFile() to configurate the timeout.
-It immediately wait for ReadFile() or WriteFile() is in complete and proceed the remaining tasks.
+For some unknown reason, setting up the timeout configuration for synchronous `ReadFile()` and `WriteFile()` always fails with ERR 1 (reason: invalid function).
+So I used asynchronous (overlapped) `WriteFile()` and `ReadFile()` to configurate the timeout.
+It immediately wait for `ReadFile()` or `WriteFile()` is in complete and proceed the remaining tasks.
 I am not sure why the virtio does not support WIN32 API perfectly, however, there are some hints that the reason ERR 1 happen is usually the problem of the device itself.
 In this case, virtio-serial device itself seems like not support the functions.
 (It is not because I use Python intead C. Even in C, it shows same results)
