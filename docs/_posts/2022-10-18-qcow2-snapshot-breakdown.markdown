@@ -18,8 +18,8 @@ I already explained the architecture of qcow2 image in [here](https://minjong-ha
 To understand more details about I/O and snapshots, I analyzed qcow2 header and source codes based on qemu-7.0.0.
 
 Qcow2 header contains several arguments for its action.
-"nb_snapshots" and "snapshots_offset" represent the number of snapshot and offsets that image has.
-"image_backing_file" represents the path of backing file that image references.
+`nb_snapshots` and `snapshots_offset` represent the number of snapshot and offsets that image has.
+`image_backing_file` represents the path of backing file that image references.
 
 Since the describes about the internal and external snapshots in QEMU related documents[^footnote_1] and difference between qcow1 and qcow2[^footnote_2], I misundertood that internal and external snapshots are added features in qcow2.
 Actually, qcow1 already supports external snapshot; I think the actual name is backing file, and supports internal snapshot since qcow2.
@@ -166,7 +166,7 @@ fail:
 ```
 
 Above codes are located in qemu/block/qcow2-snapshot.c, and it represents the start point of snapshot action.
-When snapshot is created, L1 table is allocated by qcow2_alloc_clusters().
+When snapshot is created, L1 table is allocated by `qcow2_alloc_clusters()`.
 New L1 table in snapshot has same size with the L1 table of base image and also has same values.
 It means that both L1 tables have same L2 table offsets.
 Qcow2 snapshot does not allocate independent L2 table when it snapshots the image.
@@ -302,20 +302,20 @@ Above codes is located in qemu/block/qed.c.
 Qemu handles I/O operations from VM with async I/O (coroutine).
 Suppose there is a new snapshot and write request arrived from VM.
 First, Qemu translates the value from VM to qcow2 offset while snapshot image only has L1 table.
-In qed\_aio\_write\_date() function, we can see there is a switch for states: QED\_CLUSTER\_FOUND/L2/L1/ZERO.
-QED\_CLUSTER\_X represents that there is only X.
-For example, QED\_CLUSTER\_L1 means there are only L1 table only in designated, translated address.
-We supposed that the image is a new snapshot, and it is also QED\_CLUSTER\_L1 state.
+In `qed_aio_write_date()` function, we can see there is a switch for states: `QED_CLUSTER_FOUND/L2/L1/ZERO`.
+`QED_CLUSTER_X` represents that there is only X.
+For example, `QED_CLUSTER_L1` means there are only L1 table only in designated, translated address.
+We supposed that the image is a new snapshot, and it is also `QED_CLUSTER_L1` state.
 
-In qed\_aio\_write\_alloc(), qemu decides that the write operation requires CoW.
+In `qed_aio_write_alloc()`, qemu decides that the write operation requires CoW.
 If the CoW required, it allocates new data cluster and copy the data from the data cluster of base image with updated data.
 Then, it allocates new L2 table.
 Qemu figure out the index of original data cluster, and update the index of new L2 table with new data cluster.
 Qemu repeats above actions with CoW.
 
 There would be a question: how qemu knows which table or cluster is located in the snapshot or not?
-Qemu determines it with its QED\_CLUSTER\_X state with bitmap.
-In L1/L2 table, each entries has 8 byte data type (`unsigned int64\_t`).
+Qemu determines it with its `QED_CLUSTER_X` state with bitmap.
+In L1/L2 table, each entries has 8 byte data type (`unsigned int64_t`).
 However, it only uses 6 bytes for offset.
 In remaining 2 bytes, qemu uses the 1 bit for representing that the offset is owned by its image.
 When the L1 table allocated, it initializes its entries with 0 (memset).
