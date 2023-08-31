@@ -13,7 +13,10 @@ title: About me
   * Research and develop 'TmaxGooroom SD' based on [Gooroom OS](https://gooroom.kr).
   * Improve and optimize VM performance with the para-virtualization
   * Deploy VM image version management infrastructure based on the oVirt
+  * Research OS for embeddes system with 'PREEMPT\_RT' Linux
+  <!--
   * Develop SuperOS: Support cross-platform application based on Electron.
+  -->
 
 * __2023.01.02 : Grant 'Super Rookie' Award__
 
