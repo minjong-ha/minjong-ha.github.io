@@ -2,7 +2,7 @@
 layout: posts
 title:  "Install Debian OS on raspberry pi with PREEMPT\_RT patch kernel"
 author: Minjong Ha
-published: false
+published: true
 date:   2023-08-31 15:06:22 +0900
 ---
 

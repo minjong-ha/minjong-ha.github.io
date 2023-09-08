@@ -2,7 +2,7 @@
 layout: posts
 title:  "Benchmark Debian OS on raspberry pi with PREEMPT\_RT patch kernel"
 author: Minjong Ha
-published: false
+published: true
 date:   2023-09-07 14:38:07 +0900
 ---
 
