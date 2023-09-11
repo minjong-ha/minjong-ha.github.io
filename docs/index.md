@@ -14,7 +14,9 @@ title: About me
   * Improve and optimize VM performance with the para-virtualization
   * Deploy VM image version management infrastructure based on the oVirt
   * Research OS for embeddes system with 'PREEMPT\_RT' Linux
+
   <!--
+
   * Develop SuperOS: Support cross-platform application based on Electron.
   -->
 
@@ -35,6 +37,7 @@ title: About me
   * C
   * C++
   * Python
+
   <!--
 
   * (Optional) SwiftUI
